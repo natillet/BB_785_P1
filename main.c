@@ -38,6 +38,8 @@ int main (int argc, char * argv[]) {
   float invr, invr3, f, ax, ay, az, dx, dy, dz, dt=0.001;
   float eps=0.0000001;
   struct timespec t1, t2, d;
+  FILE *fp;
+  char *outputFilename = "results.txt";
 
   init();
 
@@ -73,7 +75,18 @@ int main (int argc, char * argv[]) {
     }
   }
   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t2);
-
+  
+  // Print results to file so we can compare to ensure optimizations do not alter functionality
+  fp = fopen(outputFilename, "w");
+  if (fp == NULL) {
+    fprintf(stderr, "Can't open output file %s!\n", outputFilename);
+    exit(1);
+  }
+  for (i=0; i<N; i++) {
+	fprintf(fp, "%f %f %f\n", x[i], y[i], z[i]);
+  }
+  fclose(fp);
+  
   diff(&d, t1, t2);
   printf("Execution Time: %ld sec, %ld nsec\n", d.tv_sec, d.tv_nsec);
   return 0;
