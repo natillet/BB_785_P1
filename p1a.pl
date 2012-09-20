@@ -5,19 +5,19 @@ use warnings;
 
 my $result;
 my @results;
-my @times;
+my $times = 0;
 my $original_file_buffer;
 
 open(FILE, "original_results.txt") or die $!;
 $original_file_buffer = <FILE>;
 close(FILE);
 
-system("make clean");
-system("make");
-
 for (1 .. 5) {
+	print "Iteration $_\n";
 	my $new_file_buffer;
-	push(@results, `./project1`);
+	my $cmd_out = `./project1`;
+#	print "Result: $cmd_out";
+	push(@results, $cmd_out);
 	open(FILE, "results.txt") or die $!;
 	$new_file_buffer = <FILE>;
 	close(FILE);
@@ -32,7 +32,10 @@ foreach my $time (@results) {
 	my $sec = $1;
 	my $nsec = $2;
 	print "$sec\.$nsec\n";
-	
+	my $full_secs = "$sec\.$nsec";
+	$times += $full_secs;
 }
+
+print "Average: " . ($times/5) . "\n";
 
 exit 0;
