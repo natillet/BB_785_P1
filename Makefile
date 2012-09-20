@@ -1,7 +1,7 @@
 PROJ_NAME = project1
 CC = arm-linux-gnueabi-gcc
 VECTFLAGS = -ftree-vectorize # add more vectorization flags
-CFLAGS = -Wall  -O3 -march=armv7-a -mcpu=cortex-a8  -mfloat-abi=softfp  -mfpu=neon $(VECTFLAGS) -funroll-loops 
+CFLAGS = -Wall  -O3 -march=armv7-a -mcpu=cortex-a8  -mfloat-abi=softfp  -mfpu=neon $(VECTFLAGS) -funroll-loops -fsingle-precision-constant
 LIBS = -lm -lrt
 OBJFILES := $(patsubst %.c,%.o,$(wildcard *.c))
 $(PROJ_NAME): $(OBJFILES) 
