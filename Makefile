@@ -1,6 +1,6 @@
 PROJ_NAME = project1
 CC = arm-linux-gnueabi-gcc
-VECTFLAGS = -ftree-vectorize # add more vectorization flags
+VECTFLAGS = -ftree-vectorize -ffast-math
 CFLAGS = -Wall  -O3 -march=armv7-a -mcpu=cortex-a8  -mfloat-abi=softfp  -mfpu=neon $(VECTFLAGS) -funroll-loops 
 LIBS = -lm -lrt
 OBJFILES := $(patsubst %.c,%.o,$(wildcard *.c))
