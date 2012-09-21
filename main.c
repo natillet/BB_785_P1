@@ -6,6 +6,8 @@
 #define N 1000
 #define STEPS 16
 
+extern void enable_runfast();
+
 float m[N], x[N], y[N], z[N], vx[N], vy[N], vz[N], xnew[N], ynew[N], znew[N];
 
 void  diff(struct timespec * difference, struct timespec start, struct timespec end)
@@ -41,6 +43,7 @@ int main (int argc, char * argv[]) {
   FILE *fp;
   char *outputFilename = "results.txt";
 
+  enable_runfast();
   init();
 
   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
