@@ -35,14 +35,14 @@ void init(void) {
   }
 }
 
-void jloop(int i, float *pax, float *pay, float *paz) {
+void jloop(int i, float * __restrict pax, float * __restrict pay, float * __restrict paz) {
   int j;
   float invr, invr3, f, ax, ay, az, dx, dy, dz;
   float eps=0.0000001;
   ax = *pax;
   ay = *pay;
   az = *paz;
-  for(j=0; j<N; j++) { /* Loop over all particles "j" */
+  for(j=0; j<(N&~3); j++) { /* Loop over all particles "j" */
     dx=x[j]-x[i];
     dy=y[j]-y[i];
     dz=z[j]-z[i];
