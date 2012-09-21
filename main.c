@@ -37,11 +37,8 @@ void init(void) {
 
 void jloop(int i, float *pax, float *pay, float *paz) {
   int j;
-  float invr, invr3, f, ax, ay, az, dx, dy, dz;
+  float invr, invr3, f, dx, dy, dz;
   float eps=0.0000001;
-  ax = *pax;
-  ay = *pay;
-  az = *paz;
   for(j=0; j<N; j++) { /* Loop over all particles "j" */
     dx=x[j]-x[i];
     dy=y[j]-y[i];
@@ -49,13 +46,10 @@ void jloop(int i, float *pax, float *pay, float *paz) {
     invr = 1.0/sqrt(dx*dx + dy*dy + dz*dz + eps);
     invr3 = invr*invr*invr;
     f=m[j]*invr3;
-    ax += f*dx; /* accumulate the acceleration from gravitational attraction */
-    ay += f*dy;
-    az += f*dx;
+    *pax += f*dx; /* accumulate the acceleration from gravitational attraction */
+    *pay += f*dy;
+    *paz += f*dx;
   }
-  *pax = ax;
-  *pay = ay;
-  *paz = az;
 }
 
 
