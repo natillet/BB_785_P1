@@ -61,7 +61,7 @@ int main (int argc, char * argv[]) {
 	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
 	    }
 	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
-	      invr[N] = 1.0f/sqrtf(in_sqrt[j]);
+	      invr[j] = 1.0f/sqrtf(in_sqrt[j]);
 //	      invr3 = invr*invr*invr;
 	    }
 	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
