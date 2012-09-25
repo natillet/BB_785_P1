@@ -37,11 +37,12 @@ void init(void) {
 
 int main (int argc, char * argv[]) {
   int s,i,j;
-  float invr, invr3, f, ax, ay, az, dx, dy, dz, dt=0.001;
+  float invr[N], f, ax, ay, az, dx[N], dy[N], dz[N], dt=0.001;
   float eps=0.0000001;
   struct timespec t1, t2, d;
   FILE *fp;
   char *outputFilename = "results.txt";
+  float in_sqrt[N];
 
   enable_runfast();
   init();
@@ -54,15 +55,20 @@ int main (int argc, char * argv[]) {
       ay=0.0f;
       az=0.0f;
       for(j=0; j<N; j++) { /* Loop over all particles "j" */
-	      dx=x[j]-x[i];
-	      dy=y[j]-y[i];
-	      dz=z[j]-z[i];
-	      invr = 1.0f/sqrtf(dx*dx + dy*dy + dz*dz + eps);
-	      invr3 = invr*invr*invr;
-	      f=m[j]*invr3;
-	      ax += f*dx; /* accumulate the acceleration from gravitational attraction */
-	      ay += f*dy;
-	      az += f*dx;
+	      dx[j]=x[j]-x[i];
+	      dy[j]=y[j]-y[i];
+	      dz[j]=z[j]-z[i];
+	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
+	    }
+	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
+	      invr[j] = 1.0f/sqrtf(in_sqrt[j]);
+//	      invr3 = invr*invr*invr;
+	    }
+	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
+	      f=m[j]*invr[j]*invr[j]*invr[j];
+	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+	      ay += f*dy[j];
+	      az += f*dx[j];
       }
       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
       ynew[i] = y[i] + dt*vy[i] + 0.5f*dt*dt*ay;
