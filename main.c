@@ -16,14 +16,13 @@ void  diff(struct timespec * difference, struct timespec start, struct timespec 
   if ((end.tv_nsec-start.tv_nsec)<0) {
     difference->tv_sec = end.tv_sec-start.tv_sec-1;
     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
-    printf("add big number\n");
+//    printf("add big number\n");
   } else {
     difference->tv_sec = end.tv_sec-start.tv_sec;
     difference->tv_nsec = end.tv_nsec-start.tv_nsec;
-    printf("no add\n");
-    printf("start: %d s %d ns\n", (int)start.tv_sec, 
-(int)start.tv_nsec);
-    printf("end:   %d s %d ns\n", (int)end.tv_sec, (int)end.tv_nsec);
+//    printf("no add\n");
+//    printf("start: %d s %d ns\n", (int)start.tv_sec, (int)start.tv_nsec);
+//    printf("end:   %d s %d ns\n", (int)end.tv_sec, (int)end.tv_nsec);
   }
 }
 
@@ -57,6 +56,7 @@ int main (int argc, char * argv[]) {
   init();
 
   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
+//printf("time: %d s %d ns\n", (int)t1.tv_sec, (int)t1.tv_nsec);
 
   for (s=0; s<STEPS; s++) {
     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
@@ -69,7 +69,7 @@ int main (int argc, char * argv[]) {
 	      dz[j]=z[j]-z[i];
 	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
 	    }
-	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
+	    for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
               //invr[j] = 1.0f/sqrtf(in_sqrt[j]);
               vec_invr = vld1q_f32(&in_sqrt[j]);
               vec_invr = vrsqrteq_f32(vec_invr);
@@ -96,6 +96,7 @@ int main (int argc, char * argv[]) {
       z[i] = znew[i];
     }
   }
+//printf("time: %d s %d ns\n", (int)t1.tv_sec, (int)t1.tv_nsec);
   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t2);
   
   // Print results to file so we can compare to ensure optimizations do not alter functionality
