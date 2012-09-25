@@ -1,0 +1,1928 @@
+   1              		.cpu cortex-a8
+   2              		.eabi_attribute 27, 3
+   3              		.fpu neon
+   4              		.eabi_attribute 23, 1
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 2
+   8              		.eabi_attribute 30, 2
+   9              		.eabi_attribute 18, 4
+  10              		.file	"main.c"
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.align	2
+  21              		.p2align 4,,15
+  22              		.global	diff
+  24              	diff:
+  25              	.LFB18:
+  26              		.file 1 "main.c"
+   1:main.c        **** #include <math.h>
+   2:main.c        **** #include <stdio.h>
+   3:main.c        **** #include <stdlib.h>
+   4:main.c        **** #include <time.h>
+   5:main.c        **** 
+   6:main.c        **** #define N 1000
+   7:main.c        **** #define STEPS 16
+   8:main.c        **** 
+   9:main.c        **** extern void enable_runfast();
+  10:main.c        **** 
+  11:main.c        **** float m[N], x[N], y[N], z[N], vx[N], vy[N], vz[N], xnew[N], ynew[N], znew[N];
+  12:main.c        **** 
+  13:main.c        **** void  diff(struct timespec * difference, struct timespec start, struct timespec end)
+  14:main.c        **** {
+  27              		.loc 1 14 0
+  28              		.cfi_startproc
+  29              		@ args = 12, pretend = 8, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.LVL0:
+  33 0000 08D04DE2 		sub	sp, sp, #8
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36 0004 04402DE5 		str	r4, [sp, #-4]!
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 12
+  39 0008 0CD04DE2 		sub	sp, sp, #12
+  40              	.LCFI2:
+  41              		.cfi_def_cfa_offset 24
+  42              		.loc 1 14 0
+  43 000c 08C08DE2 		add	ip, sp, #8
+  44 0010 14308DE5 		str	r3, [sp, #20]
+  45 0014 06000CE9 		stmdb	ip, {r1, r2}
+  46 0018 03C0A0E1 		mov	ip, r3
+  47 001c 04209DE5 		ldr	r2, [sp, #4]
+  48 0020 18109DE5 		ldr	r1, [sp, #24]
+  49 0024 00309DE5 		ldr	r3, [sp, #0]
+  15:main.c        ****   if ((end.tv_nsec-start.tv_nsec)<0) {
+  50              		.loc 1 15 0
+  51 0028 024051E0 		subs	r4, r1, r2
+  52              		.cfi_offset 4, -12
+  53 002c 0700004A 		bmi	.L5
+  16:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+  17:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  18:main.c        ****   } else {
+  19:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec;
+  54              		.loc 1 19 0
+  55 0030 0C1063E0 		rsb	r1, r3, ip
+  20:main.c        ****     difference->tv_nsec = end.tv_nsec-start.tv_nsec;
+  56              		.loc 1 20 0
+  57 0034 044080E5 		str	r4, [r0, #4]
+  19:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec;
+  58              		.loc 1 19 0
+  59 0038 001080E5 		str	r1, [r0, #0]
+  60              	.L1:
+  21:main.c        ****   }
+  22:main.c        **** }
+  61              		.loc 1 22 0
+  62 003c 0CD08DE2 		add	sp, sp, #12
+  63 0040 1000BDE8 		ldmfd	sp!, {r4}
+  64 0044 08D08DE2 		add	sp, sp, #8
+  65 0048 1EFF2FE1 		bx	lr
+  66 004c 00F020E3 		.p2align 4
+  67              	.L5:
+  17:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  68              		.loc 1 17 0
+  69 0050 CA4CA0E3 		mov	r4, #51712
+  16:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+  70              		.loc 1 16 0
+  71 0054 01C04CE2 		sub	ip, ip, #1
+  17:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  72              		.loc 1 17 0
+  73 0058 9A4B43E3 		movt	r4, 15258
+  16:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+  74              		.loc 1 16 0
+  75 005c 0C3063E0 		rsb	r3, r3, ip
+  17:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  76              		.loc 1 17 0
+  77 0060 044081E0 		add	r4, r1, r4
+  16:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+  78              		.loc 1 16 0
+  79 0064 003080E5 		str	r3, [r0, #0]
+  17:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  80              		.loc 1 17 0
+  81 0068 042062E0 		rsb	r2, r2, r4
+  82 006c 042080E5 		str	r2, [r0, #4]
+  83 0070 F1FFFFEA 		b	.L1
+  84              		.cfi_endproc
+  85              	.LFE18:
+  87              		.align	2
+  88 0074 00F020E3 		.p2align 4,,15
+  88      00F020E3 
+  88      00F020E3 
+  89              		.global	init
+  91              	init:
+  92              	.LFB19:
+  23:main.c        **** 
+  24:main.c        **** void init(void) {
+  93              		.loc 1 24 0
+  94              		.cfi_startproc
+  95              		@ args = 0, pretend = 0, frame = 8
+  96              		@ frame_needed = 0, uses_anonymous_args = 0
+  97              	.LVL1:
+  98 0080 F04F2DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+  99              	.LCFI3:
+ 100              		.cfi_def_cfa_offset 36
+ 101 0084 00B000E3 		movw	fp, #:lower16:vz
+ 102              		.cfi_offset 14, -4
+ 103              		.cfi_offset 11, -8
+ 104              		.cfi_offset 10, -12
+ 105              		.cfi_offset 9, -16
+ 106              		.cfi_offset 8, -20
+ 107              		.cfi_offset 7, -24
+ 108              		.cfi_offset 6, -28
+ 109              		.cfi_offset 5, -32
+ 110              		.cfi_offset 4, -36
+ 111 0088 009000E3 		movw	r9, #:lower16:m
+  25:main.c        ****   int i;
+  26:main.c        **** 
+  27:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+  28:main.c        ****     x[i] = rand();
+  29:main.c        ****     y[i] = rand();
+  30:main.c        ****     z[i] = rand();
+  31:main.c        ****     vx[i] = rand()/100;
+ 112              		.loc 1 31 0
+ 113 008c 1F5508E3 		movw	r5, #34079
+  24:main.c        **** void init(void) {
+ 114              		.loc 1 24 0
+ 115 0090 F0A09FE5 		ldr	sl, .L9
+ 116 0094 0CD04DE2 		sub	sp, sp, #12
+ 117              	.LCFI4:
+ 118              		.cfi_def_cfa_offset 48
+  24:main.c        **** void init(void) {
+ 119              		.loc 1 24 0
+ 120 0098 EC809FE5 		ldr	r8, .L9+4
+ 121 009c 0040A0E3 		mov	r4, #0
+ 122 00a0 E8709FE5 		ldr	r7, .L9+8
+ 123 00a4 00B040E3 		movt	fp, #:upper16:vz
+ 124 00a8 E4609FE5 		ldr	r6, .L9+12
+ 125 00ac 009040E3 		movt	r9, #:upper16:m
+ 126              		.loc 1 31 0
+ 127 00b0 EB5145E3 		movt	r5, 20971
+ 128 00b4 001000E3 		movw	r1, #:lower16:vy
+ 129 00b8 001040E3 		movt	r1, #:upper16:vy
+ 130 00bc 04108DE5 		str	r1, [sp, #4]
+ 131              	.LVL2:
+ 132              	.L7:
+  28:main.c        ****     x[i] = rand();
+ 133              		.loc 1 28 0 discriminator 2
+ 134 00c0 FEFFFFEB 		bl	rand
+ 135 00c4 900A05EE 		fmsr	s11, r0	@ int
+ 136 00c8 E55AB8EE 		fsitos	s10, s11
+ 137 00cc 10CA15EE 		fmrs	ip, s10
+ 138 00d0 04C0AAE5 		str	ip, [sl, #4]!	@ float
+  29:main.c        ****     y[i] = rand();
+ 139              		.loc 1 29 0 discriminator 2
+ 140 00d4 FEFFFFEB 		bl	rand
+ 141 00d8 900A04EE 		fmsr	s9, r0	@ int
+ 142 00dc E44AB8EE 		fsitos	s8, s9
+ 143 00e0 103A14EE 		fmrs	r3, s8
+ 144 00e4 0430A8E5 		str	r3, [r8, #4]!	@ float
+  30:main.c        ****     z[i] = rand();
+ 145              		.loc 1 30 0 discriminator 2
+ 146 00e8 FEFFFFEB 		bl	rand
+ 147 00ec 900A03EE 		fmsr	s7, r0	@ int
+ 148 00f0 E33AB8EE 		fsitos	s6, s7
+ 149 00f4 102A13EE 		fmrs	r2, s6
+ 150 00f8 0420A7E5 		str	r2, [r7, #4]!	@ float
+ 151              		.loc 1 31 0 discriminator 2
+ 152 00fc FEFFFFEB 		bl	rand
+ 153 0100 9520C1E0 		smull	r2, r1, r5, r0
+ 154 0104 C00FA0E1 		mov	r0, r0, asr #31
+ 155 0108 C1C260E0 		rsb	ip, r0, r1, asr #5
+ 156 010c 90CA02EE 		fmsr	s5, ip	@ int
+ 157 0110 E22AB8EE 		fsitos	s4, s5
+ 158 0114 103A12EE 		fmrs	r3, s4
+ 159 0118 0430A6E5 		str	r3, [r6, #4]!	@ float
+  32:main.c        ****     vy[i] = rand()/100;
+ 160              		.loc 1 32 0 discriminator 2
+ 161 011c FEFFFFEB 		bl	rand
+  24:main.c        **** void init(void) {
+ 162              		.loc 1 24 0 discriminator 2
+ 163 0120 04109DE5 		ldr	r1, [sp, #4]
+ 164 0124 043081E0 		add	r3, r1, r4
+ 165              		.loc 1 32 0 discriminator 2
+ 166 0128 9510C2E0 		smull	r1, r2, r5, r0
+ 167 012c C00FA0E1 		mov	r0, r0, asr #31
+ 168 0130 C2C260E0 		rsb	ip, r0, r2, asr #5
+ 169 0134 90CA01EE 		fmsr	s3, ip	@ int
+ 170 0138 E11AB8EE 		fsitos	s2, s3
+ 171 013c 001A83ED 		fsts	s2, [r3, #0]
+  33:main.c        ****     vz[i] = rand()/100;
+ 172              		.loc 1 33 0 discriminator 2
+ 173 0140 FEFFFFEB 		bl	rand
+  24:main.c        **** void init(void) {
+ 174              		.loc 1 24 0 discriminator 2
+ 175 0144 04C08BE0 		add	ip, fp, r4
+ 176              		.loc 1 33 0 discriminator 2
+ 177 0148 9510C2E0 		smull	r1, r2, r5, r0
+ 178 014c C01FA0E1 		mov	r1, r0, asr #31
+ 179 0150 C20261E0 		rsb	r0, r1, r2, asr #5
+ 180 0154 900A00EE 		fmsr	s1, r0	@ int
+ 181 0158 E00AB8EE 		fsitos	s0, s1
+ 182 015c 000A8CED 		fsts	s0, [ip, #0]
+  34:main.c        ****     m[i] = rand();
+ 183              		.loc 1 34 0 discriminator 2
+ 184 0160 FEFFFFEB 		bl	rand
+  24:main.c        **** void init(void) {
+ 185              		.loc 1 24 0 discriminator 2
+ 186 0164 043089E0 		add	r3, r9, r4
+ 187              		.loc 1 34 0 discriminator 2
+ 188 0168 044084E2 		add	r4, r4, #4
+  27:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 189              		.loc 1 27 0 discriminator 2
+ 190 016c FA0E54E3 		cmp	r4, #4000
+ 191              		.loc 1 34 0 discriminator 2
+ 192 0170 100A07EE 		fmsr	s14, r0	@ int
+ 193 0174 C77AF8EE 		fsitos	s15, s14
+ 194 0178 007AC3ED 		fsts	s15, [r3, #0]
+  27:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 195              		.loc 1 27 0 discriminator 2
+ 196 017c CFFFFF1A 		bne	.L7
+  35:main.c        ****   }
+  36:main.c        **** }
+ 197              		.loc 1 36 0
+ 198 0180 0CD08DE2 		add	sp, sp, #12
+ 199 0184 F08FBDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 200              	.L10:
+ 201              		.align	2
+ 202              	.L9:
+ 203 0188 FCFFFFFF 		.word	x-4
+ 204 018c FCFFFFFF 		.word	y-4
+ 205 0190 FCFFFFFF 		.word	z-4
+ 206 0194 FCFFFFFF 		.word	vx-4
+ 207              		.cfi_endproc
+ 208              	.LFE19:
+ 210              		.global	__aeabi_idiv
+ 211              		.align	2
+ 212 0198 00F020E3 		.p2align 4,,15
+ 212      00F020E3 
+ 213              		.global	main
+ 215              	main:
+ 216              	.LFB20:
+  37:main.c        **** 
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 217              		.loc 1 38 0
+ 218              		.cfi_startproc
+ 219              		@ args = 0, pretend = 0, frame = 16192
+ 220              		@ frame_needed = 0, uses_anonymous_args = 0
+ 221              	.LVL3:
+ 222 01a0 F04F2DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 223              	.LCFI5:
+ 224              		.cfi_def_cfa_offset 36
+ 225 01a4 108B2DED 		fstmfdd	sp!, {d8, d9, d10, d11, d12, d13, d14, d15}
+ 226              	.LCFI6:
+ 227              		.cfi_def_cfa_offset 100
+ 228 01a8 FDDD4DE2 		sub	sp, sp, #16192
+ 229              	.LCFI7:
+ 230              		.cfi_def_cfa_offset 16292
+ 231 01ac 14D04DE2 		sub	sp, sp, #20
+ 232              	.LCFI8:
+ 233              		.cfi_def_cfa_offset 16312
+ 234 01b0 007000E3 		movw	r7, #:lower16:vy
+ 235              		.cfi_offset 94, -44
+ 236              		.cfi_offset 92, -52
+ 237              		.cfi_offset 90, -60
+ 238              		.cfi_offset 88, -68
+ 239              		.cfi_offset 86, -76
+ 240              		.cfi_offset 84, -84
+ 241              		.cfi_offset 82, -92
+ 242              		.cfi_offset 80, -100
+ 243              		.cfi_offset 14, -4
+ 244              		.cfi_offset 11, -8
+ 245              		.cfi_offset 10, -12
+ 246              		.cfi_offset 9, -16
+ 247              		.cfi_offset 8, -20
+ 248              		.cfi_offset 7, -24
+ 249              		.cfi_offset 6, -28
+ 250              		.cfi_offset 5, -32
+ 251              		.cfi_offset 4, -36
+  39:main.c        ****   int s,i,j;
+  40:main.c        ****   float invr[N], f, ax, ay, az, dx[N], dy[N], dz[N], dt=0.001;
+  41:main.c        ****   float eps=0.0000001;
+  42:main.c        ****   struct timespec t1, t2, d;
+  43:main.c        ****   FILE *fp;
+  44:main.c        ****   char *outputFilename = "results.txt";
+  45:main.c        ****   float in_sqrt[N];
+  46:main.c        **** 
+  47:main.c        ****   enable_runfast();
+ 252              		.loc 1 47 0
+ 253 01b4 FEFFFFEB 		bl	enable_runfast
+ 254              	.LVL4:
+ 255 01b8 9C149FE5 		ldr	r1, .L78+20
+ 256 01bc 9C249FE5 		ldr	r2, .L78+24
+ 257 01c0 006000E3 		movw	r6, #:lower16:vz
+ 258 01c4 98049FE5 		ldr	r0, .L78+28
+ 259 01c8 005000E3 		movw	r5, #:lower16:m
+ 260 01cc 94949FE5 		ldr	r9, .L78+32
+ 261 01d0 02A0A0E1 		mov	sl, r2
+ 262 01d4 0180A0E1 		mov	r8, r1
+ 263 01d8 0040A0E3 		mov	r4, #0
+ 264 01dc 007040E3 		movt	r7, #:upper16:vy
+ 265 01e0 006040E3 		movt	r6, #:upper16:vz
+ 266 01e4 005040E3 		movt	r5, #:upper16:m
+ 267 01e8 B4008DE5 		str	r0, [sp, #180]
+ 268 01ec BC108DE5 		str	r1, [sp, #188]
+ 269 01f0 B8208DE5 		str	r2, [sp, #184]
+ 270 01f4 14008DE5 		str	r0, [sp, #20]
+ 271              	.LVL5:
+ 272              	.L12:
+ 273              	.LBB8:
+ 274              	.LBB9:
+  28:main.c        ****     x[i] = rand();
+ 275              		.loc 1 28 0
+ 276 01f8 FEFFFFEB 		bl	rand
+ 277 01fc 14C09DE5 		ldr	ip, [sp, #20]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 278              		.loc 1 38 0
+ 279 0200 073084E0 		add	r3, r4, r7
+ 280 0204 06B084E0 		add	fp, r4, r6
+  28:main.c        ****     x[i] = rand();
+ 281              		.loc 1 28 0
+ 282 0208 100A06EE 		fmsr	s12, r0	@ int
+ 283 020c C65AF8EE 		fsitos	s11, s12
+ 284 0210 900A15EE 		fmrs	r0, s11
+ 285 0214 0400ACE5 		str	r0, [ip, #4]!	@ float
+  29:main.c        ****     y[i] = rand();
+ 286              		.loc 1 29 0
+ 287 0218 10308DE5 		str	r3, [sp, #16]
+  28:main.c        ****     x[i] = rand();
+ 288              		.loc 1 28 0
+ 289 021c 14C08DE5 		str	ip, [sp, #20]
+  29:main.c        ****     y[i] = rand();
+ 290              		.loc 1 29 0
+ 291 0220 FEFFFFEB 		bl	rand
+ 292 0224 900A03EE 		fmsr	s7, r0	@ int
+ 293 0228 E33AB8EE 		fsitos	s6, s7
+ 294 022c 102A13EE 		fmrs	r2, s6
+ 295 0230 0420A8E5 		str	r2, [r8, #4]!	@ float
+  30:main.c        ****     z[i] = rand();
+ 296              		.loc 1 30 0
+ 297 0234 FEFFFFEB 		bl	rand
+ 298 0238 900A02EE 		fmsr	s5, r0	@ int
+ 299 023c E22AB8EE 		fsitos	s4, s5
+ 300 0240 101A12EE 		fmrs	r1, s4
+ 301 0244 0410AAE5 		str	r1, [sl, #4]!	@ float
+  31:main.c        ****     vx[i] = rand()/100;
+ 302              		.loc 1 31 0
+ 303 0248 FEFFFFEB 		bl	rand
+ 304 024c 6410A0E3 		mov	r1, #100
+ 305 0250 FEFFFFEB 		bl	__aeabi_idiv
+ 306 0254 900A01EE 		fmsr	s3, r0	@ int
+ 307 0258 E11AB8EE 		fsitos	s2, s3
+ 308 025c 100A11EE 		fmrs	r0, s2
+ 309 0260 0400A9E5 		str	r0, [r9, #4]!	@ float
+  32:main.c        ****     vy[i] = rand()/100;
+ 310              		.loc 1 32 0
+ 311 0264 FEFFFFEB 		bl	rand
+ 312 0268 6410A0E3 		mov	r1, #100
+ 313 026c FEFFFFEB 		bl	__aeabi_idiv
+ 314 0270 10C09DE5 		ldr	ip, [sp, #16]
+ 315 0274 100A04EE 		fmsr	s8, r0	@ int
+ 316 0278 C40AF8EE 		fsitos	s1, s8
+ 317 027c 000ACCED 		fsts	s1, [ip, #0]
+  33:main.c        ****     vz[i] = rand()/100;
+ 318              		.loc 1 33 0
+ 319 0280 FEFFFFEB 		bl	rand
+ 320 0284 6410A0E3 		mov	r1, #100
+ 321 0288 FEFFFFEB 		bl	__aeabi_idiv
+ 322 028c 900A04EE 		fmsr	s9, r0	@ int
+ 323 0290 E40AB8EE 		fsitos	s0, s9
+ 324 0294 000A8BED 		fsts	s0, [fp, #0]
+  34:main.c        ****     m[i] = rand();
+ 325              		.loc 1 34 0
+ 326 0298 FEFFFFEB 		bl	rand
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 327              		.loc 1 38 0
+ 328 029c 043085E0 		add	r3, r5, r4
+  34:main.c        ****     m[i] = rand();
+ 329              		.loc 1 34 0
+ 330 02a0 044084E2 		add	r4, r4, #4
+  27:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 331              		.loc 1 27 0
+ 332 02a4 FA0E54E3 		cmp	r4, #4000
+  34:main.c        ****     m[i] = rand();
+ 333              		.loc 1 34 0
+ 334 02a8 100A05EE 		fmsr	s10, r0	@ int
+ 335 02ac C57AF8EE 		fsitos	s15, s10
+ 336 02b0 007AC3ED 		fsts	s15, [r3, #0]
+  27:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 337              		.loc 1 27 0
+ 338 02b4 CFFFFF1A 		bne	.L12
+ 339              	.LBE9:
+ 340              	.LBE8:
+  48:main.c        ****   init();
+  49:main.c        **** 
+  50:main.c        ****   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
+ 341              		.loc 1 50 0
+ 342 02b8 FD5D8DE2 		add	r5, sp, #16192
+ 343 02bc 0200A0E3 		mov	r0, #2
+ 344 02c0 081085E2 		add	r1, r5, #8
+ 345 02c4 025A8DE2 		add	r5, sp, #8192
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 346              		.loc 1 38 0
+ 347 02c8 0F6005E2 		and	r6, r5, #15
+ 348              		.loc 1 50 0
+ 349 02cc FEFFFFEB 		bl	clock_gettime
+ 350              	.LVL6:
+  51:main.c        **** 
+  52:main.c        ****   for (s=0; s<STEPS; s++) {
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 351              		.loc 1 53 0
+ 352 02d0 000056E3 		cmp	r6, #0
+ 353 02d4 00C000E3 		movw	ip, #:lower16:x
+ 354 02d8 0260A013 		movne	r6, #2
+ 355 02dc 0060A003 		moveq	r6, #0
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 356              		.loc 1 38 0
+ 357 02e0 FA2F66E2 		rsb	r2, r6, #1000
+ 358              		.loc 1 53 0
+ 359 02e4 14608DE5 		str	r6, [sp, #20]
+ 360 02e8 006000E3 		movw	r6, #:lower16:z
+ 361 02ec 001000E3 		movw	r1, #:lower16:y
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 362              		.loc 1 38 0
+ 363 02f0 2291A0E1 		mov	r9, r2, lsr #2
+ 364 02f4 006040E3 		movt	r6, #:upper16:z
+ 365 02f8 00A000E3 		movw	sl, #:lower16:xnew
+ 366 02fc 007000E3 		movw	r7, #:lower16:ynew
+ 367 0300 008000E3 		movw	r8, #:lower16:znew
+  50:main.c        ****   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
+ 368              		.loc 1 50 0
+ 369 0304 10E0A0E3 		mov	lr, #16
+ 370 0308 00C040E3 		movt	ip, #:upper16:x
+ 371 030c 001040E3 		movt	r1, #:upper16:y
+ 372 0310 00A040E3 		movt	sl, #:upper16:xnew
+ 373 0314 007040E3 		movt	r7, #:upper16:ynew
+ 374 0318 008040E3 		movt	r8, #:upper16:znew
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 375              		.loc 1 38 0
+ 376 031c 0941A0E1 		mov	r4, r9, asl #2
+ 377 0320 AC208DE5 		str	r2, [sp, #172]
+  54:main.c        ****       ax=0.0f;
+  55:main.c        ****       ay=0.0f;
+  56:main.c        ****       az=0.0f;
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+  61:main.c        **** 	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
+ 378              		.loc 1 61 0
+ 379 0324 CB6A9FED 		flds	s12, .L78+16
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 380              		.loc 1 38 0
+ 381 0328 60908DE5 		str	r9, [sp, #96]
+  50:main.c        ****   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
+ 382              		.loc 1 50 0
+ 383 032c B0E08DE5 		str	lr, [sp, #176]
+ 384 0330 98C08DE5 		str	ip, [sp, #152]
+ 385 0334 74108DE5 		str	r1, [sp, #116]
+ 386 0338 A4A08DE5 		str	sl, [sp, #164]
+ 387 033c A8708DE5 		str	r7, [sp, #168]
+ 388 0340 A0808DE5 		str	r8, [sp, #160]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 389              		.loc 1 38 0
+ 390 0344 64408DE5 		str	r4, [sp, #100]
+ 391              	.LVL7:
+ 392              	.L13:
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 393              		.loc 1 38 0 is_stmt 0 discriminator 1
+ 394 0348 14C39FE5 		ldr	ip, .L78+28
+  52:main.c        ****   for (s=0; s<STEPS; s++) {
+ 395              		.loc 1 52 0 is_stmt 1 discriminator 1
+ 396 034c 00E000E3 		movw	lr, #:lower16:vx
+ 397 0350 000000E3 		movw	r0, #:lower16:vy
+ 398 0354 002000E3 		movw	r2, #:lower16:vz
+ 399 0358 00E040E3 		movt	lr, #:upper16:vx
+ 400 035c 000040E3 		movt	r0, #:upper16:vy
+ 401 0360 002040E3 		movt	r2, #:upper16:vz
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 402              		.loc 1 38 0 discriminator 1
+ 403 0364 0030A0E3 		mov	r3, #0
+  52:main.c        ****   for (s=0; s<STEPS; s++) {
+ 404              		.loc 1 52 0 discriminator 1
+ 405 0368 68E08DE5 		str	lr, [sp, #104]
+ 406              		.loc 1 61 0 discriminator 1
+ 407 036c B5CB9FED 		vldr	d12, .L78
+ 408 0370 B6DB9FED 		vldr	d13, .L78+8
+  52:main.c        ****   for (s=0; s<STEPS; s++) {
+ 409              		.loc 1 52 0 discriminator 1
+ 410 0374 6C008DE5 		str	r0, [sp, #108]
+ 411 0378 70208DE5 		str	r2, [sp, #112]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 412              		.loc 1 38 0 discriminator 1
+ 413 037c 9CC08DE5 		str	ip, [sp, #156]
+ 414 0380 5C308DE5 		str	r3, [sp, #92]
+ 415              	.LVL8:
+ 416              	.L25:
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 417              		.loc 1 53 0 discriminator 1
+ 418 0384 14009DE5 		ldr	r0, [sp, #20]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 419              		.loc 1 38 0 discriminator 1
+ 420 0388 5C109DE5 		ldr	r1, [sp, #92]
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 421              		.loc 1 53 0 discriminator 1
+ 422 038c 000050E3 		cmp	r0, #0
+ 423 0390 9C409DE5 		ldr	r4, [sp, #156]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 424              		.loc 1 38 0 discriminator 1
+ 425 0394 74309DE5 		ldr	r3, [sp, #116]
+ 426 0398 018086E0 		add	r8, r6, r1
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 427              		.loc 1 53 0 discriminator 1
+ 428 039c 04A084E2 		add	sl, r4, #4
+ 429 03a0 007AD8ED 		flds	s15, [r8, #0]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 430              		.loc 1 38 0 discriminator 1
+ 431 03a4 03E081E0 		add	lr, r1, r3
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 432              		.loc 1 53 0 discriminator 1
+ 433 03a8 007A9AED 		flds	s14, [sl, #0]
+ 434 03ac 9CA08DE5 		str	sl, [sp, #156]
+ 435 03b0 006ADEED 		flds	s13, [lr, #0]
+ 436 03b4 28508DE5 		str	r5, [sp, #40]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 437              		.loc 1 38 0 discriminator 1
+ 438 03b8 FABFA003 		moveq	fp, #1000
+ 439 03bc 14109D05 		ldreq	r1, [sp, #20]
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 440              		.loc 1 53 0 discriminator 1
+ 441 03c0 2D00000A 		beq	.L20
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 442              		.loc 1 58 0
+ 443 03c4 00C000E3 		movw	ip, #:lower16:y
+ 444 03c8 00B0A0E1 		mov	fp, r0
+ 445 03cc 00C040E3 		movt	ip, #:upper16:y
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 446              		.loc 1 59 0
+ 447 03d0 00FA9CED 		flds	s30, [ip, #0]
+ 448 03d4 66EA7FEE 		fsubs	s29, s30, s13
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 449              		.loc 1 53 0
+ 450 03d8 000000E3 		movw	r0, #:lower16:x
+ 451 03dc 000040E3 		movt	r0, #:upper16:x
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 452              		.loc 1 58 0
+ 453 03e0 00BAD0ED 		flds	s23, [r0, #0]
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 454              		.loc 1 60 0
+ 455 03e4 00AAD6ED 		flds	s21, [r6, #0]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 456              		.loc 1 38 0
+ 457 03e8 01005BE3 		cmp	fp, #1
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 458              		.loc 1 59 0
+ 459 03ec 019A8DE2 		add	r9, sp, #4096
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 460              		.loc 1 57 0
+ 461 03f0 0110A0E3 		mov	r1, #1
+ 462              	.LVL9:
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 463              		.loc 1 38 0
+ 464 03f4 E7B300E3 		movw	fp, #999
+ 465 03f8 0430A0E3 		mov	r3, #4
+ 466              		.loc 1 61 0
+ 467 03fc AE9A6EEE 		fmuls	s19, s29, s29
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 468              		.loc 1 59 0
+ 469 0400 18EAC9ED 		fsts	s29, [r9, #96]
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 470              		.loc 1 58 0
+ 471 0404 C7BA3BEE 		fsubs	s22, s23, s14
+ 472              		.loc 1 61 0
+ 473 0408 0B9A4BEE 		fmacs	s19, s22, s22
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 474              		.loc 1 58 0
+ 475 040c 00BA85ED 		fsts	s22, [r5, #0]
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 476              		.loc 1 60 0
+ 477 0410 E79A3AEE 		fsubs	s18, s21, s15
+ 478              		.loc 1 61 0
+ 479 0414 868A79EE 		fadds	s17, s19, s12
+ 480 0418 098A49EE 		fmacs	s17, s18, s18
+ 481 041c 308ACDED 		fsts	s17, [sp, #192]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 482              		.loc 1 38 0
+ 483 0420 1500009A 		bls	.L20
+ 484 0424 01B0A0E3 		mov	fp, #1
+ 485 0428 00005BE3 		cmp	fp, #0
+ 486 042c 4702000A 		beq	.L21
+ 487              	.LVL10:
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 488              		.loc 1 59 0
+ 489 0430 04708CE2 		add	r7, ip, #4
+ 490 0434 003AD7ED 		flds	s7, [r7, #0]
+ 491 0438 E64A73EE 		fsubs	s9, s7, s13
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 492              		.loc 1 58 0
+ 493 043c 041080E2 		add	r1, r0, #4
+ 494 0440 002AD1ED 		flds	s5, [r1, #0]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 495              		.loc 1 38 0
+ 496 0444 20329FE5 		ldr	r3, .L78+36
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 497              		.loc 1 60 0
+ 498 0448 000AD3ED 		flds	s1, [r3, #0]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 499              		.loc 1 38 0
+ 500 044c E6B300E3 		movw	fp, #998
+ 501 0450 0210A0E3 		mov	r1, #2
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 502              		.loc 1 59 0
+ 503 0454 012A8DE2 		add	r2, sp, #4096
+ 504              		.loc 1 61 0
+ 505 0458 A4FA64EE 		fmuls	s31, s9, s9
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 506              		.loc 1 59 0
+ 507 045c 194AC2ED 		fsts	s9, [r2, #100]
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 508              		.loc 1 58 0
+ 509 0460 C75A32EE 		fsubs	s10, s5, s14
+ 510              		.loc 1 61 0
+ 511 0464 05FA45EE 		fmacs	s31, s10, s10
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 512              		.loc 1 58 0
+ 513 0468 015A85ED 		fsts	s10, [r5, #4]
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 514              		.loc 1 60 0
+ 515 046c E7FA30EE 		fsubs	s30, s1, s15
+ 516              		.loc 1 61 0
+ 517 0470 86EA7FEE 		fadds	s29, s31, s12
+ 518 0474 0FEA4FEE 		fmacs	s29, s30, s30
+ 519 0478 31EACDED 		fsts	s29, [sp, #196]
+ 520              	.LVL11:
+ 521              	.L20:
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 522              		.loc 1 38 0
+ 523 047c 64309DE5 		ldr	r3, [sp, #100]
+ 524 0480 000053E3 		cmp	r3, #0
+ 525 0484 7A00000A 		beq	.L22
+ 526 0488 14209DE5 		ldr	r2, [sp, #20]
+ 527 048c 476CF4F3 		vdup.32	q11, d7[0]
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 528              		.loc 1 58 0
+ 529 0490 98009DE5 		ldr	r0, [sp, #152]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 530              		.loc 1 38 0
+ 531 0494 46ACFCF3 		vdup.32	q13, d6[1]
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 532              		.loc 1 59 0
+ 533 0498 74E09DE5 		ldr	lr, [sp, #116]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 534              		.loc 1 38 0
+ 535 049c 41CD8DE2 		add	ip, sp, #4160
+ 536 04a0 0241A0E1 		mov	r4, r2, asl #2
+ 537 04a4 20308CE2 		add	r3, ip, #32
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 538              		.loc 1 58 0
+ 539 04a8 040080E0 		add	r0, r0, r4
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 540              		.loc 1 59 0
+ 541 04ac 04208EE0 		add	r2, lr, r4
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 542              		.loc 1 38 0
+ 543 04b0 04E085E0 		add	lr, r5, r4
+ 544 04b4 048083E0 		add	r8, r3, r4
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 545              		.loc 1 58 0
+ 546 04b8 8D2A20F4 		vld1.32	{q1}, [r0]!
+ 547 04bc 0EA0A0E1 		mov	sl, lr
+ 548 04c0 66CD62F2 		vsub.f32	q14, q1, q11
+ 549 04c4 04CBEAEC 		vstmia	sl!, {d28-d29}
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 550              		.loc 1 59 0
+ 551 04c8 8D8A62F4 		vld1.32	{q12}, [r2]!
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 552              		.loc 1 60 0
+ 553 04cc 043086E0 		add	r3, r6, r4
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 554              		.loc 1 59 0
+ 555 04d0 EA0D28F2 		vsub.f32	q0, q12, q13
+ 556              		.loc 1 61 0
+ 557 04d4 60909DE5 		ldr	r9, [sp, #96]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 558              		.loc 1 38 0
+ 559 04d8 18808DE5 		str	r8, [sp, #24]
+ 560 04dc 478CFCF3 		vdup.32	q12, d7[1]
+ 561 04e0 C0708DE2 		add	r7, sp, #192
+ 562              		.loc 1 61 0
+ 563 04e4 010059E3 		cmp	r9, #1
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 564              		.loc 1 38 0
+ 565 04e8 044087E0 		add	r4, r7, r4
+ 566 04ec 01C049E2 		sub	ip, r9, #1
+ 567              		.loc 1 61 0
+ 568 04f0 0470A0E1 		mov	r7, r4
+ 569 04f4 01C00CE2 		and	ip, ip, #1
+ 570 04f8 502D40F3 		vmul.f32	q9, q0, q0
+ 571 04fc 0190A0E3 		mov	r9, #1
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 572              		.loc 1 59 0
+ 573 0500 8D0A08F4 		vst1.32	{q0}, [r8]!
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 574              		.loc 1 60 0
+ 575 0504 8D4A63F4 		vld1.32	{q10}, [r3]!
+ 576 0508 E8ED64F2 		vsub.f32	q15, q10, q12
+ 577              		.loc 1 61 0
+ 578 050c FC2D4CF2 		vmla.f32	q9, q14, q14
+ 579 0510 CC0D42F2 		vadd.f32	q8, q9, q6
+ 580 0514 FE0D4EF2 		vmla.f32	q8, q15, q15
+ 581 0518 8D0A47F4 		vst1.32	{q8}, [r7]!
+ 582 051c 4200009A 		bls	.L71
+ 583 0520 00005CE3 		cmp	ip, #0
+ 584 0524 3D02000A 		beq	.L74
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 585              		.loc 1 58 0
+ 586 0528 8D0A20F4 		vld1.32	{q0}, [r0]!
+ 587              		.loc 1 61 0
+ 588 052c 0290A0E3 		mov	r9, #2
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 589              		.loc 1 58 0
+ 590 0530 66ED60F2 		vsub.f32	q15, q0, q11
+ 591 0534 04EBCEED 		vstr	d30, [lr, #16]
+ 592 0538 06FBCEED 		vstr	d31, [lr, #24]
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 593              		.loc 1 59 0
+ 594 053c 8D4A62F4 		vld1.32	{q10}, [r2]!
+ 595              		.loc 1 61 0
+ 596 0540 104084E2 		add	r4, r4, #16
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 597              		.loc 1 59 0
+ 598 0544 EACD64F2 		vsub.f32	q14, q10, q13
+ 599 0548 18E09DE5 		ldr	lr, [sp, #24]
+ 600              		.loc 1 61 0
+ 601 054c 60C09DE5 		ldr	ip, [sp, #96]
+ 602 0550 10A08AE2 		add	sl, sl, #16
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 603              		.loc 1 59 0
+ 604 0554 10E08EE2 		add	lr, lr, #16
+ 605              		.loc 1 61 0
+ 606 0558 108088E2 		add	r8, r8, #16
+ 607 055c 09005CE1 		cmp	ip, r9
+ 608 0560 107087E2 		add	r7, r7, #16
+ 609 0564 FCED0CF3 		vmul.f32	q7, q14, q14
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 610              		.loc 1 59 0
+ 611 0568 8FCA4EF4 		vst1.32	{q14}, [lr]
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 612              		.loc 1 60 0
+ 613 056c 8D2A63F4 		vld1.32	{q9}, [r3]!
+ 614 0570 E88D22F2 		vsub.f32	q4, q9, q12
+ 615              		.loc 1 61 0
+ 616 0574 FEED0EF2 		vmla.f32	q7, q15, q15
+ 617 0578 4CAD0EF2 		vadd.f32	q5, q7, q6
+ 618 057c 58AD08F2 		vmla.f32	q5, q4, q4
+ 619 0580 8FAA04F4 		vst1.32	{q5}, [r4]
+ 620 0584 0C40A081 		movhi	r4, ip
+ 621 0588 18108D85 		strhi	r1, [sp, #24]
+ 622 058c 2600009A 		bls	.L71
+ 623              	.L14:
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 624              		.loc 1 58 0 discriminator 2
+ 625 0590 8DAA20F4 		vld1.32	{q5}, [r0]!
+ 626 0594 0AE0A0E1 		mov	lr, sl
+ 627 0598 664D6AF2 		vsub.f32	q10, q5, q11
+ 628 059c 044BEEEC 		vstmia	lr!, {d20-d21}
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 629              		.loc 1 59 0 discriminator 2
+ 630 05a0 8D0A62F4 		vld1.32	{q8}, [r2]!
+ 631 05a4 08C0A0E1 		mov	ip, r8
+ 632 05a8 EA8D20F2 		vsub.f32	q4, q8, q13
+ 633              		.loc 1 61 0 discriminator 2
+ 634 05ac 0710A0E1 		mov	r1, r7
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 635              		.loc 1 59 0 discriminator 2
+ 636 05b0 108088E2 		add	r8, r8, #16
+ 637              		.loc 1 61 0 discriminator 2
+ 638 05b4 029089E2 		add	r9, r9, #2
+ 639 05b8 107087E2 		add	r7, r7, #16
+ 640 05bc 090054E1 		cmp	r4, r9
+ 641 05c0 582D08F3 		vmul.f32	q1, q4, q4
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 642              		.loc 1 59 0 discriminator 2
+ 643 05c4 8D8A0CF4 		vst1.32	{q4}, [ip]!
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 644              		.loc 1 60 0 discriminator 2
+ 645 05c8 8D2A63F4 		vld1.32	{q9}, [r3]!
+ 646 05cc E84D22F2 		vsub.f32	q2, q9, q12
+ 647              		.loc 1 61 0 discriminator 2
+ 648 05d0 F42D04F2 		vmla.f32	q1, q10, q10
+ 649 05d4 4C0D02F2 		vadd.f32	q0, q1, q6
+ 650 05d8 540D04F2 		vmla.f32	q0, q2, q2
+ 651 05dc 8D0A01F4 		vst1.32	{q0}, [r1]!
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 652              		.loc 1 58 0 discriminator 2
+ 653 05e0 8DEA60F4 		vld1.32	{q15}, [r0]!
+ 654 05e4 E60D6EF2 		vsub.f32	q8, q15, q11
+ 655 05e8 040BCAED 		vstr	d16, [sl, #16]
+ 656 05ec 061BCAED 		vstr	d17, [sl, #24]
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 657              		.loc 1 59 0 discriminator 2
+ 658 05f0 8DCA62F4 		vld1.32	{q14}, [r2]!
+ 659              		.loc 1 61 0 discriminator 2
+ 660 05f4 10A08EE2 		add	sl, lr, #16
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 661              		.loc 1 59 0 discriminator 2
+ 662 05f8 EAED2CF2 		vsub.f32	q7, q14, q13
+ 663              		.loc 1 61 0 discriminator 2
+ 664 05fc 5E8D0EF3 		vmul.f32	q4, q7, q7
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 665              		.loc 1 59 0 discriminator 2
+ 666 0600 8FEA08F4 		vst1.32	{q7}, [r8]
+ 667              		.loc 1 61 0 discriminator 2
+ 668 0604 10808CE2 		add	r8, ip, #16
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 669              		.loc 1 60 0 discriminator 2
+ 670 0608 8DAA23F4 		vld1.32	{q5}, [r3]!
+ 671 060c 682D6AF2 		vsub.f32	q9, q5, q12
+ 672              		.loc 1 61 0 discriminator 2
+ 673 0610 F08D00F2 		vmla.f32	q4, q8, q8
+ 674 0614 4C4D48F2 		vadd.f32	q10, q4, q6
+ 675 0618 F24D42F2 		vmla.f32	q10, q9, q9
+ 676 061c 8F4A47F4 		vst1.32	{q10}, [r7]
+ 677 0620 107081E2 		add	r7, r1, #16
+ 678 0624 D9FFFF8A 		bhi	.L14
+ 679 0628 18109DE5 		ldr	r1, [sp, #24]
+ 680              	.L71:
+ 681              		.loc 1 61 0 is_stmt 0
+ 682 062c 64309DE5 		ldr	r3, [sp, #100]
+ 683 0630 AC009DE5 		ldr	r0, [sp, #172]
+ 684 0634 031081E0 		add	r1, r1, r3
+ 685 0638 0BB063E0 		rsb	fp, r3, fp
+ 686 063c 030050E1 		cmp	r0, r3
+ 687 0640 6C00000A 		beq	.L15
+ 688 0644 0A0000EA 		b	.L79
+ 689              	.L80:
+ 690              		.align	3
+ 691              	.L78:
+ 692 0648 95BFD633 		.word	869711765
+ 693 064c 95BFD633 		.word	869711765
+ 694 0650 95BFD633 		.word	869711765
+ 695 0654 95BFD633 		.word	869711765
+ 696 0658 95BFD633 		.word	869711765
+ 697 065c FCFFFFFF 		.word	y-4
+ 698 0660 FCFFFFFF 		.word	z-4
+ 699 0664 FCFFFFFF 		.word	x-4
+ 700 0668 FCFFFFFF 		.word	vx-4
+ 701 066c 04000000 		.word	z+4
+ 702 0670 A00F0000 		.word	m+4000
+ 703              	.L79:
+ 704              	.L22:
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 705              		.loc 1 38 0 is_stmt 1
+ 706 0674 012041E2 		sub	r2, r1, #1
+ 707 0678 74809DE5 		ldr	r8, [sp, #116]
+ 708 067c 98709DE5 		ldr	r7, [sp, #152]
+ 709 0680 01904BE2 		sub	r9, fp, #1
+ 710 0684 02E1A0E1 		mov	lr, r2, asl #2
+ 711 0688 41AD8DE2 		add	sl, sp, #4160
+ 712 068c 08408EE0 		add	r4, lr, r8
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 713              		.loc 1 59 0
+ 714 0690 01FA94ED 		flds	s30, [r4, #4]
+ 715 0694 66EA7FEE 		fsubs	s29, s30, s13
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 716              		.loc 1 38 0
+ 717 0698 07C08EE0 		add	ip, lr, r7
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 718              		.loc 1 58 0
+ 719 069c 01BADCED 		flds	s23, [ip, #4]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 720              		.loc 1 38 0
+ 721 06a0 0E2086E0 		add	r2, r6, lr
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 722              		.loc 1 60 0
+ 723 06a4 01AAD2ED 		flds	s21, [r2, #4]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 724              		.loc 1 38 0
+ 725 06a8 20008AE2 		add	r0, sl, #32
+ 726 06ac C0108DE2 		add	r1, sp, #192
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 727              		.loc 1 57 0
+ 728 06b0 003059E2 		subs	r3, r9, #0
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 729              		.loc 1 38 0
+ 730 06b4 0EA081E0 		add	sl, r1, lr
+ 731 06b8 0E7085E0 		add	r7, r5, lr
+ 732 06bc 0E8080E0 		add	r8, r0, lr
+ 733 06c0 019009E2 		and	r9, r9, #1
+ 734 06c4 04E08CE2 		add	lr, ip, #4
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 735              		.loc 1 58 0
+ 736 06c8 041087E2 		add	r1, r7, #4
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 737              		.loc 1 59 0
+ 738 06cc 04C082E2 		add	ip, r2, #4
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 739              		.loc 1 58 0
+ 740 06d0 044084E2 		add	r4, r4, #4
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 741              		.loc 1 59 0
+ 742 06d4 040088E2 		add	r0, r8, #4
+ 743              		.loc 1 61 0
+ 744 06d8 04208AE2 		add	r2, sl, #4
+ 745 06dc AE9A6EEE 		fmuls	s19, s29, s29
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 746              		.loc 1 59 0
+ 747 06e0 01EAC8ED 		fsts	s29, [r8, #4]
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 748              		.loc 1 58 0
+ 749 06e4 C7BA3BEE 		fsubs	s22, s23, s14
+ 750              		.loc 1 61 0
+ 751 06e8 0B9A4BEE 		fmacs	s19, s22, s22
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 752              		.loc 1 58 0
+ 753 06ec 01BA87ED 		fsts	s22, [r7, #4]
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 754              		.loc 1 60 0
+ 755 06f0 E79A3AEE 		fsubs	s18, s21, s15
+ 756              		.loc 1 61 0
+ 757 06f4 868A79EE 		fadds	s17, s19, s12
+ 758 06f8 098A49EE 		fmacs	s17, s18, s18
+ 759 06fc 018ACAED 		fsts	s17, [sl, #4]
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 760              		.loc 1 57 0
+ 761 0700 3C00000A 		beq	.L15
+ 762 0704 000059E3 		cmp	r9, #0
+ 763 0708 1400000A 		beq	.L16
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 764              		.loc 1 59 0
+ 765 070c 044084E2 		add	r4, r4, #4
+ 766 0710 00BAD4ED 		flds	s23, [r4, #0]
+ 767 0714 E6BA3BEE 		fsubs	s22, s23, s13
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 768              		.loc 1 58 0
+ 769 0718 04E08EE2 		add	lr, lr, #4
+ 770 071c 00AADEED 		flds	s21, [lr, #0]
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 771              		.loc 1 60 0
+ 772 0720 04C08CE2 		add	ip, ip, #4
+ 773 0724 009A9CED 		flds	s18, [ip, #0]
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 774              		.loc 1 57 0
+ 775 0728 013053E2 		subs	r3, r3, #1
+ 776              		.loc 1 61 0
+ 777 072c 0B8A6BEE 		fmuls	s17, s22, s22
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 778              		.loc 1 59 0
+ 779 0730 109A1BEE 		fmrs	r9, s22
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 780              		.loc 1 58 0
+ 781 0734 C79A7AEE 		fsubs	s19, s21, s14
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 782              		.loc 1 59 0
+ 783 0738 0490A0E5 		str	r9, [r0, #4]!	@ float
+ 784              		.loc 1 61 0
+ 785 073c A98A49EE 		fmacs	s17, s19, s19
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 786              		.loc 1 58 0
+ 787 0740 90AA19EE 		fmrs	sl, s19
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 788              		.loc 1 60 0
+ 789 0744 671A79EE 		fsubs	s3, s18, s15
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 790              		.loc 1 58 0
+ 791 0748 04A0A1E5 		str	sl, [r1, #4]!	@ float
+ 792              		.loc 1 61 0
+ 793 074c 865A78EE 		fadds	s11, s17, s12
+ 794 0750 A15A41EE 		fmacs	s11, s3, s3
+ 795 0754 908A15EE 		fmrs	r8, s11
+ 796 0758 0480A2E5 		str	r8, [r2, #4]!	@ float
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 797              		.loc 1 57 0
+ 798 075c 2500000A 		beq	.L15
+ 799              	.L16:
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 800              		.loc 1 59 0
+ 801 0760 012A94ED 		flds	s4, [r4, #4]
+ 802 0764 024A94ED 		flds	s8, [r4, #8]
+ 803 0768 662A72EE 		fsubs	s5, s4, s13
+ 804 076c 04A080E2 		add	sl, r0, #4
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 805              		.loc 1 58 0
+ 806 0770 010A9EED 		flds	s0, [lr, #4]
+ 807 0774 02EA9EED 		flds	s28, [lr, #8]
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 808              		.loc 1 60 0
+ 809 0778 013A9CED 		flds	s6, [ip, #4]
+ 810 077c 021ADCED 		flds	s3, [ip, #8]
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 811              		.loc 1 57 0
+ 812 0780 023053E2 		subs	r3, r3, #2
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 813              		.loc 1 58 0
+ 814 0784 04B084E2 		add	fp, r4, #4
+ 815 0788 048081E2 		add	r8, r1, #4
+ 816              		.loc 1 61 0
+ 817 078c 047082E2 		add	r7, r2, #4
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 818              		.loc 1 38 0
+ 819 0790 08E08EE2 		add	lr, lr, #8
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 820              		.loc 1 58 0
+ 821 0794 04408BE2 		add	r4, fp, #4
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 822              		.loc 1 59 0
+ 823 0798 08C08CE2 		add	ip, ip, #8
+ 824 079c 661A34EE 		fsubs	s2, s8, s13
+ 825 07a0 012AC0ED 		fsts	s5, [r0, #4]
+ 826 07a4 080080E2 		add	r0, r0, #8
+ 827              		.loc 1 61 0
+ 828 07a8 A22A62EE 		fmuls	s5, s5, s5
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 829              		.loc 1 59 0
+ 830 07ac 011A8AED 		fsts	s2, [sl, #4]
+ 831              		.loc 1 61 0
+ 832 07b0 011A21EE 		fmuls	s2, s2, s2
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 833              		.loc 1 58 0
+ 834 07b4 475A70EE 		fsubs	s11, s0, s14
+ 835 07b8 473A7EEE 		fsubs	s7, s28, s14
+ 836 07bc 015AC1ED 		fsts	s11, [r1, #4]
+ 837 07c0 081081E2 		add	r1, r1, #8
+ 838              		.loc 1 61 0
+ 839 07c4 A52A45EE 		fmacs	s5, s11, s11
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 840              		.loc 1 58 0
+ 841 07c8 013AC8ED 		fsts	s7, [r8, #4]
+ 842              		.loc 1 61 0
+ 843 07cc A31A03EE 		fmacs	s2, s7, s7
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 844              		.loc 1 60 0
+ 845 07d0 670A73EE 		fsubs	s1, s6, s15
+ 846              		.loc 1 61 0
+ 847 07d4 865A32EE 		fadds	s10, s5, s12
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 848              		.loc 1 60 0
+ 849 07d8 E74A71EE 		fsubs	s9, s3, s15
+ 850              		.loc 1 61 0
+ 851 07dc 06FA71EE 		fadds	s31, s2, s12
+ 852 07e0 A05A00EE 		fmacs	s10, s1, s1
+ 853 07e4 A4FA44EE 		fmacs	s31, s9, s9
+ 854 07e8 015A82ED 		fsts	s10, [r2, #4]
+ 855 07ec 082082E2 		add	r2, r2, #8
+ 856 07f0 01FAC7ED 		fsts	s31, [r7, #4]
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 857              		.loc 1 57 0
+ 858 07f4 D9FFFF1A 		bne	.L16
+ 859              	.L15:
+  62:main.c        **** 	    }
+  63:main.c        **** 	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
+  64:main.c        **** 	      invr[j] = 1.0f/sqrtf(in_sqrt[j]);
+ 860              		.loc 1 64 0
+ 861 07f8 005AF7EE 		fconsts	s11, #112
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 862              		.loc 1 38 0
+ 863 07fc D0308DE2 		add	r3, sp, #208
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 864              		.loc 1 57 0
+ 865 0800 BEED8DE2 		add	lr, sp, #12160
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 866              		.loc 1 38 0
+ 867 0804 3E4D83E2 		add	r4, r3, #3968
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 868              		.loc 1 57 0
+ 869 0808 20C08EE2 		add	ip, lr, #32
+ 870 080c BC308DE2 		add	r3, sp, #188
+ 871 0810 04204CE2 		sub	r2, ip, #4
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 872              		.loc 1 38 0
+ 873 0814 0C1084E2 		add	r1, r4, #12
+ 874              	.L17:
+ 875              		.loc 1 64 0 discriminator 2
+ 876 0818 011AD3ED 		flds	s3, [r3, #4]
+ 877 081c 021A93ED 		flds	s2, [r3, #8]
+ 878 0820 030AD3ED 		flds	s1, [r3, #12]
+ 879 0824 044AD3ED 		flds	s9, [r3, #16]
+ 880 0828 055A93ED 		flds	s10, [r3, #20]
+ 881 082c 06FAD3ED 		flds	s31, [r3, #24]
+ 882 0830 07FA93ED 		flds	s30, [r3, #28]
+ 883 0834 203083E2 		add	r3, r3, #32
+ 884 0838 00EAD3ED 		flds	s29, [r3, #0]
+ 885 083c EE8AB1EE 		fsqrts	s16, s29
+  63:main.c        **** 	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 886              		.loc 1 63 0 discriminator 2
+ 887 0840 010053E1 		cmp	r3, r1
+ 888              		.loc 1 64 0 discriminator 2
+ 889 0844 E1BAF1EE 		fsqrts	s23, s3
+ 890 0848 C1BAB1EE 		fsqrts	s22, s2
+ 891 084c E0AAF1EE 		fsqrts	s21, s1
+ 892 0850 E49AF1EE 		fsqrts	s19, s9
+ 893 0854 C59AB1EE 		fsqrts	s18, s10
+ 894 0858 EF8AF1EE 		fsqrts	s17, s31
+ 895 085c CFAAB1EE 		fsqrts	s20, s30
+ 896 0860 888A85EE 		fdivs	s16, s11, s16
+ 897 0864 ABBAC5EE 		fdivs	s23, s11, s23
+ 898 0868 100A18EE 		fmrs	r0, s16
+ 899 086c 8BBA85EE 		fdivs	s22, s11, s22
+ 900 0870 01BAC2ED 		fsts	s23, [r2, #4]
+ 901 0874 AAAAC5EE 		fdivs	s21, s11, s21
+ 902 0878 02BA82ED 		fsts	s22, [r2, #8]
+ 903 087c A99AC5EE 		fdivs	s19, s11, s19
+ 904 0880 03AAC2ED 		fsts	s21, [r2, #12]
+ 905 0884 899A85EE 		fdivs	s18, s11, s18
+ 906 0888 049AC2ED 		fsts	s19, [r2, #16]
+ 907 088c A88AC5EE 		fdivs	s17, s11, s17
+ 908 0890 059A82ED 		fsts	s18, [r2, #20]
+ 909 0894 8AAA85EE 		fdivs	s20, s11, s20
+ 910 0898 068AC2ED 		fsts	s17, [r2, #24]
+ 911 089c 07AA82ED 		fsts	s20, [r2, #28]
+ 912 08a0 2000A2E5 		str	r0, [r2, #32]!	@ float
+  63:main.c        **** 	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 913              		.loc 1 63 0 discriminator 2
+ 914 08a4 DBFFFF1A 		bne	.L17
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 915              		.loc 1 38 0
+ 916 08a8 5000C0F2 		vmov.f32	q8, #0.0  @ v4sf
+  63:main.c        **** 	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 917              		.loc 1 63 0
+ 918 08ac 003000E3 		movw	r3, #:lower16:m
+ 919 08b0 BE1D8DE2 		add	r1, sp, #12160
+ 920 08b4 412D8DE2 		add	r2, sp, #4160
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 921              		.loc 1 38 0
+ 922 08b8 F04160F2 		vmov	q10, q8  @ v4sf
+  63:main.c        **** 	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 923              		.loc 1 63 0
+ 924 08bc 28009DE5 		ldr	r0, [sp, #40]
+ 925 08c0 003040E3 		movt	r3, #:upper16:m
+ 926 08c4 201081E2 		add	r1, r1, #32
+ 927 08c8 202082E2 		add	r2, r2, #32
+ 928              	.L18:
+  65:main.c        **** //	      invr3 = invr*invr*invr;
+  66:main.c        **** 	    }
+  67:main.c        **** 	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 929              		.loc 1 68 0 discriminator 2
+ 930 08cc 01A0A0E1 		mov	sl, r1
+ 931 08d0 0340A0E1 		mov	r4, r3
+ 932 08d4 04EBB4EC 		vldmia	r4!, {d14-d15}
+ 933 08d8 04ABD3ED 		vldr	d26, [r3, #16]
+ 934 08dc 06BBD3ED 		vldr	d27, [r3, #24]
+ 935 08e0 8D2A6AF4 		vld1.32	{q9}, [sl]!
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 936              		.loc 1 69 0 discriminator 2
+ 937 08e4 0080A0E1 		mov	r8, r0
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 938              		.loc 1 68 0 discriminator 2
+ 939 08e8 DE8D42F3 		vmul.f32	q12, q9, q7
+  70:main.c        **** 	      ay += f*dy[j];
+ 940              		.loc 1 70 0 discriminator 2
+ 941 08ec 0290A0E1 		mov	r9, r2
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 942              		.loc 1 68 0 discriminator 2
+ 943 08f0 8D2A2AF4 		vld1.32	{q1}, [sl]!
+ 944 08f4 04CBD4ED 		vldr	d28, [r4, #16]
+ 945 08f8 06DBD4ED 		vldr	d29, [r4, #24]
+ 946 08fc 7AAD02F3 		vmul.f32	q5, q1, q13
+ 947 0900 0CEB93ED 		vldr	d14, [r3, #48]
+ 948 0904 0EFB93ED 		vldr	d15, [r3, #56]
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 949              		.loc 1 69 0 discriminator 2
+ 950 0908 8D0A28F4 		vld1.32	{q0}, [r8]!
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 951              		.loc 1 68 0 discriminator 2
+ 952 090c 108B93ED 		vldr	d8, [r3, #64]
+ 953 0910 129B93ED 		vldr	d9, [r3, #72]
+ 954 0914 128B8DED 		vstr	d8, [sp, #72]
+ 955 0918 149B8DED 		vstr	d9, [sp, #80]
+ 956 091c 30E081E2 		add	lr, r1, #48
+ 957 0920 F2AD48F3 		vmul.f32	q13, q12, q9
+ 958              		.loc 1 70 0 discriminator 2
+ 959 0924 8D8A29F4 		vld1.32	{q4}, [r9]!
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 960              		.loc 1 68 0 discriminator 2
+ 961 0928 40C081E2 		add	ip, r1, #64
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 962              		.loc 1 69 0 discriminator 2
+ 963 092c 304080E2 		add	r4, r0, #48
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 964              		.loc 1 68 0 discriminator 2
+ 965 0930 8F8A6AF4 		vld1.32	{q12}, [sl]
+ 966              		.loc 1 70 0 discriminator 2
+ 967 0934 30A082E2 		add	sl, r2, #48
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 968              		.loc 1 68 0 discriminator 2
+ 969 0938 FC6D48F3 		vmul.f32	q11, q12, q14
+ 970              		.loc 1 70 0 discriminator 2
+ 971 093c D4721FE5 		ldr	r7, .L78+40
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 972              		.loc 1 69 0 discriminator 2
+ 973 0940 8DEA68F4 		vld1.32	{q15}, [r8]!
+ 974 0944 06EBCDED 		vstr	d30, [sp, #24]
+ 975 0948 08FBCDED 		vstr	d31, [sp, #32]
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 976              		.loc 1 68 0 discriminator 2
+ 977 094c 52ED4AF3 		vmul.f32	q15, q5, q1
+ 978              		.loc 1 70 0 discriminator 2
+ 979 0950 503083E2 		add	r3, r3, #80
+ 980 0954 8D4A29F4 		vld1.32	{q2}, [r9]!
+ 981 0958 0A4B8DED 		vstr	d4, [sp, #40]
+ 982 095c 0C5B8DED 		vstr	d5, [sp, #48]
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 983              		.loc 1 68 0 discriminator 2
+ 984 0960 F2AD0AF3 		vmul.f32	q5, q13, q9
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 985              		.loc 1 69 0 discriminator 2
+ 986 0964 062BDDED 		vldr	d18, [sp, #24]
+ 987 0968 083BDDED 		vldr	d19, [sp, #32]
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 988              		.loc 1 68 0 discriminator 2
+ 989 096c 8FAA6EF4 		vld1.32	{q13}, [lr]
+ 990              		.loc 1 70 0 discriminator 2
+ 991 0970 070053E1 		cmp	r3, r7
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 992              		.loc 1 68 0 discriminator 2
+ 993 0974 F84D06F3 		vmul.f32	q2, q11, q12
+ 994              		.loc 1 70 0 discriminator 2
+ 995 0978 407082E2 		add	r7, r2, #64
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 996              		.loc 1 69 0 discriminator 2
+ 997 097c 8FCA68F4 		vld1.32	{q14}, [r8]
+ 998 0980 0ECBCDED 		vstr	d28, [sp, #56]
+ 999 0984 10DBCDED 		vstr	d29, [sp, #64]
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 1000              		.loc 1 68 0 discriminator 2
+ 1001 0988 D26D4EF3 		vmul.f32	q11, q15, q1
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 1002              		.loc 1 69 0 discriminator 2
+ 1003 098c 408080E2 		add	r8, r0, #64
+ 1004              		.loc 1 70 0 discriminator 2
+ 1005 0990 8F2A29F4 		vld1.32	{q1}, [r9]
+ 1006 0994 501081E2 		add	r1, r1, #80
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 1007              		.loc 1 69 0 discriminator 2
+ 1008 0998 504D4AF2 		vmla.f32	q10, q5, q0
+ 1009              		.loc 1 70 0 discriminator 2
+ 1010 099c 500080E2 		add	r0, r0, #80
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 1011              		.loc 1 68 0 discriminator 2
+ 1012 09a0 8FCA6CF4 		vld1.32	{q14}, [ip]
+ 1013              		.loc 1 70 0 discriminator 2
+ 1014 09a4 502082E2 		add	r2, r2, #80
+ 1015 09a8 580D4AF2 		vmla.f32	q8, q5, q4
+ 1016              	.LVL12:
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 1017              		.loc 1 69 0 discriminator 2
+ 1018 09ac 8F0A24F4 		vld1.32	{q0}, [r4]
+ 1019              		.loc 1 70 0 discriminator 2
+ 1020 09b0 8F8A2AF4 		vld1.32	{q4}, [sl]
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 1021              		.loc 1 69 0 discriminator 2
+ 1022 09b4 8FAA28F4 		vld1.32	{q5}, [r8]
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 1023              		.loc 1 68 0 discriminator 2
+ 1024 09b8 DEED4AF3 		vmul.f32	q15, q13, q7
+ 1025              		.loc 1 70 0 discriminator 2
+ 1026 09bc 8FEA27F4 		vld1.32	{q7}, [r7]
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 1027              		.loc 1 69 0 discriminator 2
+ 1028 09c0 F24D46F2 		vmla.f32	q10, q11, q9
+ 1029              		.loc 1 70 0 discriminator 2
+ 1030 09c4 0A2BDDED 		vldr	d18, [sp, #40]
+ 1031 09c8 0C3BDDED 		vldr	d19, [sp, #48]
+ 1032 09cc F20D46F2 		vmla.f32	q8, q11, q9
+ 1033              	.LVL13:
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 1034              		.loc 1 68 0 discriminator 2
+ 1035 09d0 782D44F3 		vmul.f32	q9, q2, q12
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 1036              		.loc 1 69 0 discriminator 2
+ 1037 09d4 0E4B9DED 		vldr	d4, [sp, #56]
+ 1038 09d8 105B9DED 		vldr	d5, [sp, #64]
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 1039              		.loc 1 68 0 discriminator 2
+ 1040 09dc 128BDDED 		vldr	d24, [sp, #72]
+ 1041 09e0 149BDDED 		vldr	d25, [sp, #80]
+ 1042 09e4 FA6D4EF3 		vmul.f32	q11, q15, q13
+ 1043 09e8 F8ED4CF3 		vmul.f32	q15, q14, q12
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 1044              		.loc 1 69 0 discriminator 2
+ 1045 09ec D44D42F2 		vmla.f32	q10, q9, q2
+ 1046              		.loc 1 70 0 discriminator 2
+ 1047 09f0 D20D42F2 		vmla.f32	q8, q9, q1
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 1048              		.loc 1 68 0 discriminator 2
+ 1049 09f4 FAAD46F3 		vmul.f32	q13, q11, q13
+ 1050 09f8 FC8D4EF3 		vmul.f32	q12, q15, q14
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 1051              		.loc 1 69 0 discriminator 2
+ 1052 09fc D04D4AF2 		vmla.f32	q10, q13, q0
+ 1053              		.loc 1 70 0 discriminator 2
+ 1054 0a00 D80D4AF2 		vmla.f32	q8, q13, q4
+  68:main.c        **** 	      f=m[j]*invr[j]*invr[j]*invr[j];
+ 1055              		.loc 1 68 0 discriminator 2
+ 1056 0a04 FC6D48F3 		vmul.f32	q11, q12, q14
+  69:main.c        **** 	      ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 1057              		.loc 1 69 0 discriminator 2
+ 1058 0a08 DA4D46F2 		vmla.f32	q10, q11, q5
+ 1059              		.loc 1 70 0 discriminator 2
+ 1060 0a0c DE0D46F2 		vmla.f32	q8, q11, q7
+ 1061 0a10 ADFFFF1A 		bne	.L18
+  71:main.c        **** 	      az += f*dx[j];
+  72:main.c        ****       }
+  73:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 1062              		.loc 1 73 0
+ 1063 0a14 CB5ADFED 		flds	s11, .L81
+  74:main.c        ****       ynew[i] = y[i] + dt*vy[i] + 0.5f*dt*dt*ay;
+ 1064              		.loc 1 74 0
+ 1065 0a18 6C909DE5 		ldr	r9, [sp, #108]
+ 1066 0a1c 003A99ED 		flds	s6, [r9, #0]
+ 1067 0a20 256A43EE 		fmacs	s13, s6, s11
+  70:main.c        **** 	      ay += f*dy[j];
+ 1068              		.loc 1 70 0
+ 1069 0a24 A57D44F2 		vadd.f32	d23, d20, d21
+  73:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 1070              		.loc 1 73 0
+ 1071 0a28 68109DE5 		ldr	r1, [sp, #104]
+  70:main.c        **** 	      ay += f*dy[j];
+ 1072              		.loc 1 70 0
+ 1073 0a2c A15D40F2 		vadd.f32	d21, d16, d17
+  73:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 1074              		.loc 1 73 0
+ 1075 0a30 000AD1ED 		flds	s1, [r1, #0]
+  70:main.c        **** 	      ay += f*dy[j];
+ 1076              		.loc 1 70 0
+ 1077 0a34 A73D47F3 		vpadd.f32	d19, d23, d23
+  75:main.c        ****       znew[i] = z[i] + dt*vz[i] + 0.5f*dt*dt*az;
+ 1078              		.loc 1 75 0
+ 1079 0a38 70209DE5 		ldr	r2, [sp, #112]
+  70:main.c        **** 	      ay += f*dy[j];
+ 1080              		.loc 1 70 0
+ 1081 0a3c A51D45F3 		vpadd.f32	d17, d21, d21
+ 1082 0a40 1E4BDDED 		vldr	d20, [sp, #120]
+ 1083 0a44 205BDDED 		vldr	d21, [sp, #128]
+ 1084              		.loc 1 75 0
+ 1085 0a48 005A92ED 		flds	s10, [r2, #0]
+  73:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 1086              		.loc 1 73 0
+ 1087 0a4c BE1ADFED 		flds	s3, .L81+4
+  70:main.c        **** 	      ay += f*dy[j];
+ 1088              		.loc 1 70 0
+ 1089 0a50 226BDDED 		vldr	d22, [sp, #136]
+ 1090 0a54 247BDDED 		vldr	d23, [sp, #144]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1091              		.loc 1 38 0
+ 1092 0a58 5C409DE5 		ldr	r4, [sp, #92]
+ 1093 0a5c A8009DE5 		ldr	r0, [sp, #168]
+  70:main.c        **** 	      ay += f*dy[j];
+ 1094              		.loc 1 70 0
+ 1095 0a60 B36163F2 		vmov	d22, d19
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1096              		.loc 1 38 0
+ 1097 0a64 A4C09DE5 		ldr	ip, [sp, #164]
+  70:main.c        **** 	      ay += f*dy[j];
+ 1098              		.loc 1 70 0
+ 1099 0a68 B14161F2 		vmov	d20, d17
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1100              		.loc 1 38 0
+ 1101 0a6c 009084E0 		add	r9, r4, r0
+  70:main.c        **** 	      ay += f*dy[j];
+ 1102              		.loc 1 70 0
+ 1103 0a70 90EB16EE 		vmov.32	lr, d22[0]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1104              		.loc 1 38 0
+ 1105 0a74 A0309DE5 		ldr	r3, [sp, #160]
+  70:main.c        **** 	      ay += f*dy[j];
+ 1106              		.loc 1 70 0
+ 1107 0a78 908B14EE 		vmov.32	r8, d20[0]
+  76:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
+  77:main.c        ****       vy[i] += dt*ay;
+  78:main.c        ****       vz[i] += dt*az;
+ 1108              		.loc 1 78 0
+ 1109 0a7c 5C709DE5 		ldr	r7, [sp, #92]
+  70:main.c        **** 	      ay += f*dy[j];
+ 1110              		.loc 1 70 0
+ 1111 0a80 90EA04EE 		fmsr	s9, lr
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1112              		.loc 1 38 0
+ 1113 0a84 0C2084E0 		add	r2, r4, ip
+  70:main.c        **** 	      ay += f*dy[j];
+ 1114              		.loc 1 70 0
+ 1115 0a88 108A01EE 		fmsr	s2, r8
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1116              		.loc 1 38 0
+ 1117 0a8c 03C084E0 		add	ip, r4, r3
+ 1118              		.loc 1 78 0
+ 1119 0a90 04A087E2 		add	sl, r7, #4
+  77:main.c        ****       vy[i] += dt*ay;
+ 1120              		.loc 1 77 0
+ 1121 0a94 6C109DE5 		ldr	r1, [sp, #108]
+  76:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
+ 1122              		.loc 1 76 0
+ 1123 0a98 68009DE5 		ldr	r0, [sp, #104]
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 1124              		.loc 1 53 0
+ 1125 0a9c FA0E5AE3 		cmp	sl, #4000
+ 1126              		.loc 1 78 0
+ 1127 0aa0 70309DE5 		ldr	r3, [sp, #112]
+  70:main.c        **** 	      ay += f*dy[j];
+ 1128              		.loc 1 70 0
+ 1129 0aa4 226BCDED 		vstr	d22, [sp, #136]
+ 1130 0aa8 247BCDED 		vstr	d23, [sp, #144]
+ 1131              		.loc 1 78 0
+ 1132 0aac 5CA08DE5 		str	sl, [sp, #92]
+  70:main.c        **** 	      ay += f*dy[j];
+ 1133              		.loc 1 70 0
+ 1134 0ab0 1E4BCDED 		vstr	d20, [sp, #120]
+ 1135 0ab4 205BCDED 		vstr	d21, [sp, #128]
+  73:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 1136              		.loc 1 73 0
+ 1137 0ab8 A57A00EE 		fmacs	s14, s1, s11
+  74:main.c        ****       ynew[i] = y[i] + dt*vy[i] + 0.5f*dt*dt*ay;
+ 1138              		.loc 1 74 0
+ 1139 0abc 216A41EE 		fmacs	s13, s2, s3
+  75:main.c        ****       znew[i] = z[i] + dt*vz[i] + 0.5f*dt*dt*az;
+ 1140              		.loc 1 75 0
+ 1141 0ac0 257A45EE 		fmacs	s15, s10, s11
+  74:main.c        ****       ynew[i] = y[i] + dt*vy[i] + 0.5f*dt*dt*ay;
+ 1142              		.loc 1 74 0
+ 1143 0ac4 006AC9ED 		fsts	s13, [r9, #0]
+  73:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 1144              		.loc 1 73 0
+ 1145 0ac8 A13A64EE 		fmuls	s7, s9, s3
+  76:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
+ 1146              		.loc 1 76 0
+ 1147 0acc A54A64EE 		fmuls	s9, s9, s11
+  77:main.c        ****       vy[i] += dt*ay;
+ 1148              		.loc 1 77 0
+ 1149 0ad0 253A01EE 		fmacs	s6, s2, s11
+  73:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 1150              		.loc 1 73 0
+ 1151 0ad4 232A77EE 		fadds	s5, s14, s7
+  77:main.c        ****       vy[i] += dt*ay;
+ 1152              		.loc 1 77 0
+ 1153 0ad8 013AA1EC 		fstmias	r1!, {s6}
+ 1154 0adc 6C108DE5 		str	r1, [sp, #108]
+  75:main.c        ****       znew[i] = z[i] + dt*vz[i] + 0.5f*dt*dt*az;
+ 1155              		.loc 1 75 0
+ 1156 0ae0 A37A77EE 		fadds	s15, s15, s7
+  73:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 1157              		.loc 1 73 0
+ 1158 0ae4 002AC2ED 		fsts	s5, [r2, #0]
+  76:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
+ 1159              		.loc 1 76 0
+ 1160 0ae8 A07A34EE 		fadds	s14, s9, s1
+  75:main.c        ****       znew[i] = z[i] + dt*vz[i] + 0.5f*dt*dt*az;
+ 1161              		.loc 1 75 0
+ 1162 0aec 007ACCED 		fsts	s15, [ip, #0]
+ 1163              		.loc 1 78 0
+ 1164 0af0 856A74EE 		fadds	s13, s9, s10
+  76:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
+ 1165              		.loc 1 76 0
+ 1166 0af4 017AA0EC 		fstmias	r0!, {s14}
+ 1167 0af8 68008DE5 		str	r0, [sp, #104]
+ 1168              		.loc 1 78 0
+ 1169 0afc 016AE3EC 		fstmias	r3!, {s13}
+ 1170 0b00 70308DE5 		str	r3, [sp, #112]
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 1171              		.loc 1 53 0
+ 1172 0b04 1EFEFF1A 		bne	.L25
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1173              		.loc 1 38 0
+ 1174 0b08 003000E3 		movw	r3, #:lower16:z
+ 1175 0b0c 00E000E3 		movw	lr, #:lower16:xnew
+ 1176 0b10 003040E3 		movt	r3, #:upper16:z
+ 1177 0b14 00C000E3 		movw	ip, #:lower16:x
+ 1178 0b18 000000E3 		movw	r0, #:lower16:ynew
+ 1179 0b1c 001000E3 		movw	r1, #:lower16:y
+ 1180 0b20 002000E3 		movw	r2, #:lower16:znew
+ 1181 0b24 00E040E3 		movt	lr, #:upper16:xnew
+ 1182 0b28 00C040E3 		movt	ip, #:upper16:x
+ 1183 0b2c 000040E3 		movt	r0, #:upper16:ynew
+ 1184 0b30 001040E3 		movt	r1, #:upper16:y
+ 1185 0b34 002040E3 		movt	r2, #:upper16:znew
+ 1186 0b38 FA9E83E2 		add	r9, r3, #4000
+ 1187              	.L23:
+  79:main.c        ****     }
+  80:main.c        ****     for(i=0;i<N;i++) { /* copy updated positions back into original arrays */
+  81:main.c        ****       x[i] = xnew[i];
+  82:main.c        ****       y[i] = ynew[i];
+  83:main.c        ****       z[i] = znew[i];
+ 1188              		.loc 1 83 0 discriminator 2
+ 1189 0b3c 046BD2ED 		vldr	d22, [r2, #16]
+ 1190 0b40 067BD2ED 		vldr	d23, [r2, #24]
+ 1191 0b44 0240A0E1 		mov	r4, r2
+ 1192 0b48 03A0A0E1 		mov	sl, r3
+ 1193 0b4c 040BF4EC 		vldmia	r4!, {d16-d17}
+ 1194 0b50 040BEAEC 		vstmia	sl!, {d16-d17}
+ 1195 0b54 0CABD2ED 		vldr	d26, [r2, #48]
+ 1196 0b58 0EBBD2ED 		vldr	d27, [r2, #56]
+ 1197 0b5c 046BC3ED 		vstr	d22, [r3, #16]
+ 1198 0b60 067BC3ED 		vstr	d23, [r3, #24]
+ 1199 0b64 102B92ED 		vldr	d2, [r2, #64]
+ 1200 0b68 123B92ED 		vldr	d3, [r2, #72]
+ 1201 0b6c 044B94ED 		vldr	d4, [r4, #16]
+ 1202 0b70 065B94ED 		vldr	d5, [r4, #24]
+ 1203 0b74 044B8AED 		vstr	d4, [sl, #16]
+ 1204 0b78 065B8AED 		vstr	d5, [sl, #24]
+ 1205 0b7c 0CABC3ED 		vstr	d26, [r3, #48]
+ 1206 0b80 0EBBC3ED 		vstr	d27, [r3, #56]
+ 1207 0b84 102B83ED 		vstr	d2, [r3, #64]
+ 1208 0b88 123B83ED 		vstr	d3, [r3, #72]
+ 1209 0b8c 503083E2 		add	r3, r3, #80
+  81:main.c        ****       x[i] = xnew[i];
+ 1210              		.loc 1 81 0 discriminator 2
+ 1211 0b90 0EA0A0E1 		mov	sl, lr
+ 1212              		.loc 1 83 0 discriminator 2
+ 1213 0b94 090053E1 		cmp	r3, r9
+  81:main.c        ****       x[i] = xnew[i];
+ 1214              		.loc 1 81 0 discriminator 2
+ 1215 0b98 048BFAEC 		vldmia	sl!, {d24-d25}
+ 1216 0b9c 0C70A0E1 		mov	r7, ip
+  82:main.c        ****       y[i] = ynew[i];
+ 1217              		.loc 1 82 0 discriminator 2
+ 1218 0ba0 0080A0E1 		mov	r8, r0
+ 1219 0ba4 0140A0E1 		mov	r4, r1
+ 1220 0ba8 040BB8EC 		vldmia	r8!, {d0-d1}
+ 1221              		.loc 1 83 0 discriminator 2
+ 1222 0bac 502082E2 		add	r2, r2, #80
+  81:main.c        ****       x[i] = xnew[i];
+ 1223              		.loc 1 81 0 discriminator 2
+ 1224 0bb0 048BE7EC 		vstmia	r7!, {d24-d25}
+  82:main.c        ****       y[i] = ynew[i];
+ 1225              		.loc 1 82 0 discriminator 2
+ 1226 0bb4 040BA4EC 		vstmia	r4!, {d0-d1}
+  81:main.c        ****       x[i] = xnew[i];
+ 1227              		.loc 1 81 0 discriminator 2
+ 1228 0bb8 044BDEED 		vldr	d20, [lr, #16]
+ 1229 0bbc 065BDEED 		vldr	d21, [lr, #24]
+  82:main.c        ****       y[i] = ynew[i];
+ 1230              		.loc 1 82 0 discriminator 2
+ 1231 0bc0 04CBD0ED 		vldr	d28, [r0, #16]
+ 1232 0bc4 06DBD0ED 		vldr	d29, [r0, #24]
+  81:main.c        ****       x[i] = xnew[i];
+ 1233              		.loc 1 81 0 discriminator 2
+ 1234 0bc8 044BCCED 		vstr	d20, [ip, #16]
+ 1235 0bcc 065BCCED 		vstr	d21, [ip, #24]
+  82:main.c        ****       y[i] = ynew[i];
+ 1236              		.loc 1 82 0 discriminator 2
+ 1237 0bd0 04CBC1ED 		vstr	d28, [r1, #16]
+ 1238 0bd4 06DBC1ED 		vstr	d29, [r1, #24]
+  81:main.c        ****       x[i] = xnew[i];
+ 1239              		.loc 1 81 0 discriminator 2
+ 1240 0bd8 0C0BDEED 		vldr	d16, [lr, #48]
+ 1241 0bdc 0E1BDEED 		vldr	d17, [lr, #56]
+  82:main.c        ****       y[i] = ynew[i];
+ 1242              		.loc 1 82 0 discriminator 2
+ 1243 0be0 0C6BD0ED 		vldr	d22, [r0, #48]
+ 1244 0be4 0E7BD0ED 		vldr	d23, [r0, #56]
+  81:main.c        ****       x[i] = xnew[i];
+ 1245              		.loc 1 81 0 discriminator 2
+ 1246 0be8 104B9EED 		vldr	d4, [lr, #64]
+ 1247 0bec 125B9EED 		vldr	d5, [lr, #72]
+  82:main.c        ****       y[i] = ynew[i];
+ 1248              		.loc 1 82 0 discriminator 2
+ 1249 0bf0 10ABD0ED 		vldr	d26, [r0, #64]
+ 1250 0bf4 12BBD0ED 		vldr	d27, [r0, #72]
+  81:main.c        ****       x[i] = xnew[i];
+ 1251              		.loc 1 81 0 discriminator 2
+ 1252 0bf8 042BDAED 		vldr	d18, [sl, #16]
+ 1253 0bfc 063BDAED 		vldr	d19, [sl, #24]
+  82:main.c        ****       y[i] = ynew[i];
+ 1254              		.loc 1 82 0 discriminator 2
+ 1255 0c00 04EBD8ED 		vldr	d30, [r8, #16]
+ 1256 0c04 06FBD8ED 		vldr	d31, [r8, #24]
+  81:main.c        ****       x[i] = xnew[i];
+ 1257              		.loc 1 81 0 discriminator 2
+ 1258 0c08 50E08EE2 		add	lr, lr, #80
+ 1259 0c0c 042BC7ED 		vstr	d18, [r7, #16]
+ 1260 0c10 063BC7ED 		vstr	d19, [r7, #24]
+  82:main.c        ****       y[i] = ynew[i];
+ 1261              		.loc 1 82 0 discriminator 2
+ 1262 0c14 500080E2 		add	r0, r0, #80
+ 1263 0c18 04EBC4ED 		vstr	d30, [r4, #16]
+ 1264 0c1c 06FBC4ED 		vstr	d31, [r4, #24]
+  81:main.c        ****       x[i] = xnew[i];
+ 1265              		.loc 1 81 0 discriminator 2
+ 1266 0c20 0C0BCCED 		vstr	d16, [ip, #48]
+ 1267 0c24 0E1BCCED 		vstr	d17, [ip, #56]
+  82:main.c        ****       y[i] = ynew[i];
+ 1268              		.loc 1 82 0 discriminator 2
+ 1269 0c28 0C6BC1ED 		vstr	d22, [r1, #48]
+ 1270 0c2c 0E7BC1ED 		vstr	d23, [r1, #56]
+  81:main.c        ****       x[i] = xnew[i];
+ 1271              		.loc 1 81 0 discriminator 2
+ 1272 0c30 104B8CED 		vstr	d4, [ip, #64]
+ 1273 0c34 125B8CED 		vstr	d5, [ip, #72]
+  82:main.c        ****       y[i] = ynew[i];
+ 1274              		.loc 1 82 0 discriminator 2
+ 1275 0c38 10ABC1ED 		vstr	d26, [r1, #64]
+ 1276 0c3c 12BBC1ED 		vstr	d27, [r1, #72]
+  81:main.c        ****       x[i] = xnew[i];
+ 1277              		.loc 1 81 0 discriminator 2
+ 1278 0c40 50C08CE2 		add	ip, ip, #80
+  82:main.c        ****       y[i] = ynew[i];
+ 1279              		.loc 1 82 0 discriminator 2
+ 1280 0c44 501081E2 		add	r1, r1, #80
+ 1281              		.loc 1 83 0 discriminator 2
+ 1282 0c48 BBFFFF1A 		bne	.L23
+  52:main.c        ****   for (s=0; s<STEPS; s++) {
+ 1283              		.loc 1 52 0
+ 1284 0c4c B0909DE5 		ldr	r9, [sp, #176]
+ 1285 0c50 011059E2 		subs	r1, r9, #1
+ 1286 0c54 B0108DE5 		str	r1, [sp, #176]
+ 1287 0c58 BAFDFF1A 		bne	.L13
+  84:main.c        ****     }
+  85:main.c        ****   }
+  86:main.c        ****   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t2);
+ 1288              		.loc 1 86 0
+ 1289 0c5c FD1D8DE2 		add	r1, sp, #16192
+ 1290 0c60 0200A0E3 		mov	r0, #2
+ 1291 0c64 FEFFFFEB 		bl	clock_gettime
+  87:main.c        ****   
+  88:main.c        ****   // Print results to file so we can compare to ensure optimizations do not alter functionality
+  89:main.c        ****   fp = fopen(outputFilename, "w");
+ 1292              		.loc 1 89 0
+ 1293 0c68 000000E3 		movw	r0, #:lower16:.LC0
+ 1294 0c6c 001000E3 		movw	r1, #:lower16:.LC1
+ 1295 0c70 000040E3 		movt	r0, #:upper16:.LC0
+ 1296 0c74 001040E3 		movt	r1, #:upper16:.LC1
+ 1297 0c78 FEFFFFEB 		bl	fopen
+ 1298              	.LVL14:
+  90:main.c        ****   if (fp == NULL) {
+ 1299              		.loc 1 90 0
+ 1300 0c7c 005050E2 		subs	r5, r0, #0
+ 1301 0c80 6900000A 		beq	.L77
+ 1302 0c84 0580A0E1 		mov	r8, r5
+ 1303 0c88 B4508DE2 		add	r5, sp, #180
+ 1304 0c8c FA4FA0E3 		mov	r4, #1000
+ 1305 0c90 E00095E8 		ldmia	r5, {r5, r6, r7}
+ 1306              	.LVL15:
+ 1307              	.L26:
+  91:main.c        ****     fprintf(stderr, "Can't open output file %s!\n", outputFilename);
+  92:main.c        ****     exit(1);
+  93:main.c        ****   }
+  94:main.c        ****   for (i=0; i<N; i++) {
+  95:main.c        **** 	fprintf(fp, "%f %f %f\n", x[i], y[i], z[i]);
+ 1308              		.loc 1 95 0 discriminator 2
+ 1309 0c94 045085E2 		add	r5, r5, #4
+ 1310 0c98 006A95ED 		flds	s12, [r5, #0]
+ 1311 0c9c C6BAF7EE 		fcvtds	d27, s12
+ 1312 0ca0 047087E2 		add	r7, r7, #4
+ 1313 0ca4 046086E2 		add	r6, r6, #4
+ 1314 0ca8 006AD7ED 		flds	s13, [r7, #0]
+ 1315 0cac 007A96ED 		flds	s14, [r6, #0]
+ 1316 0cb0 001000E3 		movw	r1, #:lower16:.LC3
+ 1317 0cb4 0800A0E1 		mov	r0, r8
+ 1318 0cb8 001040E3 		movt	r1, #:upper16:.LC3
+ 1319 0cbc 0790A0E1 		mov	r9, r7
+ 1320 0cc0 E6DAF7EE 		fcvtds	d29, s13
+ 1321 0cc4 3B2B53EC 		fmrrd	r2, r3, d27
+ 1322 0cc8 C79AF7EE 		fcvtds	d25, s14
+ 1323 0ccc 00DBCDED 		fstd	d29, [sp, #0]
+ 1324 0cd0 029BCDED 		fstd	d25, [sp, #8]
+ 1325 0cd4 FEFFFFEB 		bl	fprintf
+  94:main.c        ****   for (i=0; i<N; i++) {
+ 1326              		.loc 1 94 0 discriminator 2
+ 1327 0cd8 014054E2 		subs	r4, r4, #1
+ 1328 0cdc ECFFFF1A 		bne	.L26
+  96:main.c        ****   }
+  97:main.c        ****   fclose(fp);
+ 1329              		.loc 1 97 0
+ 1330 0ce0 0800A0E1 		mov	r0, r8
+ 1331 0ce4 01798DE2 		add	r7, sp, #16384
+ 1332 0ce8 FEFFFFEB 		bl	fclose
+ 1333 0cec 01198DE2 		add	r1, sp, #16384
+ 1334 0cf0 0850A0E1 		mov	r5, r8
+ 1335 0cf4 B43011E5 		ldr	r3, [r1, #-180]
+ 1336 0cf8 BC0011E5 		ldr	r0, [r1, #-188]
+ 1337 0cfc B81017E5 		ldr	r1, [r7, #-184]
+ 1338 0d00 01798DE2 		add	r7, sp, #16384
+ 1339              	.LBB10:
+ 1340              	.LBB12:
+  15:main.c        ****   if ((end.tv_nsec-start.tv_nsec)<0) {
+ 1341              		.loc 1 15 0
+ 1342 0d04 032050E0 		subs	r2, r0, r3
+ 1343              	.LBE12:
+ 1344              	.LBE10:
+ 1345              		.loc 1 97 0
+ 1346 0d08 C0C017E5 		ldr	ip, [r7, #-192]
+ 1347              	.LVL16:
+ 1348              	.LBB14:
+ 1349              	.LBB11:
+  17:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+ 1350              		.loc 1 17 0
+ 1351 0d0c CA2CA043 		movmi	r2, #51712
+ 1352 0d10 9A2B4343 		movtmi	r2, 15258
+ 1353 0d14 02208040 		addmi	r2, r0, r2
+  16:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+ 1354              		.loc 1 16 0
+ 1355 0d18 01C04C42 		submi	ip, ip, #1
+ 1356              	.LBE11:
+ 1357              	.LBE14:
+  98:main.c        ****   
+  99:main.c        ****   diff(&d, t1, t2);
+ 100:main.c        ****   printf("Execution Time: %ld sec, %ld nsec\n", d.tv_sec, d.tv_nsec);
+ 1358              		.loc 1 100 0
+ 1359 0d1c 000000E3 		movw	r0, #:lower16:.LC4
+ 1360              	.LBB15:
+ 1361              	.LBB13:
+  16:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+ 1362              		.loc 1 16 0
+ 1363 0d20 0C106140 		rsbmi	r1, r1, ip
+  17:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+ 1364              		.loc 1 17 0
+ 1365 0d24 02206340 		rsbmi	r2, r3, r2
+  19:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec;
+ 1366              		.loc 1 19 0
+ 1367 0d28 0C106150 		rsbpl	r1, r1, ip
+ 1368              	.LBE13:
+ 1369              	.LBE15:
+ 1370              		.loc 1 100 0
+ 1371 0d2c 000040E3 		movt	r0, #:upper16:.LC4
+ 1372 0d30 FEFFFFEB 		bl	printf
+ 1373              	.LVL17:
+ 101:main.c        ****   return 0;
+ 102:main.c        **** }
+ 1374              		.loc 1 102 0
+ 1375 0d34 0000A0E3 		mov	r0, #0
+ 1376 0d38 D5DF8DE2 		add	sp, sp, #852
+ 1377 0d3c 0FDB8DE2 		add	sp, sp, #15360
+ 1378 0d40 108BBDEC 		fldmfdd	sp!, {d8, d9, d10, d11, d12, d13, d14, d15}
+ 1379 0d44 F08FBDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 1380              	.L82:
+ 1381              		.align	2
+ 1382              	.L81:
+ 1383 0d48 6F12833A 		.word	981668463
+ 1384 0d4c BE370635 		.word	889599934
+ 1385              	.LVL18:
+ 1386              		.p2align 4
+ 1387              	.L21:
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 1388              		.loc 1 59 0
+ 1389 0d50 011A9CED 		flds	s2, [ip, #4]
+ 1390 0d54 023A9CED 		flds	s6, [ip, #8]
+ 1391 0d58 66EA31EE 		fsubs	s28, s2, s13
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1392              		.loc 1 38 0
+ 1393 0d5c 14909DE5 		ldr	r9, [sp, #20]
+ 1394 0d60 418D8DE2 		add	r8, sp, #4160
+ 1395 0d64 042083E2 		add	r2, r3, #4
+ 1396 0d68 204088E2 		add	r4, r8, #32
+  57:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 1397              		.loc 1 57 0
+ 1398 0d6c 021081E2 		add	r1, r1, #2
+ 1399              	.LVL19:
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1400              		.loc 1 38 0
+ 1401 0d70 03B086E0 		add	fp, r6, r3
+ 1402 0d74 010059E1 		cmp	r9, r1
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 1403              		.loc 1 60 0
+ 1404 0d78 005A9BED 		flds	s10, [fp, #0]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1405              		.loc 1 38 0
+ 1406 0d7c 029084E0 		add	r9, r4, r2
+ 1407 0d80 03B084E0 		add	fp, r4, r3
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 1408              		.loc 1 58 0
+ 1409 0d84 013AD0ED 		flds	s7, [r0, #4]
+ 1410 0d88 022AD0ED 		flds	s5, [r0, #8]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1411              		.loc 1 38 0
+ 1412 0d8c 02A086E0 		add	sl, r6, r2
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 1413              		.loc 1 60 0
+ 1414 0d90 008A9AED 		flds	s16, [sl, #0]
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 1415              		.loc 1 58 0
+ 1416 0d94 04E08CE2 		add	lr, ip, #4
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1417              		.loc 1 38 0
+ 1418 0d98 C0708DE2 		add	r7, sp, #192
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 1419              		.loc 1 53 0
+ 1420 0d9c 04C080E2 		add	ip, r0, #4
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1421              		.loc 1 38 0
+ 1422 0da0 C0008DE2 		add	r0, sp, #192
+ 1423 0da4 03A085E0 		add	sl, r5, r3
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 1424              		.loc 1 59 0
+ 1425 0da8 66AA33EE 		fsubs	s20, s6, s13
+ 1426 0dac 00EA8BED 		fsts	s28, [fp, #0]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1427              		.loc 1 38 0
+ 1428 0db0 037087E0 		add	r7, r7, r3
+ 1429 0db4 024080E0 		add	r4, r0, r2
+ 1430 0db8 028085E0 		add	r8, r5, r2
+  53:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 1431              		.loc 1 53 0
+ 1432 0dbc 04008CE2 		add	r0, ip, #4
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1433              		.loc 1 38 0
+ 1434 0dc0 FABF61E2 		rsb	fp, r1, #1000
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 1435              		.loc 1 58 0
+ 1436 0dc4 04C08EE2 		add	ip, lr, #4
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1437              		.loc 1 38 0
+ 1438 0dc8 083083E2 		add	r3, r3, #8
+  61:main.c        **** 	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
+ 1439              		.loc 1 61 0
+ 1440 0dcc 0EEA2EEE 		fmuls	s28, s28, s28
+  59:main.c        **** 	      dy[j]=y[j]-y[i];
+ 1441              		.loc 1 59 0
+ 1442 0dd0 00AA89ED 		fsts	s20, [r9, #0]
+  61:main.c        **** 	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
+ 1443              		.loc 1 61 0
+ 1444 0dd4 0AAA2AEE 		fmuls	s20, s20, s20
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 1445              		.loc 1 58 0
+ 1446 0dd8 C70A73EE 		fsubs	s1, s7, s14
+ 1447 0ddc C74A72EE 		fsubs	s9, s5, s14
+ 1448 0de0 000ACAED 		fsts	s1, [sl, #0]
+  61:main.c        **** 	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
+ 1449              		.loc 1 61 0
+ 1450 0de4 A0EA00EE 		fmacs	s28, s1, s1
+  58:main.c        **** 	      dx[j]=x[j]-x[i];
+ 1451              		.loc 1 58 0
+ 1452 0de8 004AC8ED 		fsts	s9, [r8, #0]
+  61:main.c        **** 	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
+ 1453              		.loc 1 61 0
+ 1454 0dec A4AA04EE 		fmacs	s20, s9, s9
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 1455              		.loc 1 60 0
+ 1456 0df0 674A35EE 		fsubs	s8, s10, s15
+  61:main.c        **** 	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
+ 1457              		.loc 1 61 0
+ 1458 0df4 060A3EEE 		fadds	s0, s28, s12
+  60:main.c        **** 	      dz[j]=z[j]-z[i];
+ 1459              		.loc 1 60 0
+ 1460 0df8 672A38EE 		fsubs	s4, s16, s15
+  61:main.c        **** 	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
+ 1461              		.loc 1 61 0
+ 1462 0dfc 06FA7AEE 		fadds	s31, s20, s12
+ 1463 0e00 040A04EE 		fmacs	s0, s8, s8
+ 1464 0e04 02FA42EE 		fmacs	s31, s4, s4
+ 1465 0e08 000A87ED 		fsts	s0, [r7, #0]
+ 1466 0e0c 00FAC4ED 		fsts	s31, [r4, #0]
+  38:main.c        **** int main (int argc, char * argv[]) {
+ 1467              		.loc 1 38 0
+ 1468 0e10 CEFFFF8A 		bhi	.L21
+ 1469 0e14 98FDFFEA 		b	.L20
+ 1470              	.LVL20:
+ 1471 0e18 00F020E3 		.p2align 4
+ 1471      00F020E3 
+ 1472              	.L74:
+ 1473 0e20 18108DE5 		str	r1, [sp, #24]
+ 1474 0e24 60409DE5 		ldr	r4, [sp, #96]
+ 1475 0e28 D8FDFFEA 		b	.L14
+ 1476              	.LVL21:
+ 1477              	.L77:
+  91:main.c        ****     fprintf(stderr, "Can't open output file %s!\n", outputFilename);
+ 1478              		.loc 1 91 0
+ 1479 0e2c 006000E3 		movw	r6, #:lower16:stderr
+ 1480 0e30 001000E3 		movw	r1, #:lower16:.LC2
+ 1481 0e34 006040E3 		movt	r6, #:upper16:stderr
+ 1482 0e38 002000E3 		movw	r2, #:lower16:.LC0
+ 1483 0e3c 001040E3 		movt	r1, #:upper16:.LC2
+ 1484 0e40 002040E3 		movt	r2, #:upper16:.LC0
+ 1485 0e44 000096E5 		ldr	r0, [r6, #0]
+ 1486              	.LVL22:
+ 1487 0e48 FEFFFFEB 		bl	fprintf
+  92:main.c        ****     exit(1);
+ 1488              		.loc 1 92 0
+ 1489 0e4c 0100A0E3 		mov	r0, #1
+ 1490 0e50 FEFFFFEB 		bl	exit
+ 1491              		.cfi_endproc
+ 1492              	.LFE20:
+ 1494              		.comm	m,4000,16
+ 1495              		.comm	x,4000,16
+ 1496              		.comm	y,4000,16
+ 1497              		.comm	z,4000,16
+ 1498              		.comm	vx,4000,16
+ 1499              		.comm	vy,4000,16
+ 1500              		.comm	vz,4000,16
+ 1501              		.comm	xnew,4000,16
+ 1502              		.comm	ynew,4000,16
+ 1503              		.comm	znew,4000,16
+ 1504              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1505              		.align	2
+ 1506              	.LC0:
+ 1507 0000 72657375 		.ascii	"results.txt\000"
+ 1507      6C74732E 
+ 1507      74787400 
+ 1508              	.LC1:
+ 1509 000c 7700     		.ascii	"w\000"
+ 1510 000e 0000     		.space	2
+ 1511              	.LC2:
+ 1512 0010 43616E27 		.ascii	"Can't open output file %s!\012\000"
+ 1512      74206F70 
+ 1512      656E206F 
+ 1512      75747075 
+ 1512      74206669 
+ 1513              	.LC3:
+ 1514 002c 25662025 		.ascii	"%f %f %f\012\000"
+ 1514      66202566 
+ 1514      0A00
+ 1515 0036 0000     		.space	2
+ 1516              	.LC4:
+ 1517 0038 45786563 		.ascii	"Execution Time: %ld sec, %ld nsec\012\000"
+ 1517      7574696F 
+ 1517      6E205469 
+ 1517      6D653A20 
+ 1517      256C6420 
+ 1518 005b 00       		.text
+ 1519              	.Letext0:
