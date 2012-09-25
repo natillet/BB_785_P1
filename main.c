@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <arm_neon.h>
 
 #define N 1000
 #define STEPS 16
@@ -15,9 +16,14 @@ void  diff(struct timespec * difference, struct timespec start, struct timespec 
   if ((end.tv_nsec-start.tv_nsec)<0) {
     difference->tv_sec = end.tv_sec-start.tv_sec-1;
     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+    printf("add big number\n");
   } else {
     difference->tv_sec = end.tv_sec-start.tv_sec;
     difference->tv_nsec = end.tv_nsec-start.tv_nsec;
+    printf("no add\n");
+    printf("start: %d s %d ns\n", (int)start.tv_sec, 
+(int)start.tv_nsec);
+    printf("end:   %d s %d ns\n", (int)end.tv_sec, (int)end.tv_nsec);
   }
 }
 
@@ -43,6 +49,9 @@ int main (int argc, char * argv[]) {
   FILE *fp;
   char *outputFilename = "results.txt";
   float in_sqrt[N];
+  //float *p_in_sqrt = &in_sqrt[0];
+  //float *p_invr = &invr[0];
+  float32x4_t vec_invr;
 
   enable_runfast();
   init();
@@ -61,8 +70,12 @@ int main (int argc, char * argv[]) {
 	      in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
 	    }
 	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
-	      invr[j] = 1.0f/sqrtf(in_sqrt[j]);
-//	      invr3 = invr*invr*invr;
+              //invr[j] = 1.0f/sqrtf(in_sqrt[j]);
+              vec_invr = vld1q_f32(&in_sqrt[j]);
+              vec_invr = vrsqrteq_f32(vec_invr);
+              vst1q_f32(&invr[j], vec_invr);
+              //p_in_sqrt += 4;
+              //p_invr += 4;
 	    }
 	    for(j=0; j<N; j++) { /* Loop over all particles "j" */
 	      f=m[j]*invr[j]*invr[j]*invr[j];
