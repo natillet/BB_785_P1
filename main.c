@@ -48,7 +48,7 @@ int main (int argc, char * argv[]) {
   float32x4_t vec_dx, vec_dy, vec_dz;
   float32x4_t vec_dxi, vec_dyi, vec_dzi;
   float32x4_t vec_invr, vec_invr3, vec_f;
-  float32x4_t vec_eps;
+//  float32x4_t vec_eps;
   float32x4_t vec_ax, vec_ay, vec_az;
   float32_t ax, ay, az;
   
@@ -63,22 +63,22 @@ int main (int argc, char * argv[]) {
   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
 
   for (s=0; s<STEPS; s++) {
-    for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+    for(i=0; i<N; i+=4) { /* Foreach particle "i" ... */
       ax=0.0f;
       ay=0.0f;
       az=0.0f;
-      vec_dxi = vld1q_f32(x);
-      vec_dyi = vld1q_f32(y);
-      vec_dzi = vld1q_f32(z);
+      vec_dxi = vld1q_f32(&x[i]);
+      vec_dyi = vld1q_f32(&y[i]);
+      vec_dzi = vld1q_f32(&z[i]);
 /*float32x4_t vdupq_n_f32 (float32_t)
   Form of expected instruction(s): vdup.32 q0, r0*/
-      for(j=0; j<N; j++) { /* Loop over all particles "j" */
+      for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
 	      //dx=x[j]-x[i];
 	      //dy=y[j]-y[i];
 	      //dz=z[j]-z[i];
-	      vec_dx = vld1q_f32(x);
-	      vec_dy = vld1q_f32(y);
-	      vec_dz = vld1q_f32(z);
+	      vec_dx = vld1q_f32(&x[j]);
+	      vec_dy = vld1q_f32(&y[j]);
+	      vec_dz = vld1q_f32(&z[j]);
 	      vec_dx = vsubq_f32(vec_dx, vec_dxi);
 	      vec_dy = vsubq_f32(vec_dy, vec_dyi);
 	      vec_dz = vsubq_f32(vec_dz, vec_dzi);
@@ -92,7 +92,7 @@ int main (int argc, char * argv[]) {
 	      vec_invr = vmlaq_f32(vec_invr, vec_dx, vec_dx);
 	      vec_invr = vmlaq_f32(vec_invr, vec_dy, vec_dy);
 	      vec_invr = vmlaq_f32(vec_invr, vec_dz, vec_dz);
-	      vec_invr = vrsqrtsq_f32(vec_invr, vec_invr);
+	      vec_invr = vrsqrteq_f32(vec_invr);
 /*float32x4_t vrsqrtsq_f32 (float32x4_t, float32x4_t)
   Form of expected instruction(s): vrsqrts.f32 q0, q0, q0*/
 /*float32x4_t vmlaq_f32 (float32x4_t, float32x4_t, float32x4_t)
@@ -102,14 +102,10 @@ int main (int argc, char * argv[]) {
 	      vec_invr3 = vmulq_f32(vec_invr, vec_invr);
 	      vec_invr3 = vmulq_f32(vec_invr3, vec_invr);
 	      //f=m[j]*invr3;
-	      vec_f = vld1q_f32(m);
+	      vec_f = vld1q_f32(&m[j]);
 	      vec_f = vmulq_f32(vec_f, vec_invr3);
 /*float32x4_t vmulq_f32 (float32x4_t, float32x4_t)
   Form of expected instruction(s): vmul.f32 q0, q0, q0*/
-/*float32x4_t vmulq_lane_f32 (float32x4_t, float32x2_t, const int)
-  Form of expected instruction(s): vmul.f32 q0, q0, d0[0]*/
-/*float32x4_t vmulq_n_f32 (float32x4_t, float32_t)
-  Form of expected instruction(s): vmul.f32 q0, q0, d0[0]*/
         
 	      //ax += f*dx; /* accumulate the acceleration from gravitational attraction */
 	      //ay += f*dy;
@@ -117,20 +113,20 @@ int main (int argc, char * argv[]) {
 	      vec_ax = vmulq_f32(vec_f, vec_dx);
 	      vec_ay = vmulq_f32(vec_f, vec_dy);
 	      vec_az = vmulq_f32(vec_f, vec_dx);
-	      ax = vgetq_lane_f32(vec_ax, 0);
-	      ax = vgetq_lane_f32(vec_ax, 1);
-	      ax = vgetq_lane_f32(vec_ax, 2);
-	      ax = vgetq_lane_f32(vec_ax, 3);
+	      ax += vgetq_lane_f32(vec_ax, 0);
+	      ax += vgetq_lane_f32(vec_ax, 1);
+	      ax += vgetq_lane_f32(vec_ax, 2);
+	      ax += vgetq_lane_f32(vec_ax, 3);
 	      
-	      ay = vgetq_lane_f32(vec_ay, 0);
-	      ay = vgetq_lane_f32(vec_ay, 1);
-	      ay = vgetq_lane_f32(vec_ay, 2);
-	      ay = vgetq_lane_f32(vec_ay, 3);
+	      ay += vgetq_lane_f32(vec_ay, 0);
+	      ay += vgetq_lane_f32(vec_ay, 1);
+	      ay += vgetq_lane_f32(vec_ay, 2);
+	      ay += vgetq_lane_f32(vec_ay, 3);
 	      
-	      az = vgetq_lane_f32(vec_az, 0);
-	      az = vgetq_lane_f32(vec_az, 1);
-	      az = vgetq_lane_f32(vec_az, 2);
-	      az = vgetq_lane_f32(vec_az, 3);
+	      az += vgetq_lane_f32(vec_az, 0);
+	      az += vgetq_lane_f32(vec_az, 1);
+	      az += vgetq_lane_f32(vec_az, 2);
+	      az += vgetq_lane_f32(vec_az, 3);
 	      
 /*float32x4_t vmlaq_f32 (float32x4_t, float32x4_t, float32x4_t)
   Form of expected instruction(s): vmla.f32 q0, q0, q0*/
@@ -141,6 +137,24 @@ int main (int argc, char * argv[]) {
       vx[i] += dt*ax; /* update velocity of particle "i" */
       vy[i] += dt*ay;
       vz[i] += dt*az;
+      xnew[i+1] = x[i+1] + dt*vx[i+1] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+      ynew[i+1] = y[i+1] + dt*vy[i+1] + 0.5f*dt*dt*ay;
+      znew[i+1] = z[i+1] + dt*vz[i+1] + 0.5f*dt*dt*az;
+      vx[i+1] += dt*ax; /* update velocity of particle "i" */
+      vy[i+1] += dt*ay;
+      vz[i+1] += dt*az;
+      xnew[i+2] = x[i+2] + dt*vx[i+2] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+      ynew[i+2] = y[i+2] + dt*vy[i+2] + 0.5f*dt*dt*ay;
+      znew[i+2] = z[i+2] + dt*vz[i+2] + 0.5f*dt*dt*az;
+      vx[i+2] += dt*ax; /* update velocity of particle "i" */
+      vy[i+2] += dt*ay;
+      vz[i+2] += dt*az;
+      xnew[i+3] = x[i+3] + dt*vx[i+3] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+      ynew[i+3] = y[i+3] + dt*vy[i+3] + 0.5f*dt*dt*ay;
+      znew[i+3] = z[i+3] + dt*vz[i+3] + 0.5f*dt*dt*az;
+      vx[i+3] += dt*ax; /* update velocity of particle "i" */
+      vy[i+3] += dt*ay;
+      vz[i+3] += dt*az;
     }
     for(i=0;i<N;i++) { /* copy updated positions back into original arrays */
       x[i] = xnew[i];
