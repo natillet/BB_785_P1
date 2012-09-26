@@ -54,6 +54,7 @@ int main (int argc, char * argv[]) {
   float32_t ax, ay, az;
   float32x4_t vec_xnew, vec_ynew, vec_znew;
   float32x4_t vec_dt_ax, vec_dt_ay, vec_dt_az;
+  float32x4_t vec_vx, vec_vy, vec_vz;
   
   //eps
   //vec_eps = vld4_dup_f32(eps);
@@ -155,9 +156,23 @@ int main (int argc, char * argv[]) {
       vec_znew = vaddq_f32(vec_znew, vec_dt_az);
       vst1q_f32(&znew[i], vec_znew);
 
-      vx[i] += dt*ax; /* update velocity of particle "i" */
-      vy[i] += dt*ay;
-      vz[i] += dt*az;
+//      vx[i] += dt*ax; /* update velocity of particle "i" */
+      vec_vx = vld1q_f32(&vx[i]);
+      vec_dt_ax = vdupq_n_f32(dt*ax);
+      vec_vx = vaddq_f32(vec_vx, vec_dt_ax);
+      vst1q_f32(&vx[i], vec_vx);
+
+//      vy[i] += dt*ay;
+      vec_vy = vld1q_f32(&vy[i]);
+      vec_dt_ay = vdupq_n_f32(dt*ay);
+      vec_vy = vaddq_f32(vec_vy, vec_dt_ay);
+      vst1q_f32(&vy[i], vec_vy);
+
+//      vz[i] += dt*az;
+      vec_vz = vld1q_f32(&vz[i]);
+      vec_dt_az = vdupq_n_f32(dt*az);
+      vec_vz = vaddq_f32(vec_vz, vec_dt_az);
+      vst1q_f32(&vz[i], vec_vz);
     }
     for(i=0;i<N;i++) { /* copy updated positions back into original arrays */
       x[i] = xnew[i];
