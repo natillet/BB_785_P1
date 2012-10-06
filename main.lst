@@ -27,12 +27,11 @@
    9:main.c        **** 
   10:main.c        **** extern void enable_runfast();
   11:main.c        **** 
-  12:main.c        **** float vx[N], vy[N], vz[N], xnew[N], ynew[N], znew[N];
-  13:main.c        **** float32_t m[N], x[N], y[N], z[N];
-  14:main.c        **** 
-  15:main.c        **** void  diff(struct timespec * difference, struct timespec start, struct timespec end)
-  16:main.c        **** {
-  27              		.loc 1 16 0
+  12:main.c        **** float m[N], x[N], y[N], z[N], vx[N], vy[N], vz[N], xnew[N], ynew[N], znew[N];
+  13:main.c        **** 
+  14:main.c        **** void  diff(struct timespec * difference, struct timespec start, struct timespec end)
+  15:main.c        **** {
+  27              		.loc 1 15 0
   28              		.cfi_startproc
   29              		@ args = 12, pretend = 8, frame = 8
   30              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -47,7 +46,7 @@
   39 0008 0CD04DE2 		sub	sp, sp, #12
   40              	.LCFI2:
   41              		.cfi_def_cfa_offset 24
-  42              		.loc 1 16 0
+  42              		.loc 1 15 0
   43 000c 08C08DE2 		add	ip, sp, #8
   44 0010 14308DE5 		str	r3, [sp, #20]
   45 0014 06000CE9 		stmdb	ip, {r1, r2}
@@ -55,57 +54,53 @@
   47 001c 04209DE5 		ldr	r2, [sp, #4]
   48 0020 18109DE5 		ldr	r1, [sp, #24]
   49 0024 00309DE5 		ldr	r3, [sp, #0]
-  17:main.c        ****   if ((end.tv_nsec-start.tv_nsec)<0) {
-  50              		.loc 1 17 0
+  16:main.c        ****   if ((end.tv_nsec-start.tv_nsec)<0) {
+  50              		.loc 1 16 0
   51 0028 024051E0 		subs	r4, r1, r2
   52              		.cfi_offset 4, -12
   53 002c 0700004A 		bmi	.L5
-  18:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
-  19:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
-  20:main.c        **** //    printf("add big number\n");
-  21:main.c        ****   } else {
-  22:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec;
-  54              		.loc 1 22 0
+  17:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+  18:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  19:main.c        ****   } else {
+  20:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec;
+  54              		.loc 1 20 0
   55 0030 0CC063E0 		rsb	ip, r3, ip
-  23:main.c        ****     difference->tv_nsec = end.tv_nsec-start.tv_nsec;
-  56              		.loc 1 23 0
+  21:main.c        ****     difference->tv_nsec = end.tv_nsec-start.tv_nsec;
+  56              		.loc 1 21 0
   57 0034 044080E5 		str	r4, [r0, #4]
-  22:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec;
-  58              		.loc 1 22 0
+  20:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec;
+  58              		.loc 1 20 0
   59 0038 00C080E5 		str	ip, [r0, #0]
   60              	.L1:
-  24:main.c        **** //    printf("no add\n");
-  25:main.c        **** //    printf("start: %d s %d ns\n", (int)start.tv_sec, (int)start.tv_nsec);
-  26:main.c        **** //    printf("end:   %d s %d ns\n", (int)end.tv_sec, (int)end.tv_nsec);
-  27:main.c        ****   }
-  28:main.c        **** }
-  61              		.loc 1 28 0
+  22:main.c        ****   }
+  23:main.c        **** }
+  61              		.loc 1 23 0
   62 003c 0CD08DE2 		add	sp, sp, #12
   63 0040 1000BDE8 		ldmfd	sp!, {r4}
   64 0044 08D08DE2 		add	sp, sp, #8
   65 0048 1EFF2FE1 		bx	lr
   66 004c 00F020E3 		.p2align 4
   67              	.L5:
-  19:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
-  68              		.loc 1 19 0
+  18:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  68              		.loc 1 18 0
   69 0050 CA4CA0E3 		mov	r4, #51712
-  18:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
-  70              		.loc 1 18 0
+  17:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+  70              		.loc 1 17 0
   71 0054 01C04CE2 		sub	ip, ip, #1
-  19:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
-  72              		.loc 1 19 0
+  18:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  72              		.loc 1 18 0
   73 0058 9A4B43E3 		movt	r4, 15258
-  18:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
-  74              		.loc 1 18 0
+  17:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+  74              		.loc 1 17 0
   75 005c 0C3063E0 		rsb	r3, r3, ip
-  19:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
-  76              		.loc 1 19 0
+  18:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  76              		.loc 1 18 0
   77 0060 044081E0 		add	r4, r1, r4
-  18:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
-  78              		.loc 1 18 0
+  17:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+  78              		.loc 1 17 0
   79 0064 003080E5 		str	r3, [r0, #0]
-  19:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
-  80              		.loc 1 19 0
+  18:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  80              		.loc 1 18 0
   81 0068 042062E0 		rsb	r2, r2, r4
   82 006c 042080E5 		str	r2, [r0, #4]
   83 0070 F1FFFFEA 		b	.L1
@@ -118,9 +113,9 @@
   89              		.global	init
   91              	init:
   92              	.LFB1889:
-  29:main.c        **** 
-  30:main.c        **** void init(void) {
-  93              		.loc 1 30 0
+  24:main.c        **** 
+  25:main.c        **** void init(void) {
+  93              		.loc 1 25 0
   94              		.cfi_startproc
   95              		@ args = 0, pretend = 0, frame = 8
   96              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -139,58 +134,58 @@
  109              		.cfi_offset 5, -32
  110              		.cfi_offset 4, -36
  111 0088 009000E3 		movw	r9, #:lower16:m
-  31:main.c        ****   int i;
-  32:main.c        **** 
-  33:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
-  34:main.c        ****     x[i] = rand();
-  35:main.c        ****     y[i] = rand();
-  36:main.c        ****     z[i] = rand();
-  37:main.c        ****     vx[i] = rand()/100;
- 112              		.loc 1 37 0
+  26:main.c        ****   int i;
+  27:main.c        **** 
+  28:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+  29:main.c        ****     x[i] = rand();
+  30:main.c        ****     y[i] = rand();
+  31:main.c        ****     z[i] = rand();
+  32:main.c        ****     vx[i] = rand()/100;
+ 112              		.loc 1 32 0
  113 008c 1F5508E3 		movw	r5, #34079
-  30:main.c        **** void init(void) {
- 114              		.loc 1 30 0
+  25:main.c        **** void init(void) {
+ 114              		.loc 1 25 0
  115 0090 F0A09FE5 		ldr	sl, .L9
  116 0094 0CD04DE2 		sub	sp, sp, #12
  117              	.LCFI4:
  118              		.cfi_def_cfa_offset 48
-  30:main.c        **** void init(void) {
- 119              		.loc 1 30 0
+  25:main.c        **** void init(void) {
+ 119              		.loc 1 25 0
  120 0098 EC809FE5 		ldr	r8, .L9+4
  121 009c 0040A0E3 		mov	r4, #0
  122 00a0 E8709FE5 		ldr	r7, .L9+8
  123 00a4 00B040E3 		movt	fp, #:upper16:vz
  124 00a8 E4609FE5 		ldr	r6, .L9+12
  125 00ac 009040E3 		movt	r9, #:upper16:m
- 126              		.loc 1 37 0
+ 126              		.loc 1 32 0
  127 00b0 EB5145E3 		movt	r5, 20971
  128 00b4 001000E3 		movw	r1, #:lower16:vy
  129 00b8 001040E3 		movt	r1, #:upper16:vy
  130 00bc 04108DE5 		str	r1, [sp, #4]
  131              	.LVL2:
  132              	.L7:
-  34:main.c        ****     x[i] = rand();
- 133              		.loc 1 34 0 discriminator 2
+  29:main.c        ****     x[i] = rand();
+ 133              		.loc 1 29 0 discriminator 2
  134 00c0 FEFFFFEB 		bl	rand
  135 00c4 100A07EE 		fmsr	s14, r0	@ int
  136 00c8 C77AF8EE 		fsitos	s15, s14
  137 00cc 901A17EE 		fmrs	r1, s15
  138 00d0 0410AAE5 		str	r1, [sl, #4]!	@ float
-  35:main.c        ****     y[i] = rand();
- 139              		.loc 1 35 0 discriminator 2
+  30:main.c        ****     y[i] = rand();
+ 139              		.loc 1 30 0 discriminator 2
  140 00d4 FEFFFFEB 		bl	rand
  141 00d8 100A07EE 		fmsr	s14, r0	@ int
  142 00dc C77AF8EE 		fsitos	s15, s14
  143 00e0 901A17EE 		fmrs	r1, s15
  144 00e4 0410A8E5 		str	r1, [r8, #4]!	@ float
-  36:main.c        ****     z[i] = rand();
- 145              		.loc 1 36 0 discriminator 2
+  31:main.c        ****     z[i] = rand();
+ 145              		.loc 1 31 0 discriminator 2
  146 00e8 FEFFFFEB 		bl	rand
  147 00ec 100A07EE 		fmsr	s14, r0	@ int
  148 00f0 C77AF8EE 		fsitos	s15, s14
  149 00f4 901A17EE 		fmrs	r1, s15
  150 00f8 0410A7E5 		str	r1, [r7, #4]!	@ float
- 151              		.loc 1 37 0 discriminator 2
+ 151              		.loc 1 32 0 discriminator 2
  152 00fc FEFFFFEB 		bl	rand
  153 0100 9520C3E0 		smull	r2, r3, r5, r0
  154 0104 C00FA0E1 		mov	r0, r0, asr #31
@@ -199,54 +194,54 @@
  157 0110 C77AF8EE 		fsitos	s15, s14
  158 0114 901A17EE 		fmrs	r1, s15
  159 0118 0410A6E5 		str	r1, [r6, #4]!	@ float
-  38:main.c        ****     vy[i] = rand()/100;
- 160              		.loc 1 38 0 discriminator 2
+  33:main.c        ****     vy[i] = rand()/100;
+ 160              		.loc 1 33 0 discriminator 2
  161 011c FEFFFFEB 		bl	rand
-  30:main.c        **** void init(void) {
- 162              		.loc 1 30 0 discriminator 2
+  25:main.c        **** void init(void) {
+ 162              		.loc 1 25 0 discriminator 2
  163 0120 04209DE5 		ldr	r2, [sp, #4]
  164 0124 043082E0 		add	r3, r2, r4
- 165              		.loc 1 38 0 discriminator 2
+ 165              		.loc 1 33 0 discriminator 2
  166 0128 9510C2E0 		smull	r1, r2, r5, r0
  167 012c C00FA0E1 		mov	r0, r0, asr #31
  168 0130 C20260E0 		rsb	r0, r0, r2, asr #5
  169 0134 100A07EE 		fmsr	s14, r0	@ int
  170 0138 C77AF8EE 		fsitos	s15, s14
  171 013c 007AC3ED 		fsts	s15, [r3, #0]
-  39:main.c        ****     vz[i] = rand()/100;
- 172              		.loc 1 39 0 discriminator 2
+  34:main.c        ****     vz[i] = rand()/100;
+ 172              		.loc 1 34 0 discriminator 2
  173 0140 FEFFFFEB 		bl	rand
-  30:main.c        **** void init(void) {
- 174              		.loc 1 30 0 discriminator 2
+  25:main.c        **** void init(void) {
+ 174              		.loc 1 25 0 discriminator 2
  175 0144 04308BE0 		add	r3, fp, r4
- 176              		.loc 1 39 0 discriminator 2
+ 176              		.loc 1 34 0 discriminator 2
  177 0148 9510C2E0 		smull	r1, r2, r5, r0
  178 014c C00FA0E1 		mov	r0, r0, asr #31
  179 0150 C20260E0 		rsb	r0, r0, r2, asr #5
  180 0154 100A07EE 		fmsr	s14, r0	@ int
  181 0158 C77AF8EE 		fsitos	s15, s14
  182 015c 007AC3ED 		fsts	s15, [r3, #0]
-  40:main.c        ****     m[i] = rand();
- 183              		.loc 1 40 0 discriminator 2
+  35:main.c        ****     m[i] = rand();
+ 183              		.loc 1 35 0 discriminator 2
  184 0160 FEFFFFEB 		bl	rand
-  30:main.c        **** void init(void) {
- 185              		.loc 1 30 0 discriminator 2
+  25:main.c        **** void init(void) {
+ 185              		.loc 1 25 0 discriminator 2
  186 0164 043089E0 		add	r3, r9, r4
- 187              		.loc 1 40 0 discriminator 2
+ 187              		.loc 1 35 0 discriminator 2
  188 0168 044084E2 		add	r4, r4, #4
-  33:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
- 189              		.loc 1 33 0 discriminator 2
+  28:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 189              		.loc 1 28 0 discriminator 2
  190 016c FA0E54E3 		cmp	r4, #4000
- 191              		.loc 1 40 0 discriminator 2
+ 191              		.loc 1 35 0 discriminator 2
  192 0170 100A07EE 		fmsr	s14, r0	@ int
  193 0174 C77AF8EE 		fsitos	s15, s14
  194 0178 007AC3ED 		fsts	s15, [r3, #0]
-  33:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
- 195              		.loc 1 33 0 discriminator 2
+  28:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 195              		.loc 1 28 0 discriminator 2
  196 017c CFFFFF1A 		bne	.L7
-  41:main.c        ****   }
-  42:main.c        **** }
- 197              		.loc 1 42 0
+  36:main.c        ****   }
+  37:main.c        **** }
+ 197              		.loc 1 37 0
  198 0180 0CD08DE2 		add	sp, sp, #12
  199 0184 F08FBDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  200              	.L10:
@@ -265,176 +260,458 @@
  213              		.global	main
  215              	main:
  216              	.LFB1890:
-  43:main.c        **** 
-  44:main.c        **** int main (int argc, char * argv[]) {
- 217              		.loc 1 44 0
+  38:main.c        **** 
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 217              		.loc 1 39 0
  218              		.cfi_startproc
- 219              		@ args = 0, pretend = 0, frame = 64
+ 219              		@ args = 0, pretend = 0, frame = 16088
  220              		@ frame_needed = 0, uses_anonymous_args = 0
  221              	.LVL3:
  222 01a0 F04F2DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
  223              	.LCFI5:
  224              		.cfi_def_cfa_offset 36
- 225 01a4 54D04DE2 		sub	sp, sp, #84
+ 225 01a4 088B2DED 		fstmfdd	sp!, {d8, d9, d10, d11}
  226              	.LCFI6:
- 227              		.cfi_def_cfa_offset 120
-  45:main.c        ****   int s,i,j;
-  46:main.c        ****   float dt=0.001;
-  47:main.c        ****   float half_dtsq = 0.0000005;
-  48:main.c        ****   float eps=0.0000001;
-  49:main.c        ****   struct timespec t1, t2, d;
-  50:main.c        ****   FILE *fp;
-  51:main.c        ****   char *outputFilename = "results.txt";
-  52:main.c        ****   
-  53:main.c        ****   float32x4_t vec_dx, vec_dy, vec_dz;
-  54:main.c        ****   float32x4_t vec_dxi, vec_dyi, vec_dzi;
-  55:main.c        ****   float32x4_t vec_invr, vec_invr3, vec_f;
-  56:main.c        **** //  float32x4_t vec_eps;
-  57:main.c        ****   float32x4_t vec_ax, vec_ay, vec_az;
-  58:main.c        ****   float32_t ax, ay, az;
-  59:main.c        ****   float32x4_t vec_xnew, vec_ynew, vec_znew;
-  60:main.c        ****   float32x4_t vec_dt_ax, vec_dt_ay, vec_dt_az;
-  61:main.c        ****   float32x4_t vec_vx, vec_vy, vec_vz;
-  62:main.c        ****   
-  63:main.c        ****   //eps
-  64:main.c        ****   //vec_eps = vld4_dup_f32(eps);
-  65:main.c        **** /*float32x4_t vdupq_n_f32 (float32_t)
-  66:main.c        ****   Form of expected instruction(s): vdup.32 q0, r0*/
-  67:main.c        **** 
-  68:main.c        ****   enable_runfast();
- 228              		.loc 1 68 0
- 229              		.cfi_offset 14, -4
- 230              		.cfi_offset 11, -8
- 231              		.cfi_offset 10, -12
- 232              		.cfi_offset 9, -16
- 233              		.cfi_offset 8, -20
- 234              		.cfi_offset 7, -24
- 235              		.cfi_offset 6, -28
- 236              		.cfi_offset 5, -32
- 237              		.cfi_offset 4, -36
- 238 01a8 FEFFFFEB 		bl	enable_runfast
- 239              	.LVL4:
- 240 01ac 88249FE5 		ldr	r2, .L29+28
- 241 01b0 88349FE5 		ldr	r3, .L29+32
- 242 01b4 007000E3 		movw	r7, #:lower16:vy
- 243 01b8 84149FE5 		ldr	r1, .L29+36
- 244 01bc 006000E3 		movw	r6, #:lower16:vz
- 245 01c0 004000E3 		movw	r4, #:lower16:m
- 246 01c4 7C949FE5 		ldr	r9, .L29+40
- 247 01c8 03A0A0E1 		mov	sl, r3
- 248 01cc 0280A0E1 		mov	r8, r2
- 249 01d0 0050A0E3 		mov	r5, #0
- 250 01d4 007040E3 		movt	r7, #:upper16:vy
- 251 01d8 006040E3 		movt	r6, #:upper16:vz
- 252 01dc 004040E3 		movt	r4, #:upper16:m
- 253 01e0 3C108DE5 		str	r1, [sp, #60]
- 254 01e4 38208DE5 		str	r2, [sp, #56]
- 255 01e8 34308DE5 		str	r3, [sp, #52]
- 256 01ec 14108DE5 		str	r1, [sp, #20]
- 257              	.LVL5:
- 258              	.L12:
- 259              	.LBB140:
- 260              	.LBB141:
-  34:main.c        ****     x[i] = rand();
- 261              		.loc 1 34 0
- 262 01f0 FEFFFFEB 		bl	rand
- 263 01f4 14209DE5 		ldr	r2, [sp, #20]
-  44:main.c        **** int main (int argc, char * argv[]) {
- 264              		.loc 1 44 0
- 265 01f8 073085E0 		add	r3, r5, r7
- 266 01fc 06B085E0 		add	fp, r5, r6
-  34:main.c        ****     x[i] = rand();
- 267              		.loc 1 34 0
- 268 0200 100A00EE 		fmsr	s0, r0	@ int
- 269 0204 C07AF8EE 		fsitos	s15, s0
- 270 0208 901A17EE 		fmrs	r1, s15
- 271 020c 0410A2E5 		str	r1, [r2, #4]!	@ float
-  35:main.c        ****     y[i] = rand();
- 272              		.loc 1 35 0
- 273 0210 10308DE5 		str	r3, [sp, #16]
-  34:main.c        ****     x[i] = rand();
- 274              		.loc 1 34 0
- 275 0214 14208DE5 		str	r2, [sp, #20]
-  35:main.c        ****     y[i] = rand();
- 276              		.loc 1 35 0
- 277 0218 FEFFFFEB 		bl	rand
- 278 021c 100A00EE 		fmsr	s0, r0	@ int
- 279 0220 C07AF8EE 		fsitos	s15, s0
- 280 0224 901A17EE 		fmrs	r1, s15
- 281 0228 0410A8E5 		str	r1, [r8, #4]!	@ float
-  36:main.c        ****     z[i] = rand();
- 282              		.loc 1 36 0
- 283 022c FEFFFFEB 		bl	rand
- 284 0230 100A00EE 		fmsr	s0, r0	@ int
- 285 0234 C07AF8EE 		fsitos	s15, s0
- 286 0238 901A17EE 		fmrs	r1, s15
- 287 023c 0410AAE5 		str	r1, [sl, #4]!	@ float
-  37:main.c        ****     vx[i] = rand()/100;
- 288              		.loc 1 37 0
- 289 0240 FEFFFFEB 		bl	rand
- 290 0244 6410A0E3 		mov	r1, #100
- 291 0248 FEFFFFEB 		bl	__aeabi_idiv
- 292 024c 100A00EE 		fmsr	s0, r0	@ int
- 293 0250 C07AF8EE 		fsitos	s15, s0
- 294 0254 901A17EE 		fmrs	r1, s15
- 295 0258 0410A9E5 		str	r1, [r9, #4]!	@ float
-  38:main.c        ****     vy[i] = rand()/100;
- 296              		.loc 1 38 0
- 297 025c FEFFFFEB 		bl	rand
- 298 0260 6410A0E3 		mov	r1, #100
- 299 0264 FEFFFFEB 		bl	__aeabi_idiv
- 300 0268 10309DE5 		ldr	r3, [sp, #16]
- 301 026c 100A00EE 		fmsr	s0, r0	@ int
- 302 0270 C07AF8EE 		fsitos	s15, s0
- 303 0274 007AC3ED 		fsts	s15, [r3, #0]
-  39:main.c        ****     vz[i] = rand()/100;
- 304              		.loc 1 39 0
- 305 0278 FEFFFFEB 		bl	rand
- 306 027c 6410A0E3 		mov	r1, #100
- 307 0280 FEFFFFEB 		bl	__aeabi_idiv
- 308 0284 900A00EE 		fmsr	s1, r0	@ int
- 309 0288 E07AF8EE 		fsitos	s15, s1
- 310 028c 007ACBED 		fsts	s15, [fp, #0]
-  40:main.c        ****     m[i] = rand();
- 311              		.loc 1 40 0
- 312 0290 FEFFFFEB 		bl	rand
-  44:main.c        **** int main (int argc, char * argv[]) {
- 313              		.loc 1 44 0
- 314 0294 053084E0 		add	r3, r4, r5
-  40:main.c        ****     m[i] = rand();
- 315              		.loc 1 40 0
- 316 0298 045085E2 		add	r5, r5, #4
-  33:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
- 317              		.loc 1 33 0
- 318 029c FA0E55E3 		cmp	r5, #4000
-  40:main.c        ****     m[i] = rand();
- 319              		.loc 1 40 0
- 320 02a0 100A01EE 		fmsr	s2, r0	@ int
- 321 02a4 C17AF8EE 		fsitos	s15, s2
- 322 02a8 007AC3ED 		fsts	s15, [r3, #0]
-  33:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
- 323              		.loc 1 33 0
- 324 02ac CFFFFF1A 		bne	.L12
- 325 02b0 008000E3 		movw	r8, #:lower16:x
- 326 02b4 007000E3 		movw	r7, #:lower16:y
- 327 02b8 006000E3 		movw	r6, #:lower16:z
- 328 02bc 008040E3 		movt	r8, #:upper16:x
- 329 02c0 007040E3 		movt	r7, #:upper16:y
- 330 02c4 006040E3 		movt	r6, #:upper16:z
- 331              	.LBE141:
- 332              	.LBE140:
-  69:main.c        ****   init();
-  70:main.c        **** 
-  71:main.c        ****   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
- 333              		.loc 1 71 0
- 334 02c8 48108DE2 		add	r1, sp, #72
- 335 02cc 0200A0E3 		mov	r0, #2
- 336 02d0 FEFFFFEB 		bl	clock_gettime
- 337              	.LVL6:
- 338 02d4 1010A0E3 		mov	r1, #16
- 339              	.LBB142:
- 340              	.LBB143:
- 341              		.file 2 "/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h"
+ 227              		.cfi_def_cfa_offset 68
+ 228 01a8 FBDD4DE2 		sub	sp, sp, #16064
+ 229              	.LCFI7:
+ 230              		.cfi_def_cfa_offset 16132
+ 231 01ac 2CD04DE2 		sub	sp, sp, #44
+ 232              	.LCFI8:
+ 233              		.cfi_def_cfa_offset 16176
+ 234 01b0 005000E3 		movw	r5, #:lower16:m
+ 235              		.cfi_offset 86, -44
+ 236              		.cfi_offset 84, -52
+ 237              		.cfi_offset 82, -60
+ 238              		.cfi_offset 80, -68
+ 239              		.cfi_offset 14, -4
+ 240              		.cfi_offset 11, -8
+ 241              		.cfi_offset 10, -12
+ 242              		.cfi_offset 9, -16
+ 243              		.cfi_offset 8, -20
+ 244              		.cfi_offset 7, -24
+ 245              		.cfi_offset 6, -28
+ 246              		.cfi_offset 5, -32
+ 247              		.cfi_offset 4, -36
+  40:main.c        ****   int s,i,j;
+  41:main.c        ****   float invr[N], f, ax, ay, az, dx[N], dy[N], dz[N], dt=0.001;
+  42:main.c        ****   float eps=0.0000001;
+  43:main.c        ****   struct timespec t1, t2, d;
+  44:main.c        ****   FILE *fp;
+  45:main.c        ****   char *outputFilename = "results.txt";
+  46:main.c        ****   float in_sqrt[N];
+  47:main.c        ****   //float *p_in_sqrt = &in_sqrt[0];
+  48:main.c        ****   //float *p_invr = &invr[0];
+  49:main.c        ****   float32x4_t vec_invr;
+  50:main.c        **** 
+  51:main.c        ****   enable_runfast();
+ 248              		.loc 1 51 0
+ 249 01b4 FEFFFFEB 		bl	enable_runfast
+ 250              	.LVL4:
+ 251 01b8 C4049FE5 		ldr	r0, .L42+28
+ 252 01bc C4149FE5 		ldr	r1, .L42+32
+ 253 01c0 0040A0E3 		mov	r4, #0
+ 254 01c4 C0349FE5 		ldr	r3, .L42+36
+ 255 01c8 0060A0E1 		mov	r6, r0
+ 256 01cc BCA49FE5 		ldr	sl, .L42+40
+ 257 01d0 0170A0E1 		mov	r7, r1
+ 258 01d4 0380A0E1 		mov	r8, r3
+ 259 01d8 005040E3 		movt	r5, #:upper16:m
+ 260 01dc 002000E3 		movw	r2, #:lower16:vy
+ 261 01e0 00C000E3 		movw	ip, #:lower16:vz
+ 262 01e4 002040E3 		movt	r2, #:upper16:vy
+ 263 01e8 00C040E3 		movt	ip, #:upper16:vz
+ 264 01ec 4C008DE5 		str	r0, [sp, #76]
+ 265 01f0 54108DE5 		str	r1, [sp, #84]
+ 266 01f4 50308DE5 		str	r3, [sp, #80]
+ 267 01f8 30208DE5 		str	r2, [sp, #48]
+ 268 01fc 34C08DE5 		str	ip, [sp, #52]
+ 269              	.LVL5:
+ 270              	.L12:
+ 271              	.LBB20:
+ 272              	.LBB21:
+  29:main.c        ****     x[i] = rand();
+ 273              		.loc 1 29 0
+ 274 0200 FEFFFFEB 		bl	rand
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 275              		.loc 1 39 0
+ 276 0204 30E09DE5 		ldr	lr, [sp, #48]
+ 277 0208 34109DE5 		ldr	r1, [sp, #52]
+ 278 020c 04B08EE0 		add	fp, lr, r4
+ 279 0210 049081E0 		add	r9, r1, r4
+  29:main.c        ****     x[i] = rand();
+ 280              		.loc 1 29 0
+ 281 0214 100A07EE 		fmsr	s14, r0	@ int
+ 282 0218 C77AF8EE 		fsitos	s15, s14
+ 283 021c 900A17EE 		fmrs	r0, s15
+ 284 0220 0400A6E5 		str	r0, [r6, #4]!	@ float
+  30:main.c        ****     y[i] = rand();
+ 285              		.loc 1 30 0
+ 286 0224 FEFFFFEB 		bl	rand
+ 287 0228 100A07EE 		fmsr	s14, r0	@ int
+ 288 022c C77AF8EE 		fsitos	s15, s14
+ 289 0230 900A17EE 		fmrs	r0, s15
+ 290 0234 0400A7E5 		str	r0, [r7, #4]!	@ float
+  31:main.c        ****     z[i] = rand();
+ 291              		.loc 1 31 0
+ 292 0238 FEFFFFEB 		bl	rand
+ 293 023c 100A07EE 		fmsr	s14, r0	@ int
+ 294 0240 C77AF8EE 		fsitos	s15, s14
+ 295 0244 900A17EE 		fmrs	r0, s15
+ 296 0248 0400A8E5 		str	r0, [r8, #4]!	@ float
+  32:main.c        ****     vx[i] = rand()/100;
+ 297              		.loc 1 32 0
+ 298 024c FEFFFFEB 		bl	rand
+ 299 0250 6410A0E3 		mov	r1, #100
+ 300 0254 FEFFFFEB 		bl	__aeabi_idiv
+ 301 0258 100A07EE 		fmsr	s14, r0	@ int
+ 302 025c C77AF8EE 		fsitos	s15, s14
+ 303 0260 900A17EE 		fmrs	r0, s15
+ 304 0264 0400AAE5 		str	r0, [sl, #4]!	@ float
+  33:main.c        ****     vy[i] = rand()/100;
+ 305              		.loc 1 33 0
+ 306 0268 FEFFFFEB 		bl	rand
+ 307 026c 6410A0E3 		mov	r1, #100
+ 308 0270 FEFFFFEB 		bl	__aeabi_idiv
+ 309 0274 100A07EE 		fmsr	s14, r0	@ int
+ 310 0278 C77AF8EE 		fsitos	s15, s14
+ 311 027c 007ACBED 		fsts	s15, [fp, #0]
+  34:main.c        ****     vz[i] = rand()/100;
+ 312              		.loc 1 34 0
+ 313 0280 FEFFFFEB 		bl	rand
+ 314 0284 6410A0E3 		mov	r1, #100
+ 315 0288 FEFFFFEB 		bl	__aeabi_idiv
+ 316 028c 100A07EE 		fmsr	s14, r0	@ int
+ 317 0290 C77AF8EE 		fsitos	s15, s14
+ 318 0294 007AC9ED 		fsts	s15, [r9, #0]
+  35:main.c        ****     m[i] = rand();
+ 319              		.loc 1 35 0
+ 320 0298 FEFFFFEB 		bl	rand
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 321              		.loc 1 39 0
+ 322 029c 043085E0 		add	r3, r5, r4
+  35:main.c        ****     m[i] = rand();
+ 323              		.loc 1 35 0
+ 324 02a0 044084E2 		add	r4, r4, #4
+  28:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 325              		.loc 1 28 0
+ 326 02a4 FA0E54E3 		cmp	r4, #4000
+  35:main.c        ****     m[i] = rand();
+ 327              		.loc 1 35 0
+ 328 02a8 100A07EE 		fmsr	s14, r0	@ int
+ 329 02ac C77AF8EE 		fsitos	s15, s14
+ 330 02b0 007AC3ED 		fsts	s15, [r3, #0]
+  28:main.c        ****   for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 331              		.loc 1 28 0
+ 332 02b4 D1FFFF1A 		bne	.L12
+ 333 02b8 7E8D8DE2 		add	r8, sp, #8064
+ 334              	.LBE21:
+ 335              	.LBE20:
+  52:main.c        ****   init();
+  53:main.c        **** 
+  54:main.c        ****   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
+ 336              		.loc 1 54 0
+ 337 02bc FB1D8DE2 		add	r1, sp, #16064
+ 338 02c0 188088E2 		add	r8, r8, #24
+ 339 02c4 201081E2 		add	r1, r1, #32
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 340              		.loc 1 39 0
+ 341 02c8 0F9008E2 		and	r9, r8, #15
+ 342              		.loc 1 54 0
+ 343 02cc 0200A0E3 		mov	r0, #2
+ 344 02d0 FEFFFFEB 		bl	clock_gettime
+ 345              	.LVL6:
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 346              		.loc 1 39 0
+ 347 02d4 000059E3 		cmp	r9, #0
+ 348 02d8 0290A013 		movne	r9, #2
+ 349 02dc 0090A003 		moveq	r9, #0
+ 350 02e0 FA2F69E2 		rsb	r2, r9, #1000
+ 351 02e4 00A000E3 		movw	sl, #:lower16:z
+ 352 02e8 00A040E3 		movt	sl, #:upper16:z
+ 353 02ec 000000E3 		movw	r0, #:lower16:x
+ 354 02f0 22B1A0E1 		mov	fp, r2, lsr #2
+ 355 02f4 001000E3 		movw	r1, #:lower16:y
+ 356 02f8 003000E3 		movw	r3, #:lower16:xnew
+ 357 02fc 004000E3 		movw	r4, #:lower16:ynew
+ 358 0300 005000E3 		movw	r5, #:lower16:znew
+ 359              		.loc 1 54 0
+ 360 0304 10C0A0E3 		mov	ip, #16
+ 361 0308 000040E3 		movt	r0, #:upper16:x
+ 362 030c 001040E3 		movt	r1, #:upper16:y
+ 363 0310 003040E3 		movt	r3, #:upper16:xnew
+ 364 0314 004040E3 		movt	r4, #:upper16:ynew
+ 365 0318 005040E3 		movt	r5, #:upper16:znew
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 366              		.loc 1 39 0
+ 367 031c 0BE1A0E1 		mov	lr, fp, asl #2
+ 368 0320 44208DE5 		str	r2, [sp, #68]
+  55:main.c        **** //printf("time: %d s %d ns\n", (int)t1.tv_sec, (int)t1.tv_nsec);
+  56:main.c        **** 
+  57:main.c        ****   for (s=0; s<STEPS; s++) {
+  58:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+  59:main.c        ****       ax=0.0f;
+  60:main.c        ****       ay=0.0f;
+  61:main.c        ****       az=0.0f;
+  62:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+  63:main.c        **** 	    dx[j]=x[j]-x[i];
+  64:main.c        **** 	    dy[j]=y[j]-y[i];
+  65:main.c        **** 	    dz[j]=z[j]-z[i];
+  66:main.c        **** 	    in_sqrt[j] = dx[j]*dx[j] + dy[j]*dy[j] + dz[j]*dz[j] + eps;
+ 369              		.loc 1 66 0
+ 370 0324 D37ADFED 		flds	s15, .L42+16
+  54:main.c        ****   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
+ 371              		.loc 1 54 0
+ 372 0328 48C08DE5 		str	ip, [sp, #72]
+ 373 032c 28008DE5 		str	r0, [sp, #40]
+ 374 0330 2C108DE5 		str	r1, [sp, #44]
+ 375 0334 3C308DE5 		str	r3, [sp, #60]
+ 376 0338 40408DE5 		str	r4, [sp, #64]
+ 377 033c 38508DE5 		str	r5, [sp, #56]
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 378              		.loc 1 39 0
+ 379 0340 14E08DE5 		str	lr, [sp, #20]
+ 380              	.LVL7:
+ 381              	.L13:
+  57:main.c        ****   for (s=0; s<STEPS; s++) {
+ 382              		.loc 1 57 0 discriminator 1
+ 383 0344 003000E3 		movw	r3, #:lower16:x
+ 384 0348 004000E3 		movw	r4, #:lower16:y
+ 385 034c 005000E3 		movw	r5, #:lower16:z
+ 386 0350 00C000E3 		movw	ip, #:lower16:vx
+ 387 0354 003040E3 		movt	r3, #:upper16:x
+ 388 0358 004040E3 		movt	r4, #:upper16:y
+ 389 035c 005040E3 		movt	r5, #:upper16:z
+ 390 0360 00C040E3 		movt	ip, #:upper16:vx
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 391              		.loc 1 39 0 discriminator 1
+ 392 0364 00E0A0E3 		mov	lr, #0
+  57:main.c        ****   for (s=0; s<STEPS; s++) {
+ 393              		.loc 1 57 0 discriminator 1
+ 394 0368 18308DE5 		str	r3, [sp, #24]
+ 395 036c 1C408DE5 		str	r4, [sp, #28]
+ 396              		.loc 1 66 0 discriminator 1
+ 397 0370 BCEBDFED 		vldr	d30, .L42
+ 398 0374 BDFBDFED 		vldr	d31, .L42+8
+  57:main.c        ****   for (s=0; s<STEPS; s++) {
+ 399              		.loc 1 57 0 discriminator 1
+ 400 0378 20508DE5 		str	r5, [sp, #32]
+ 401 037c 24C08DE5 		str	ip, [sp, #36]
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 402              		.loc 1 39 0 discriminator 1
+ 403 0380 10E08DE5 		str	lr, [sp, #16]
+ 404              	.LVL8:
+ 405              	.L25:
+ 406 0384 000059E3 		cmp	r9, #0
+ 407 0388 1C209DE5 		ldr	r2, [sp, #28]
+ 408 038c 20309DE5 		ldr	r3, [sp, #32]
+ 409 0390 006AD2ED 		flds	s13, [r2, #0]
+ 410 0394 18109DE5 		ldr	r1, [sp, #24]
+ 411 0398 007A93ED 		flds	s14, [r3, #0]
+ 412 039c 006A91ED 		flds	s12, [r1, #0]
+ 413 03a0 0870A0E1 		mov	r7, r8
+ 414 03a4 FA2FA003 		moveq	r2, #1000
+ 415 03a8 0930A001 		moveq	r3, r9
+ 416 03ac 1E00000A 		beq	.L20
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 417              		.loc 1 39 0 is_stmt 0
+ 418 03b0 0010A0E3 		mov	r1, #0
+ 419 03b4 CCC29FE5 		ldr	ip, .L42+32
+ 420 03b8 C4029FE5 		ldr	r0, .L42+28
+ 421 03bc 0130A0E1 		mov	r3, r1
+ 422              	.LVL9:
+ 423              	.L21:
+  64:main.c        **** 	    dy[j]=y[j]-y[i];
+ 424              		.loc 1 64 0 is_stmt 1
+ 425 03c0 04C08CE2 		add	ip, ip, #4
+ 426 03c4 004ADCED 		flds	s9, [ip, #0]
+ 427 03c8 E64A74EE 		fsubs	s9, s9, s13
+  63:main.c        **** 	    dx[j]=x[j]-x[i];
+ 428              		.loc 1 63 0
+ 429 03cc 040080E2 		add	r0, r0, #4
+ 430 03d0 005A90ED 		flds	s10, [r0, #0]
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 431              		.loc 1 39 0
+ 432 03d4 0A2081E0 		add	r2, r1, sl
+  65:main.c        **** 	    dz[j]=z[j]-z[i];
+ 433              		.loc 1 65 0
+ 434 03d8 004A92ED 		flds	s8, [r2, #0]
+  62:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 435              		.loc 1 62 0
+ 436 03dc 013083E2 		add	r3, r3, #1
+ 437              	.LVL10:
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 438              		.loc 1 39 0
+ 439 03e0 FFEE8DE2 		add	lr, sp, #4080
+ 440 03e4 030059E1 		cmp	r9, r3
+ 441 03e8 08E08EE2 		add	lr, lr, #8
+ 442 03ec 58208DE2 		add	r2, sp, #88
+ 443 03f0 01508EE0 		add	r5, lr, r1
+ 444 03f4 014088E0 		add	r4, r8, r1
+ 445 03f8 01E082E0 		add	lr, r2, r1
+ 446 03fc FA2F63E2 		rsb	r2, r3, #1000
+ 447 0400 041081E2 		add	r1, r1, #4
+ 448              		.loc 1 66 0
+ 449 0404 A45A64EE 		fmuls	s11, s9, s9
+  64:main.c        **** 	    dy[j]=y[j]-y[i];
+ 450              		.loc 1 64 0
+ 451 0408 004AC5ED 		fsts	s9, [r5, #0]
+  63:main.c        **** 	    dx[j]=x[j]-x[i];
+ 452              		.loc 1 63 0
+ 453 040c 465A35EE 		fsubs	s10, s10, s12
+ 454              		.loc 1 66 0
+ 455 0410 055A45EE 		fmacs	s11, s10, s10
+  63:main.c        **** 	    dx[j]=x[j]-x[i];
+ 456              		.loc 1 63 0
+ 457 0414 005A84ED 		fsts	s10, [r4, #0]
+  65:main.c        **** 	    dz[j]=z[j]-z[i];
+ 458              		.loc 1 65 0
+ 459 0418 474A34EE 		fsubs	s8, s8, s14
+ 460              		.loc 1 66 0
+ 461 041c A75A75EE 		fadds	s11, s11, s15
+ 462 0420 045A44EE 		fmacs	s11, s8, s8
+ 463 0424 005ACEED 		fsts	s11, [lr, #0]
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 464              		.loc 1 39 0
+ 465 0428 E4FFFF8A 		bhi	.L21
+ 466              	.LVL11:
+ 467              	.L20:
+ 468 042c 14409DE5 		ldr	r4, [sp, #20]
+ 469 0430 000054E3 		cmp	r4, #0
+ 470 0434 2500000A 		beq	.L22
+ 471 0438 FF1E8DE2 		add	r1, sp, #4080
+ 472 043c 0901A0E1 		mov	r0, r9, asl #2
+ 473 0440 28509DE5 		ldr	r5, [sp, #40]
+ 474 0444 081081E2 		add	r1, r1, #8
+ 475 0448 2CC09DE5 		ldr	ip, [sp, #44]
+ 476 044c 00E081E0 		add	lr, r1, r0
+ 477 0450 58108DE2 		add	r1, sp, #88
+ 478 0454 056080E0 		add	r6, r0, r5
+ 479 0458 0C4080E0 		add	r4, r0, ip
+ 480 045c 005088E0 		add	r5, r8, r0
+ 481 0460 0AC080E0 		add	ip, r0, sl
+ 482 0464 468CF4F3 		vdup.32	q12, d6[0]
+ 483 0468 000081E0 		add	r0, r1, r0
+ 484 046c 46ACFCF3 		vdup.32	q13, d6[1]
+ 485 0470 47CCF4F3 		vdup.32	q14, d7[0]
+ 486 0474 0010A0E3 		mov	r1, #0
+ 487              	.L14:
+  64:main.c        **** 	    dy[j]=y[j]-y[i];
+ 488              		.loc 1 64 0 discriminator 2
+ 489 0478 8D4A64F4 		vld1.32	{q10}, [r4]!
+ 490              		.loc 1 66 0 discriminator 2
+ 491 047c 011081E2 		add	r1, r1, #1
+  64:main.c        **** 	    dy[j]=y[j]-y[i];
+ 492              		.loc 1 64 0 discriminator 2
+ 493 0480 EA4D64F2 		vsub.f32	q10, q10, q13
+ 494              		.loc 1 66 0 discriminator 2
+ 495 0484 01005BE1 		cmp	fp, r1
+  63:main.c        **** 	    dx[j]=x[j]-x[i];
+ 496              		.loc 1 63 0 discriminator 2
+ 497 0488 8D2A66F4 		vld1.32	{q9}, [r6]!
+ 498 048c E82D62F2 		vsub.f32	q9, q9, q12
+ 499 0490 042BE5EC 		vstmia	r5!, {d18-d19}
+  65:main.c        **** 	    dz[j]=z[j]-z[i];
+ 500              		.loc 1 65 0 discriminator 2
+ 501 0494 8D6A6CF4 		vld1.32	{q11}, [ip]!
+ 502 0498 EC6D66F2 		vsub.f32	q11, q11, q14
+ 503              		.loc 1 66 0 discriminator 2
+ 504 049c F40D44F3 		vmul.f32	q8, q10, q10
+  64:main.c        **** 	    dy[j]=y[j]-y[i];
+ 505              		.loc 1 64 0 discriminator 2
+ 506 04a0 8D4A4EF4 		vst1.32	{q10}, [lr]!
+ 507              		.loc 1 66 0 discriminator 2
+ 508 04a4 F20D42F2 		vmla.f32	q8, q9, q9
+ 509 04a8 EE0D40F2 		vadd.f32	q8, q8, q15
+ 510 04ac F60D46F2 		vmla.f32	q8, q11, q11
+ 511 04b0 8D0A40F4 		vst1.32	{q8}, [r0]!
+ 512 04b4 EFFFFF8A 		bhi	.L14
+ 513              		.loc 1 66 0 is_stmt 0
+ 514 04b8 14109DE5 		ldr	r1, [sp, #20]
+ 515 04bc 44009DE5 		ldr	r0, [sp, #68]
+ 516 04c0 013083E0 		add	r3, r3, r1
+ 517 04c4 022061E0 		rsb	r2, r1, r2
+ 518 04c8 010050E1 		cmp	r0, r1
+ 519 04cc 2100000A 		beq	.L15
+ 520              	.L22:
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 521              		.loc 1 39 0 is_stmt 1
+ 522 04d0 013043E2 		sub	r3, r3, #1
+ 523 04d4 28509DE5 		ldr	r5, [sp, #40]
+ 524 04d8 2C009DE5 		ldr	r0, [sp, #44]
+ 525 04dc FF1E8DE2 		add	r1, sp, #4080
+ 526 04e0 0331A0E1 		mov	r3, r3, asl #2
+ 527 04e4 081081E2 		add	r1, r1, #8
+ 528 04e8 054083E0 		add	r4, r3, r5
+ 529 04ec 58508DE2 		add	r5, sp, #88
+ 530 04f0 00C083E0 		add	ip, r3, r0
+ 531 04f4 03E088E0 		add	lr, r8, r3
+ 532 04f8 030081E0 		add	r0, r1, r3
+ 533 04fc 0A1083E0 		add	r1, r3, sl
+ 534 0500 033085E0 		add	r3, r5, r3
+ 535              	.L16:
+  64:main.c        **** 	    dy[j]=y[j]-y[i];
+ 536              		.loc 1 64 0
+ 537 0504 04C08CE2 		add	ip, ip, #4
+ 538 0508 004ADCED 		flds	s9, [ip, #0]
+ 539 050c E64A74EE 		fsubs	s9, s9, s13
+  63:main.c        **** 	    dx[j]=x[j]-x[i];
+ 540              		.loc 1 63 0
+ 541 0510 044084E2 		add	r4, r4, #4
+ 542 0514 005A94ED 		flds	s10, [r4, #0]
+  65:main.c        **** 	    dz[j]=z[j]-z[i];
+ 543              		.loc 1 65 0
+ 544 0518 041081E2 		add	r1, r1, #4
+ 545 051c 004A91ED 		flds	s8, [r1, #0]
+  62:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 546              		.loc 1 62 0
+ 547 0520 012052E2 		subs	r2, r2, #1
+ 548              		.loc 1 66 0
+ 549 0524 A45A64EE 		fmuls	s11, s9, s9
+  64:main.c        **** 	    dy[j]=y[j]-y[i];
+ 550              		.loc 1 64 0
+ 551 0528 905A14EE 		fmrs	r5, s9
+  63:main.c        **** 	    dx[j]=x[j]-x[i];
+ 552              		.loc 1 63 0
+ 553 052c 465A35EE 		fsubs	s10, s10, s12
+  64:main.c        **** 	    dy[j]=y[j]-y[i];
+ 554              		.loc 1 64 0
+ 555 0530 0450A0E5 		str	r5, [r0, #4]!	@ float
+ 556              		.loc 1 66 0
+ 557 0534 055A45EE 		fmacs	s11, s10, s10
+  63:main.c        **** 	    dx[j]=x[j]-x[i];
+ 558              		.loc 1 63 0
+ 559 0538 105A15EE 		fmrs	r5, s10
+ 560              		.loc 1 66 0
+ 561 053c A75A75EE 		fadds	s11, s11, s15
+  63:main.c        **** 	    dx[j]=x[j]-x[i];
+ 562              		.loc 1 63 0
+ 563 0540 0450AEE5 		str	r5, [lr, #4]!	@ float
+  65:main.c        **** 	    dz[j]=z[j]-z[i];
+ 564              		.loc 1 65 0
+ 565 0544 475A34EE 		fsubs	s10, s8, s14
+ 566              		.loc 1 66 0
+ 567 0548 055A45EE 		fmacs	s11, s10, s10
+ 568 054c 905A15EE 		fmrs	r5, s11
+ 569 0550 0450A3E5 		str	r5, [r3, #4]!	@ float
+  62:main.c        ****       for(j=0; j<N; j++) { /* Loop over all particles "j" */
+ 570              		.loc 1 62 0
+ 571 0554 EAFFFF1A 		bne	.L16
+ 572              	.L15:
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 573              		.loc 1 39 0
+ 574 0558 0030A0E3 		mov	r3, #0
+ 575              	.L17:
+ 576              	.LVL12:
+  67:main.c        **** 	  }
+  68:main.c        **** 	  for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
+  69:main.c        ****             //invr[j] = 1.0f/sqrtf(in_sqrt[j]);
+  70:main.c        ****             vec_invr = vld1q_f32(&in_sqrt[j]);
+ 577              		.loc 1 70 0 discriminator 2
+ 578 055c 0321A0E1 		mov	r2, r3, asl #2
+ 579              	.LBB22:
+ 580              	.LBB23:
+ 581              		.file 2 "/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h"
    1:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** /* ARM NEON intrinsics include file. This file is generated automatically
    2:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****    using neon-gen.ml.  Please do not edit manually.
    3:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
@@ -5787,202 +6064,6 @@
 5350:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vdupq_n_f32 (float32_t __a)
 5351:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
 5352:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vdup_nv4sf ((__builtin_neon_sf) __a);
- 342              		.loc 2 5352 0
- 343 02d8 D04B9FED 		vldr	d4, .L29
- 344 02dc D15B9FED 		vldr	d5, .L29+8
- 345              	.LBE143:
- 346              	.LBE142:
- 347              		.loc 1 71 0
- 348 02e0 30108DE5 		str	r1, [sp, #48]
-  72:main.c        **** //printf("time: %d s %d ns\n", (int)t1.tv_sec, (int)t1.tv_nsec);
-  73:main.c        **** 
-  74:main.c        ****   for (s=0; s<STEPS; s++) {
-  75:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
-  76:main.c        ****       ax=0.0f;
-  77:main.c        ****       ay=0.0f;
-  78:main.c        ****       az=0.0f;
-  79:main.c        **** 	  vec_dxi = vdupq_n_f32(x[i]);
-  80:main.c        **** 	  vec_dyi = vdupq_n_f32(y[i]);
-  81:main.c        **** 	  vec_dzi = vdupq_n_f32(z[i]);
-  82:main.c        **** //      vec_dxi = vld1q_f32(&x[i]);
-  83:main.c        **** //      vec_dyi = vld1q_f32(&y[i]);
-  84:main.c        **** //      vec_dzi = vld1q_f32(&z[i]);
-  85:main.c        **** /*float32x4_t vdupq_n_f32 (float32_t)
-  86:main.c        ****   Form of expected instruction(s): vdup.32 q0, r0*/
-  87:main.c        ****       for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
-  88:main.c        **** 	      //dx=x[j]-x[i];
-  89:main.c        **** 	      //dy=y[j]-y[i];
-  90:main.c        **** 	      //dz=z[j]-z[i];
-  91:main.c        **** 	      vec_dx = vld1q_f32(&x[j]);
-  92:main.c        **** 	      vec_dy = vld1q_f32(&y[j]);
-  93:main.c        **** 	      vec_dz = vld1q_f32(&z[j]);
-  94:main.c        **** 	      vec_dx = vsubq_f32(vec_dx, vec_dxi);
-  95:main.c        **** 	      vec_dy = vsubq_f32(vec_dy, vec_dyi);
-  96:main.c        **** 	      vec_dz = vsubq_f32(vec_dz, vec_dzi);
-  97:main.c        **** /*float32x4_t vld1q_f32 (const float32_t *)
-  98:main.c        ****   Form of expected instruction(s): vld1.32 {d0, d1}, [r0]*/
-  99:main.c        **** /*float32x4_t vsubq_f32 (float32x4_t, float32x4_t)
- 100:main.c        ****   Form of expected instruction(s): vsub.f32 q0, q0, q0*/
- 101:main.c        **** 	      
- 102:main.c        **** 	      //invr = 1.0f/sqrtf(dx*dx + dy*dy + dz*dz + eps);
- 103:main.c        **** 	      vec_invr = vdupq_n_f32(eps);
- 104:main.c        **** 	      vec_invr = vmlaq_f32(vec_invr, vec_dx, vec_dx);
- 105:main.c        **** 	      vec_invr = vmlaq_f32(vec_invr, vec_dy, vec_dy);
- 106:main.c        **** 	      vec_invr = vmlaq_f32(vec_invr, vec_dz, vec_dz);
- 107:main.c        **** 	      vec_invr = vrsqrteq_f32(vec_invr);
- 108:main.c        **** /*float32x4_t vrsqrteq_f32 (float32x4_t)
- 109:main.c        ****   Form of expected instruction(s): vrsqrte.f32 q0, q0*/
- 110:main.c        **** /*float32x4_t vmlaq_f32 (float32x4_t, float32x4_t, float32x4_t)
- 111:main.c        ****   Form of expected instruction(s): vmla.f32 q0, q0, q0*/
- 112:main.c        **** 
- 113:main.c        **** 	      //invr3 = invr*invr*invr;
- 114:main.c        **** 	      vec_invr3 = vmulq_f32(vec_invr, vec_invr);
- 115:main.c        **** 	      vec_invr3 = vmulq_f32(vec_invr3, vec_invr);
- 116:main.c        **** 	      //f=m[j]*invr3;
- 117:main.c        **** 	      vec_f = vld1q_f32(&m[j]);
- 118:main.c        **** 	      vec_f = vmulq_f32(vec_f, vec_invr3);
- 119:main.c        **** /*float32x4_t vmulq_f32 (float32x4_t, float32x4_t)
- 120:main.c        ****   Form of expected instruction(s): vmul.f32 q0, q0, q0*/
- 121:main.c        ****         
- 122:main.c        **** 	      //ax += f*dx; /* accumulate the acceleration from gravitational attraction */
- 123:main.c        **** 	      //ay += f*dy;
- 124:main.c        **** 	      //az += f*dx;
- 125:main.c        **** 	      vec_ax = vmulq_f32(vec_f, vec_dx);
- 126:main.c        **** 	      vec_ay = vmulq_f32(vec_f, vec_dy);
- 127:main.c        **** 	      vec_az = vmulq_f32(vec_f, vec_dx);
- 128:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 0);
- 129:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 1);
- 130:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 2);
- 131:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 3);
- 132:main.c        **** 	      
- 133:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 0);
- 134:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 1);
- 135:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 2);
- 136:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 3);
- 137:main.c        **** 	      
- 138:main.c        **** 	      az += vgetq_lane_f32(vec_az, 0);
- 139:main.c        **** 	      az += vgetq_lane_f32(vec_az, 1);
- 140:main.c        **** 	      az += vgetq_lane_f32(vec_az, 2);
- 141:main.c        **** 	      az += vgetq_lane_f32(vec_az, 3);
- 142:main.c        **** 	      
- 143:main.c        **** /*float32x4_t vmlaq_f32 (float32x4_t, float32x4_t, float32x4_t)
- 144:main.c        ****   Form of expected instruction(s): vmla.f32 q0, q0, q0*/
- 145:main.c        ****       }
- 146:main.c        ****       xnew[i] = x[i] + dt*vx[i] + half_dtsq*ax; /* update position of particle "i" */
- 349              		.loc 1 146 0
- 350 02e4 D16A9FED 		flds	s12, .L29+16
- 351 02e8 D13ADFED 		flds	s7, .L29+20
- 352              	.LVL7:
- 353              	.L13:
-  74:main.c        ****   for (s=0; s<STEPS; s++) {
- 354              		.loc 1 74 0 discriminator 1
- 355 02ec 003000E3 		movw	r3, #:lower16:x
- 356 02f0 001000E3 		movw	r1, #:lower16:y
- 357 02f4 002000E3 		movw	r2, #:lower16:z
- 358 02f8 003040E3 		movt	r3, #:upper16:x
- 359 02fc 001040E3 		movt	r1, #:upper16:y
- 360 0300 002040E3 		movt	r2, #:upper16:z
- 361 0304 00B000E3 		movw	fp, #:lower16:vx
- 362 0308 009000E3 		movw	r9, #:lower16:vy
- 363 030c 00A000E3 		movw	sl, #:lower16:vz
- 364 0310 18308DE5 		str	r3, [sp, #24]
- 365 0314 1C108DE5 		str	r1, [sp, #28]
- 366 0318 00B040E3 		movt	fp, #:upper16:vx
- 367 031c 28339FE5 		ldr	r3, .L29+44
- 368 0320 009040E3 		movt	r9, #:upper16:vy
- 369 0324 14208DE5 		str	r2, [sp, #20]
- 370 0328 00A040E3 		movt	sl, #:upper16:vz
- 371 032c 1C139FE5 		ldr	r1, .L29+48
- 372 0330 1C239FE5 		ldr	r2, .L29+52
- 373 0334 24308DE5 		str	r3, [sp, #36]
-  68:main.c        ****   enable_runfast();
- 374              		.loc 1 68 0 discriminator 1
- 375 0338 FA3FA0E3 		mov	r3, #1000
-  74:main.c        ****   for (s=0; s<STEPS; s++) {
- 376              		.loc 1 74 0 discriminator 1
- 377 033c 28108DE5 		str	r1, [sp, #40]
- 378 0340 2C208DE5 		str	r2, [sp, #44]
-  68:main.c        ****   enable_runfast();
- 379              		.loc 1 68 0 discriminator 1
- 380 0344 20308DE5 		str	r3, [sp, #32]
- 381              	.LVL8:
- 382              	.L15:
- 383              	.LBB144:
- 384              	.LBB146:
-  78:main.c        ****       az=0.0f;
- 385              		.loc 1 78 0
- 386 0348 BA7ADFED 		flds	s15, .L29+24
-  77:main.c        ****       ay=0.0f;
- 387              		.loc 1 77 0
- 388 034c 677AB0EE 		fcpys	s14, s15
- 389              	.LBE146:
- 390              	.LBE144:
- 391              	.LBB149:
- 392              	.LBB150:
- 393              		.loc 2 5352 0
- 394 0350 1C309DE5 		ldr	r3, [sp, #28]
- 395 0354 002AD3ED 		flds	s5, [r3, #0]
- 396              	.LBE150:
- 397              	.LBE149:
- 398              	.LBB152:
- 399              	.LBB154:
- 400 0358 18209DE5 		ldr	r2, [sp, #24]
- 401              	.LBE154:
- 402              	.LBE152:
- 403              	.LBB156:
- 404              	.LBB147:
-  87:main.c        ****       for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
- 405              		.loc 1 87 0
- 406 035c 0030A0E3 		mov	r3, #0
- 407              	.LBE147:
- 408              	.LBE156:
- 409              	.LBB157:
- 410              	.LBB153:
- 411              		.loc 2 5352 0
- 412 0360 003A92ED 		flds	s6, [r2, #0]
- 413              	.LBE153:
- 414              	.LBE157:
- 415              	.LBB158:
- 416              	.LBB145:
- 417 0364 14109DE5 		ldr	r1, [sp, #20]
-  76:main.c        ****       ax=0.0f;
- 418              		.loc 1 76 0
- 419 0368 676AF0EE 		fcpys	s13, s15
- 420              		.loc 2 5352 0
- 421 036c 001AD1ED 		flds	s3, [r1, #0]
- 422              	.LBE145:
- 423              	.LBE158:
- 424              	.LBB159:
- 425              	.LBB155:
- 426 0370 43ACF4F3 		vdup.32	q13, d3[0]
- 427              	.LVL9:
- 428              	.LBE155:
- 429              	.LBE159:
- 430              	.LBB160:
- 431              	.LBB151:
- 432 0374 42CCFCF3 		vdup.32	q14, d2[1]
- 433              	.LVL10:
- 434              	.LBE151:
- 435              	.LBE160:
- 436              	.LBB161:
- 437              	.LBB148:
- 438 0378 41ECFCF3 		vdup.32	q15, d1[1]
- 439              	.LVL11:
- 440              	.L14:
- 441              	.LBE148:
- 442              	.LBE161:
-  91:main.c        **** 	      vec_dx = vld1q_f32(&x[j]);
- 443              		.loc 1 91 0 discriminator 2
- 444 037c 0321A0E1 		mov	r2, r3, asl #2
- 445              	.LBB162:
- 446              	.LBB163:
-1152:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vmlav4sf (__a, __b, __c, 3);
- 447              		.loc 2 1152 0 discriminator 2
- 448 0380 540164F2 		vmov	q8, q2  @ v4sf
- 449              	.LBE163:
- 450              	.LBE162:
- 451              	.LBB165:
- 452              	.LBB166:
 5353:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
 5354:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
 5355:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint8x16_t __attribute__ ((__always_inline__))
@@ -8551,607 +8632,900 @@
 7918:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_f32 (const float32_t * __a)
 7919:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
 7920:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vld1v4sf ((const __builtin_neon_sf *) __a);
- 453              		.loc 2 7920 0 discriminator 2
- 454 0384 08C082E0 		add	ip, r2, r8
- 455              	.LBE166:
- 456              	.LBE165:
- 457              	.LBB168:
- 458              	.LBB169:
- 459 0388 070082E0 		add	r0, r2, r7
- 460              	.LBE169:
- 461              	.LBE168:
- 462              	.LBB171:
- 463              	.LBB172:
- 464 038c 061082E0 		add	r1, r2, r6
- 465              	.LBE172:
- 466              	.LBE171:
- 467              	.LBB174:
- 468              	.LBB175:
- 469 0390 022084E0 		add	r2, r4, r2
- 470              	.LBE175:
- 471              	.LBE174:
- 472              	.LBB177:
- 473              	.LBB167:
- 474 0394 8F4A6CF4 		vld1.32	{d20-d21}, [ip]
- 475              	.LBE167:
- 476              	.LBE177:
-  87:main.c        ****       for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
- 477              		.loc 1 87 0 discriminator 2
- 478 0398 043083E2 		add	r3, r3, #4
- 479              	.LVL12:
- 480              	.LBB178:
- 481              	.LBB179:
-1434:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vsubv4sf (__a, __b, 3);
- 482              		.loc 2 1434 0 discriminator 2
- 483 039c EA4D64F2 		vsub.f32	q10, q10, q13
- 484              	.LBE179:
- 485              	.LBE178:
-  87:main.c        ****       for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
- 486              		.loc 1 87 0 discriminator 2
- 487 03a0 FA0F53E3 		cmp	r3, #1000
- 488              	.LBB180:
- 489              	.LBB170:
- 490              		.loc 2 7920 0 discriminator 2
- 491 03a4 8F2A60F4 		vld1.32	{d18-d19}, [r0]
- 492              	.LBE170:
- 493              	.LBE180:
- 494              	.LBB181:
- 495              	.LBB182:
-1434:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vsubv4sf (__a, __b, 3);
- 496              		.loc 2 1434 0 discriminator 2
- 497 03a8 EC2D62F2 		vsub.f32	q9, q9, q14
- 498              	.LBE182:
- 499              	.LBE181:
- 500              	.LBB183:
- 501              	.LBB173:
- 502              		.loc 2 7920 0 discriminator 2
- 503 03ac 8F6A61F4 		vld1.32	{d22-d23}, [r1]
- 504              	.LVL13:
- 505              	.LBE173:
- 506              	.LBE183:
- 507              	.LBB184:
- 508              	.LBB185:
-1434:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vsubv4sf (__a, __b, 3);
- 509              		.loc 2 1434 0 discriminator 2
- 510 03b0 EE6D66F2 		vsub.f32	q11, q11, q15
- 511              	.LVL14:
- 512              	.LBE185:
- 513              	.LBE184:
- 514              	.LBB186:
- 515              	.LBB176:
- 516              		.loc 2 7920 0 discriminator 2
- 517 03b4 8F8A62F4 		vld1.32	{d24-d25}, [r2]
- 518              	.LBE176:
- 519              	.LBE186:
- 520              	.LBB187:
- 521              	.LBB164:
-1152:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vmlav4sf (__a, __b, __c, 3);
- 522              		.loc 2 1152 0 discriminator 2
- 523 03b8 F40D44F2 		vmla.f32	q8, q10, q10
- 524              	.LVL15:
- 525              	.LBE164:
- 526              	.LBE187:
- 527              	.LBB188:
- 528              	.LBB189:
- 529 03bc F20D42F2 		vmla.f32	q8, q9, q9
- 530              	.LVL16:
- 531              	.LBE189:
- 532              	.LBE188:
- 533              	.LBB190:
- 534              	.LBB191:
- 535 03c0 F60D46F2 		vmla.f32	q8, q11, q11
- 536              	.LVL17:
- 537              	.LBE191:
- 538              	.LBE190:
- 539              	.LBB192:
- 540              	.LBB193:
+ 582              		.loc 2 7920 0 discriminator 2
+ 583 0560 58C08DE2 		add	ip, sp, #88
+ 584 0564 02108CE0 		add	r1, ip, r2
+ 585              	.LBE23:
+ 586              	.LBE22:
+ 587              	.LBB25:
+ 588              	.LBB27:
+7921:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7922:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7923:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint8x16_t __attribute__ ((__always_inline__))
+7924:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_u8 (const uint8_t * __a)
+7925:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7926:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint8x16_t)__builtin_neon_vld1v16qi ((const __builtin_neon_qi *) __a);
+7927:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7928:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7929:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint16x8_t __attribute__ ((__always_inline__))
+7930:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_u16 (const uint16_t * __a)
+7931:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7932:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint16x8_t)__builtin_neon_vld1v8hi ((const __builtin_neon_hi *) __a);
+7933:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7934:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7935:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint32x4_t __attribute__ ((__always_inline__))
+7936:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_u32 (const uint32_t * __a)
+7937:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7938:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint32x4_t)__builtin_neon_vld1v4si ((const __builtin_neon_si *) __a);
+7939:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7940:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7941:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint64x2_t __attribute__ ((__always_inline__))
+7942:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_u64 (const uint64_t * __a)
+7943:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7944:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint64x2_t)__builtin_neon_vld1v2di ((const __builtin_neon_di *) __a);
+7945:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7946:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7947:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline poly8x16_t __attribute__ ((__always_inline__))
+7948:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_p8 (const poly8_t * __a)
+7949:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7950:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (poly8x16_t)__builtin_neon_vld1v16qi ((const __builtin_neon_qi *) __a);
+7951:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7952:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7953:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline poly16x8_t __attribute__ ((__always_inline__))
+7954:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_p16 (const poly16_t * __a)
+7955:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7956:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (poly16x8_t)__builtin_neon_vld1v8hi ((const __builtin_neon_hi *) __a);
+7957:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7958:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7959:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int8x8_t __attribute__ ((__always_inline__))
+7960:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_s8 (const int8_t * __a, int8x8_t __b, const int __c)
+7961:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7962:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int8x8_t)__builtin_neon_vld1_lanev8qi ((const __builtin_neon_qi *) __a, __b, __c);
+7963:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7964:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7965:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int16x4_t __attribute__ ((__always_inline__))
+7966:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_s16 (const int16_t * __a, int16x4_t __b, const int __c)
+7967:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7968:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int16x4_t)__builtin_neon_vld1_lanev4hi ((const __builtin_neon_hi *) __a, __b, __c);
+7969:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7970:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7971:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int32x2_t __attribute__ ((__always_inline__))
+7972:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_s32 (const int32_t * __a, int32x2_t __b, const int __c)
+7973:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7974:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int32x2_t)__builtin_neon_vld1_lanev2si ((const __builtin_neon_si *) __a, __b, __c);
+7975:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7976:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7977:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline float32x2_t __attribute__ ((__always_inline__))
+7978:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_f32 (const float32_t * __a, float32x2_t __b, const int __c)
+7979:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7980:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x2_t)__builtin_neon_vld1_lanev2sf ((const __builtin_neon_sf *) __a, __b, __c);
+7981:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7982:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7983:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint8x8_t __attribute__ ((__always_inline__))
+7984:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_u8 (const uint8_t * __a, uint8x8_t __b, const int __c)
+7985:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7986:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint8x8_t)__builtin_neon_vld1_lanev8qi ((const __builtin_neon_qi *) __a, (int8x8_t) __b, 
+7987:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7988:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7989:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint16x4_t __attribute__ ((__always_inline__))
+7990:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_u16 (const uint16_t * __a, uint16x4_t __b, const int __c)
+7991:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7992:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint16x4_t)__builtin_neon_vld1_lanev4hi ((const __builtin_neon_hi *) __a, (int16x4_t) __b
+7993:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+7994:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+7995:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint32x2_t __attribute__ ((__always_inline__))
+7996:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_u32 (const uint32_t * __a, uint32x2_t __b, const int __c)
+7997:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+7998:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint32x2_t)__builtin_neon_vld1_lanev2si ((const __builtin_neon_si *) __a, (int32x2_t) __b
+7999:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8000:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8001:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline poly8x8_t __attribute__ ((__always_inline__))
+8002:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_p8 (const poly8_t * __a, poly8x8_t __b, const int __c)
+8003:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8004:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (poly8x8_t)__builtin_neon_vld1_lanev8qi ((const __builtin_neon_qi *) __a, (int8x8_t) __b, 
+8005:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8006:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8007:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline poly16x4_t __attribute__ ((__always_inline__))
+8008:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_p16 (const poly16_t * __a, poly16x4_t __b, const int __c)
+8009:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8010:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (poly16x4_t)__builtin_neon_vld1_lanev4hi ((const __builtin_neon_hi *) __a, (int16x4_t) __b
+8011:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8012:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8013:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int64x1_t __attribute__ ((__always_inline__))
+8014:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_s64 (const int64_t * __a, int64x1_t __b, const int __c)
+8015:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8016:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int64x1_t)__builtin_neon_vld1_lanedi ((const __builtin_neon_di *) __a, __b, __c);
+8017:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8018:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8019:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint64x1_t __attribute__ ((__always_inline__))
+8020:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_lane_u64 (const uint64_t * __a, uint64x1_t __b, const int __c)
+8021:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8022:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint64x1_t)__builtin_neon_vld1_lanedi ((const __builtin_neon_di *) __a, (int64x1_t) __b, 
+8023:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8024:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8025:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int8x16_t __attribute__ ((__always_inline__))
+8026:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_s8 (const int8_t * __a, int8x16_t __b, const int __c)
+8027:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8028:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int8x16_t)__builtin_neon_vld1_lanev16qi ((const __builtin_neon_qi *) __a, __b, __c);
+8029:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8030:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8031:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int16x8_t __attribute__ ((__always_inline__))
+8032:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_s16 (const int16_t * __a, int16x8_t __b, const int __c)
+8033:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8034:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int16x8_t)__builtin_neon_vld1_lanev8hi ((const __builtin_neon_hi *) __a, __b, __c);
+8035:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8036:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8037:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int32x4_t __attribute__ ((__always_inline__))
+8038:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_s32 (const int32_t * __a, int32x4_t __b, const int __c)
+8039:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8040:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int32x4_t)__builtin_neon_vld1_lanev4si ((const __builtin_neon_si *) __a, __b, __c);
+8041:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8042:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8043:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline float32x4_t __attribute__ ((__always_inline__))
+8044:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_f32 (const float32_t * __a, float32x4_t __b, const int __c)
+8045:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8046:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vld1_lanev4sf ((const __builtin_neon_sf *) __a, __b, __c);
+8047:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8048:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8049:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint8x16_t __attribute__ ((__always_inline__))
+8050:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_u8 (const uint8_t * __a, uint8x16_t __b, const int __c)
+8051:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8052:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint8x16_t)__builtin_neon_vld1_lanev16qi ((const __builtin_neon_qi *) __a, (int8x16_t) __
+8053:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8054:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8055:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint16x8_t __attribute__ ((__always_inline__))
+8056:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_u16 (const uint16_t * __a, uint16x8_t __b, const int __c)
+8057:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8058:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint16x8_t)__builtin_neon_vld1_lanev8hi ((const __builtin_neon_hi *) __a, (int16x8_t) __b
+8059:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8060:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8061:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint32x4_t __attribute__ ((__always_inline__))
+8062:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_u32 (const uint32_t * __a, uint32x4_t __b, const int __c)
+8063:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8064:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint32x4_t)__builtin_neon_vld1_lanev4si ((const __builtin_neon_si *) __a, (int32x4_t) __b
+8065:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8066:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8067:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline poly8x16_t __attribute__ ((__always_inline__))
+8068:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_p8 (const poly8_t * __a, poly8x16_t __b, const int __c)
+8069:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8070:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (poly8x16_t)__builtin_neon_vld1_lanev16qi ((const __builtin_neon_qi *) __a, (int8x16_t) __
+8071:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8072:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8073:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline poly16x8_t __attribute__ ((__always_inline__))
+8074:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_p16 (const poly16_t * __a, poly16x8_t __b, const int __c)
+8075:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8076:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (poly16x8_t)__builtin_neon_vld1_lanev8hi ((const __builtin_neon_hi *) __a, (int16x8_t) __b
+8077:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8078:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8079:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int64x2_t __attribute__ ((__always_inline__))
+8080:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_s64 (const int64_t * __a, int64x2_t __b, const int __c)
+8081:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8082:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int64x2_t)__builtin_neon_vld1_lanev2di ((const __builtin_neon_di *) __a, __b, __c);
+8083:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8084:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8085:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint64x2_t __attribute__ ((__always_inline__))
+8086:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_lane_u64 (const uint64_t * __a, uint64x2_t __b, const int __c)
+8087:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8088:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint64x2_t)__builtin_neon_vld1_lanev2di ((const __builtin_neon_di *) __a, (int64x2_t) __b
+8089:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8090:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8091:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int8x8_t __attribute__ ((__always_inline__))
+8092:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_s8 (const int8_t * __a)
+8093:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8094:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int8x8_t)__builtin_neon_vld1_dupv8qi ((const __builtin_neon_qi *) __a);
+8095:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8096:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8097:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int16x4_t __attribute__ ((__always_inline__))
+8098:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_s16 (const int16_t * __a)
+8099:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8100:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int16x4_t)__builtin_neon_vld1_dupv4hi ((const __builtin_neon_hi *) __a);
+8101:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8102:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8103:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int32x2_t __attribute__ ((__always_inline__))
+8104:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_s32 (const int32_t * __a)
+8105:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8106:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int32x2_t)__builtin_neon_vld1_dupv2si ((const __builtin_neon_si *) __a);
+8107:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8108:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8109:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline float32x2_t __attribute__ ((__always_inline__))
+8110:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_f32 (const float32_t * __a)
+8111:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8112:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x2_t)__builtin_neon_vld1_dupv2sf ((const __builtin_neon_sf *) __a);
+8113:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8114:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8115:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint8x8_t __attribute__ ((__always_inline__))
+8116:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_u8 (const uint8_t * __a)
+8117:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8118:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint8x8_t)__builtin_neon_vld1_dupv8qi ((const __builtin_neon_qi *) __a);
+8119:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8120:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8121:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint16x4_t __attribute__ ((__always_inline__))
+8122:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_u16 (const uint16_t * __a)
+8123:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8124:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint16x4_t)__builtin_neon_vld1_dupv4hi ((const __builtin_neon_hi *) __a);
+8125:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8126:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8127:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint32x2_t __attribute__ ((__always_inline__))
+8128:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_u32 (const uint32_t * __a)
+8129:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8130:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint32x2_t)__builtin_neon_vld1_dupv2si ((const __builtin_neon_si *) __a);
+8131:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8132:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8133:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline poly8x8_t __attribute__ ((__always_inline__))
+8134:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_p8 (const poly8_t * __a)
+8135:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8136:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (poly8x8_t)__builtin_neon_vld1_dupv8qi ((const __builtin_neon_qi *) __a);
+8137:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8138:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8139:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline poly16x4_t __attribute__ ((__always_inline__))
+8140:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_p16 (const poly16_t * __a)
+8141:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8142:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (poly16x4_t)__builtin_neon_vld1_dupv4hi ((const __builtin_neon_hi *) __a);
+8143:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8144:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8145:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int64x1_t __attribute__ ((__always_inline__))
+8146:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_s64 (const int64_t * __a)
+8147:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8148:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int64x1_t)__builtin_neon_vld1_dupdi ((const __builtin_neon_di *) __a);
+8149:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8150:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8151:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint64x1_t __attribute__ ((__always_inline__))
+8152:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1_dup_u64 (const uint64_t * __a)
+8153:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8154:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint64x1_t)__builtin_neon_vld1_dupdi ((const __builtin_neon_di *) __a);
+8155:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8156:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8157:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int8x16_t __attribute__ ((__always_inline__))
+8158:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_s8 (const int8_t * __a)
+8159:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8160:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int8x16_t)__builtin_neon_vld1_dupv16qi ((const __builtin_neon_qi *) __a);
+8161:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8162:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8163:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int16x8_t __attribute__ ((__always_inline__))
+8164:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_s16 (const int16_t * __a)
+8165:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8166:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int16x8_t)__builtin_neon_vld1_dupv8hi ((const __builtin_neon_hi *) __a);
+8167:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8168:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8169:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int32x4_t __attribute__ ((__always_inline__))
+8170:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_s32 (const int32_t * __a)
+8171:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8172:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int32x4_t)__builtin_neon_vld1_dupv4si ((const __builtin_neon_si *) __a);
+8173:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8174:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8175:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline float32x4_t __attribute__ ((__always_inline__))
+8176:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_f32 (const float32_t * __a)
+8177:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8178:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vld1_dupv4sf ((const __builtin_neon_sf *) __a);
+8179:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8180:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8181:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint8x16_t __attribute__ ((__always_inline__))
+8182:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_u8 (const uint8_t * __a)
+8183:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8184:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint8x16_t)__builtin_neon_vld1_dupv16qi ((const __builtin_neon_qi *) __a);
+8185:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8186:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8187:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint16x8_t __attribute__ ((__always_inline__))
+8188:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_u16 (const uint16_t * __a)
+8189:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8190:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint16x8_t)__builtin_neon_vld1_dupv8hi ((const __builtin_neon_hi *) __a);
+8191:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8192:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8193:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint32x4_t __attribute__ ((__always_inline__))
+8194:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_u32 (const uint32_t * __a)
+8195:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8196:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint32x4_t)__builtin_neon_vld1_dupv4si ((const __builtin_neon_si *) __a);
+8197:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8198:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8199:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline poly8x16_t __attribute__ ((__always_inline__))
+8200:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_p8 (const poly8_t * __a)
+8201:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8202:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (poly8x16_t)__builtin_neon_vld1_dupv16qi ((const __builtin_neon_qi *) __a);
+8203:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8204:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8205:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline poly16x8_t __attribute__ ((__always_inline__))
+8206:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_p16 (const poly16_t * __a)
+8207:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8208:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (poly16x8_t)__builtin_neon_vld1_dupv8hi ((const __builtin_neon_hi *) __a);
+8209:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8210:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8211:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline int64x2_t __attribute__ ((__always_inline__))
+8212:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_s64 (const int64_t * __a)
+8213:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8214:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (int64x2_t)__builtin_neon_vld1_dupv2di ((const __builtin_neon_di *) __a);
+8215:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8216:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8217:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline uint64x2_t __attribute__ ((__always_inline__))
+8218:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vld1q_dup_u64 (const uint64_t * __a)
+8219:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8220:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (uint64x2_t)__builtin_neon_vld1_dupv2di ((const __builtin_neon_di *) __a);
+8221:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8222:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8223:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8224:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_s8 (int8_t * __a, int8x8_t __b)
+8225:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8226:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v8qi ((__builtin_neon_qi *) __a, __b);
+8227:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8228:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8229:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8230:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_s16 (int16_t * __a, int16x4_t __b)
+8231:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8232:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v4hi ((__builtin_neon_hi *) __a, __b);
+8233:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8234:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8235:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8236:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_s32 (int32_t * __a, int32x2_t __b)
+8237:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8238:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v2si ((__builtin_neon_si *) __a, __b);
+8239:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8240:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8241:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8242:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_s64 (int64_t * __a, int64x1_t __b)
+8243:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8244:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1di ((__builtin_neon_di *) __a, __b);
+8245:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8246:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8247:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8248:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_f32 (float32_t * __a, float32x2_t __b)
+8249:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8250:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v2sf ((__builtin_neon_sf *) __a, __b);
+8251:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8252:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8253:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8254:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_u8 (uint8_t * __a, uint8x8_t __b)
+8255:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8256:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v8qi ((__builtin_neon_qi *) __a, (int8x8_t) __b);
+8257:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8258:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8259:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8260:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_u16 (uint16_t * __a, uint16x4_t __b)
+8261:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8262:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v4hi ((__builtin_neon_hi *) __a, (int16x4_t) __b);
+8263:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8264:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8265:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8266:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_u32 (uint32_t * __a, uint32x2_t __b)
+8267:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8268:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v2si ((__builtin_neon_si *) __a, (int32x2_t) __b);
+8269:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8270:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8271:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8272:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_u64 (uint64_t * __a, uint64x1_t __b)
+8273:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8274:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1di ((__builtin_neon_di *) __a, (int64x1_t) __b);
+8275:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8276:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8277:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8278:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_p8 (poly8_t * __a, poly8x8_t __b)
+8279:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8280:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v8qi ((__builtin_neon_qi *) __a, (int8x8_t) __b);
+8281:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8282:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8283:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8284:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1_p16 (poly16_t * __a, poly16x4_t __b)
+8285:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8286:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v4hi ((__builtin_neon_hi *) __a, (int16x4_t) __b);
+8287:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8288:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8289:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8290:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1q_s8 (int8_t * __a, int8x16_t __b)
+8291:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8292:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v16qi ((__builtin_neon_qi *) __a, __b);
+8293:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8294:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8295:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8296:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1q_s16 (int16_t * __a, int16x8_t __b)
+8297:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8298:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v8hi ((__builtin_neon_hi *) __a, __b);
+8299:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8300:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8301:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8302:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1q_s32 (int32_t * __a, int32x4_t __b)
+8303:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8304:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v4si ((__builtin_neon_si *) __a, __b);
+8305:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8306:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8307:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8308:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1q_s64 (int64_t * __a, int64x2_t __b)
+8309:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8310:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v2di ((__builtin_neon_di *) __a, __b);
+8311:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** }
+8312:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** 
+8313:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** __extension__ static __inline void __attribute__ ((__always_inline__))
+8314:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** vst1q_f32 (float32_t * __a, float32x4_t __b)
+8315:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h **** {
+8316:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   __builtin_neon_vst1v4sf ((__builtin_neon_sf *) __a, __b);
+ 589              		.loc 2 8316 0 discriminator 2
+ 590 0568 2FEC8DE2 		add	lr, sp, #12032
+ 591              	.LBE27:
+ 592              	.LBE25:
+  68:main.c        **** 	  for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
+ 593              		.loc 1 68 0 discriminator 2
+ 594 056c 043083E2 		add	r3, r3, #4
+ 595              	.LVL13:
+ 596              	.LBB30:
+ 597              	.LBB28:
+ 598              		.loc 2 8316 0 discriminator 2
+ 599 0570 38E08EE2 		add	lr, lr, #56
+ 600              	.LBE28:
+ 601              	.LBE30:
+ 602              	.LBB31:
+ 603              	.LBB24:
+7920:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vld1v4sf ((const __builtin_neon_sf *) __a);
+ 604              		.loc 2 7920 0 discriminator 2
+ 605 0574 8F0A61F4 		vld1.32	{d16-d17}, [r1]
+ 606              	.LVL14:
+ 607              	.LBE24:
+ 608              	.LBE31:
+ 609              	.LBB32:
+ 610              	.LBB26:
+ 611              		.loc 2 8316 0 discriminator 2
+ 612 0578 02208EE0 		add	r2, lr, r2
+ 613              	.LBE26:
+ 614              	.LBE32:
+ 615              	.LBB33:
+ 616              	.LBB34:
 4926:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vrsqrtev4sf (__a, 3);
- 541              		.loc 2 4926 0 discriminator 2
- 542 03c4 E005FBF3 		vrsqrte.f32	q8, q8
- 543              	.LVL18:
- 544              	.LBE193:
- 545              	.LBE192:
- 546              	.LBB194:
- 547              	.LBB195:
- 960:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32x4_t)__builtin_neon_vmulv4sf (__a, __b, 3);
- 548              		.loc 2 960 0 discriminator 2
- 549 03c8 F06D40F3 		vmul.f32	q11, q8, q8
- 550              	.LVL19:
- 551              	.LBE195:
- 552              	.LBE194:
- 553              	.LBB196:
- 554              	.LBB197:
- 555 03cc F00D46F3 		vmul.f32	q8, q11, q8
- 556              	.LVL20:
- 557              	.LBE197:
- 558              	.LBE196:
- 559              	.LBB198:
- 560              	.LBB199:
- 561 03d0 F00D48F3 		vmul.f32	q8, q12, q8
- 562              	.LVL21:
- 563              	.LBE199:
- 564              	.LBE198:
- 565              	.LBB200:
- 566              	.LBB201:
- 567 03d4 F44D40F3 		vmul.f32	q10, q8, q10
- 568              	.LVL22:
- 569              	.LBE201:
- 570              	.LBE200:
- 571              	.LBB202:
- 572              	.LBB203:
- 573 03d8 F20D40F3 		vmul.f32	q8, q8, q9
- 574              	.LVL23:
- 575              	.LBE203:
- 576              	.LBE202:
- 577              	.LBB204:
- 578              	.LBB205:
-5022:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32_t)__builtin_neon_vget_lanev4sf (__a, __b, 3);
- 579              		.loc 2 5022 0 discriminator 2
- 580 03dc 902B14EE 		vmov.32	r2, d20[0]
- 581              	.LVL24:
- 582              	.LBE205:
- 583              	.LBE204:
- 584              	.LBB206:
- 585              	.LBB207:
- 586 03e0 901B34EE 		vmov.32	r1, d20[1]
- 587              	.LVL25:
- 588              	.LBE207:
- 589              	.LBE206:
- 128:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 0);
- 590              		.loc 1 128 0 discriminator 2
- 591 03e4 902A00EE 		fmsr	s1, r2
- 592 03e8 101A00EE 		fmsr	s0, r1
- 593              	.LBB208:
- 594              	.LBB209:
-5022:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32_t)__builtin_neon_vget_lanev4sf (__a, __b, 3);
- 595              		.loc 2 5022 0 discriminator 2
- 596 03ec 90EB10EE 		vmov.32	lr, d16[0]
- 597              	.LBE209:
- 598              	.LBE208:
- 599              	.LBB210:
- 600              	.LBB211:
- 601 03f0 905B30EE 		vmov.32	r5, d16[1]
- 602              	.LBE211:
- 603              	.LBE210:
- 128:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 0);
- 604              		.loc 1 128 0 discriminator 2
- 605 03f4 202A30EE 		fadds	s4, s0, s1
- 133:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 0);
- 606              		.loc 1 133 0 discriminator 2
- 607 03f8 105A00EE 		fmsr	s0, r5
- 608 03fc 90EA00EE 		fmsr	s1, lr
- 609              	.LBB212:
- 610              	.LBB213:
-5022:/usr/lib/gcc/arm-angstrom-linux-gnueabi/4.5.4/include/arm_neon.h ****   return (float32_t)__builtin_neon_vget_lanev4sf (__a, __b, 3);
- 611              		.loc 2 5022 0 discriminator 2
- 612 0400 90CB15EE 		vmov.32	ip, d21[0]
- 613              	.LVL26:
- 614              	.LBE213:
- 615              	.LBE212:
- 616              	.LBB214:
- 617              	.LBB215:
- 618 0404 900B11EE 		vmov.32	r0, d17[0]
- 619              	.LBE215:
- 620              	.LBE214:
- 621              	.LBB216:
- 622              	.LBB217:
- 623 0408 901B35EE 		vmov.32	r1, d21[1]
- 624              	.LVL27:
- 625              	.LBE217:
- 626              	.LBE216:
- 627              	.LBB218:
- 628              	.LBB219:
- 629 040c 902B31EE 		vmov.32	r2, d17[1]
- 630              	.LBE219:
- 631              	.LBE218:
- 133:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 0);
- 632              		.loc 1 133 0 discriminator 2
- 633 0410 201A30EE 		fadds	s2, s0, s1
- 129:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 1);
- 634              		.loc 1 129 0 discriminator 2
- 635 0414 10CA00EE 		fmsr	s0, ip
- 134:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 1);
- 636              		.loc 1 134 0 discriminator 2
- 637 0418 900A00EE 		fmsr	s1, r0
- 129:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 1);
- 638              		.loc 1 129 0 discriminator 2
- 639 041c 002A32EE 		fadds	s4, s4, s0
- 130:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 2);
- 640              		.loc 1 130 0 discriminator 2
- 641 0420 101A00EE 		fmsr	s0, r1
- 134:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 1);
- 642              		.loc 1 134 0 discriminator 2
- 643 0424 201A31EE 		fadds	s2, s2, s1
- 135:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 2);
- 644              		.loc 1 135 0 discriminator 2
- 645 0428 902A00EE 		fmsr	s1, r2
- 130:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 2);
- 646              		.loc 1 130 0 discriminator 2
- 647 042c 002A32EE 		fadds	s4, s4, s0
- 135:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 2);
- 648              		.loc 1 135 0 discriminator 2
- 649 0430 201A31EE 		fadds	s2, s2, s1
- 131:main.c        **** 	      ax += vgetq_lane_f32(vec_ax, 3);
- 650              		.loc 1 131 0 discriminator 2
- 651 0434 826A76EE 		fadds	s13, s13, s4
- 652              	.LVL28:
- 136:main.c        **** 	      ay += vgetq_lane_f32(vec_ay, 3);
- 653              		.loc 1 136 0 discriminator 2
- 654 0438 017A37EE 		fadds	s14, s14, s2
- 655              	.LVL29:
- 141:main.c        **** 	      az += vgetq_lane_f32(vec_az, 3);
- 656              		.loc 1 141 0 discriminator 2
- 657 043c 827A77EE 		fadds	s15, s15, s4
- 658              	.LVL30:
-  87:main.c        ****       for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
- 659              		.loc 1 87 0 discriminator 2
- 660 0440 CDFFFF1A 		bne	.L14
- 661              		.loc 1 146 0
- 662 0444 000ADBED 		flds	s1, [fp, #0]
- 663 0448 863A00EE 		fmacs	s6, s1, s12
- 147:main.c        **** //      vec_xnew = vld1q_f32(&vx[i]);
- 148:main.c        **** //      vec_xnew = vmlaq_n_f32(vec_dxi, vec_xnew, dt);
- 149:main.c        **** //      vec_dt_ax = vdupq_n_f32(half_dtsq*ax);
- 150:main.c        **** //      vec_xnew = vaddq_f32(vec_xnew, vec_dt_ax);
- 151:main.c        **** //      vst1q_f32(&xnew[i], vec_xnew);
- 152:main.c        **** //
- 153:main.c        ****       ynew[i] = y[i] + dt*vy[i] + half_dtsq*ay;
- 664              		.loc 1 153 0
- 665 044c 001A99ED 		flds	s2, [r9, #0]
- 154:main.c        **** //      vec_ynew = vld1q_f32(&vy[i]);
- 155:main.c        **** //      vec_ynew = vmlaq_n_f32(vec_dyi, vec_ynew, dt);
- 156:main.c        **** //      vec_dt_ay = vdupq_n_f32(half_dtsq*ay);
- 157:main.c        **** //      vec_ynew = vaddq_f32(vec_ynew, vec_dt_ay);
- 158:main.c        **** //      vst1q_f32(&ynew[i], vec_ynew);
- 159:main.c        **** //
- 160:main.c        ****       znew[i] = z[i] + dt*vz[i] + half_dtsq*az;
- 666              		.loc 1 160 0
- 667 0450 002A9AED 		flds	s4, [sl, #0]
- 161:main.c        **** //      vec_znew = vld1q_f32(&vz[i]);
- 162:main.c        **** //      vec_znew = vmlaq_n_f32(vec_dzi, vec_znew, dt);
- 163:main.c        **** //      vec_dt_az = vdupq_n_f32(half_dtsq*az);
- 164:main.c        **** //      vec_znew = vaddq_f32(vec_znew, vec_dt_az);
- 165:main.c        **** //      vst1q_f32(&znew[i], vec_znew);
- 166:main.c        **** //
- 167:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
- 168:main.c        **** //      vec_vx = vld1q_f32(&vx[i]);
- 169:main.c        **** //      vec_dt_ax = vdupq_n_f32(dt*ax);
- 170:main.c        **** //      vec_vx = vaddq_f32(vec_vx, vec_dt_ax);
- 171:main.c        **** //      vst1q_f32(&vx[i], vec_vx);
- 172:main.c        **** //
- 173:main.c        ****       vy[i] += dt*ay;
- 174:main.c        **** //      vec_vy = vld1q_f32(&vy[i]);
- 175:main.c        **** //      vec_dt_ay = vdupq_n_f32(dt*ay);
- 176:main.c        **** //      vec_vy = vaddq_f32(vec_vy, vec_dt_ay);
- 177:main.c        **** //      vst1q_f32(&vy[i], vec_vy);
- 178:main.c        **** //
- 179:main.c        ****       vz[i] += dt*az;
- 668              		.loc 1 179 0
- 669 0454 18209DE5 		ldr	r2, [sp, #24]
-  75:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
- 670              		.loc 1 75 0
- 671 0458 20109DE5 		ldr	r1, [sp, #32]
- 672              		.loc 1 179 0
- 673 045c 042082E2 		add	r2, r2, #4
- 674 0460 18208DE5 		str	r2, [sp, #24]
-  75:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
- 675              		.loc 1 75 0
- 676 0464 011051E2 		subs	r1, r1, #1
- 677              		.loc 1 179 0
- 678 0468 1C309DE5 		ldr	r3, [sp, #28]
- 679              	.LVL31:
-  75:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
- 680              		.loc 1 75 0
- 681 046c 20108DE5 		str	r1, [sp, #32]
- 682              		.loc 1 179 0
- 683 0470 14109DE5 		ldr	r1, [sp, #20]
- 684 0474 043083E2 		add	r3, r3, #4
- 685 0478 1C308DE5 		str	r3, [sp, #28]
- 686 047c 041081E2 		add	r1, r1, #4
- 146:main.c        ****       xnew[i] = x[i] + dt*vx[i] + half_dtsq*ax; /* update position of particle "i" */
- 687              		.loc 1 146 0
- 688 0480 24309DE5 		ldr	r3, [sp, #36]
- 689              		.loc 1 179 0
- 690 0484 14108DE5 		str	r1, [sp, #20]
- 153:main.c        ****       ynew[i] = y[i] + dt*vy[i] + half_dtsq*ay;
- 691              		.loc 1 153 0
- 692 0488 062A41EE 		fmacs	s5, s2, s12
- 160:main.c        ****       znew[i] = z[i] + dt*vz[i] + half_dtsq*az;
- 693              		.loc 1 160 0
- 694 048c 061A42EE 		fmacs	s3, s4, s12
- 146:main.c        ****       xnew[i] = x[i] + dt*vx[i] + half_dtsq*ax; /* update position of particle "i" */
- 695              		.loc 1 146 0
- 696 0490 A33A06EE 		fmacs	s6, s13, s7
- 153:main.c        ****       ynew[i] = y[i] + dt*vy[i] + half_dtsq*ay;
- 697              		.loc 1 153 0
- 698 0494 232A47EE 		fmacs	s5, s14, s7
- 146:main.c        ****       xnew[i] = x[i] + dt*vx[i] + half_dtsq*ax; /* update position of particle "i" */
- 699              		.loc 1 146 0
- 700 0498 102A13EE 		fmrs	r2, s6
- 160:main.c        ****       znew[i] = z[i] + dt*vz[i] + half_dtsq*az;
- 701              		.loc 1 160 0
- 702 049c A31A47EE 		fmacs	s3, s15, s7
- 146:main.c        ****       xnew[i] = x[i] + dt*vx[i] + half_dtsq*ax; /* update position of particle "i" */
- 703              		.loc 1 146 0
- 704 04a0 0420A3E5 		str	r2, [r3, #4]!	@ float
- 153:main.c        ****       ynew[i] = y[i] + dt*vy[i] + half_dtsq*ay;
- 705              		.loc 1 153 0
- 706 04a4 901A12EE 		fmrs	r1, s5
- 146:main.c        ****       xnew[i] = x[i] + dt*vx[i] + half_dtsq*ax; /* update position of particle "i" */
- 707              		.loc 1 146 0
- 708 04a8 24308DE5 		str	r3, [sp, #36]
- 153:main.c        ****       ynew[i] = y[i] + dt*vy[i] + half_dtsq*ay;
- 709              		.loc 1 153 0
- 710 04ac 28209DE5 		ldr	r2, [sp, #40]
- 167:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
- 711              		.loc 1 167 0
- 712 04b0 860A46EE 		fmacs	s1, s13, s12
- 153:main.c        ****       ynew[i] = y[i] + dt*vy[i] + half_dtsq*ay;
- 713              		.loc 1 153 0
- 714 04b4 0410A2E5 		str	r1, [r2, #4]!	@ float
- 160:main.c        ****       znew[i] = z[i] + dt*vz[i] + half_dtsq*az;
- 715              		.loc 1 160 0
- 716 04b8 903A11EE 		fmrs	r3, s3
- 717 04bc 2C109DE5 		ldr	r1, [sp, #44]
- 153:main.c        ****       ynew[i] = y[i] + dt*vy[i] + half_dtsq*ay;
- 718              		.loc 1 153 0
- 719 04c0 28208DE5 		str	r2, [sp, #40]
- 173:main.c        ****       vy[i] += dt*ay;
- 720              		.loc 1 173 0
- 721 04c4 061A07EE 		fmacs	s2, s14, s12
- 160:main.c        ****       znew[i] = z[i] + dt*vz[i] + half_dtsq*az;
- 722              		.loc 1 160 0
- 723 04c8 0430A1E5 		str	r3, [r1, #4]!	@ float
- 167:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
- 724              		.loc 1 167 0
- 725 04cc 010AEBEC 		fstmias	fp!, {s1}
- 160:main.c        ****       znew[i] = z[i] + dt*vz[i] + half_dtsq*az;
- 726              		.loc 1 160 0
- 727 04d0 2C108DE5 		str	r1, [sp, #44]
- 728              		.loc 1 179 0
- 729 04d4 862A07EE 		fmacs	s4, s15, s12
- 173:main.c        ****       vy[i] += dt*ay;
- 730              		.loc 1 173 0
- 731 04d8 011AA9EC 		fstmias	r9!, {s2}
- 732              		.loc 1 179 0
- 733 04dc 012AAAEC 		fstmias	sl!, {s4}
-  75:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
- 734              		.loc 1 75 0
- 735 04e0 98FFFF1A 		bne	.L15
- 736 04e4 003000E3 		movw	r3, #:lower16:z
- 737 04e8 00E000E3 		movw	lr, #:lower16:xnew
- 738 04ec 003040E3 		movt	r3, #:upper16:z
- 739 04f0 00C000E3 		movw	ip, #:lower16:x
- 740 04f4 000000E3 		movw	r0, #:lower16:ynew
- 741 04f8 001000E3 		movw	r1, #:lower16:y
- 742 04fc 002000E3 		movw	r2, #:lower16:znew
- 743 0500 00E040E3 		movt	lr, #:upper16:xnew
- 744 0504 00C040E3 		movt	ip, #:upper16:x
- 745 0508 000040E3 		movt	r0, #:upper16:ynew
- 746 050c 001040E3 		movt	r1, #:upper16:y
- 747 0510 002040E3 		movt	r2, #:upper16:znew
-  44:main.c        **** int main (int argc, char * argv[]) {
- 748              		.loc 1 44 0
- 749 0514 FA5E83E2 		add	r5, r3, #4000
- 750              	.LVL32:
- 751              	.L16:
- 180:main.c        **** //      vec_vz = vld1q_f32(&vz[i]);
- 181:main.c        **** //      vec_dt_az = vdupq_n_f32(dt*az);
- 182:main.c        **** //      vec_vz = vaddq_f32(vec_vz, vec_dt_az);
- 183:main.c        **** //      vst1q_f32(&vz[i], vec_vz);
- 184:main.c        ****     }
- 185:main.c        ****     for(i=0;i<N;i++) { /* copy updated positions back into original arrays */
- 186:main.c        ****       x[i] = xnew[i];
- 187:main.c        ****       y[i] = ynew[i];
- 188:main.c        ****       z[i] = znew[i];
- 752              		.loc 1 188 0 discriminator 2
- 753 0518 040BF2EC 		vldmia	r2!, {d16-d17}
- 754 051c 040BE3EC 		vstmia	r3!, {d16-d17}
- 755 0520 050053E1 		cmp	r3, r5
- 186:main.c        ****       x[i] = xnew[i];
- 756              		.loc 1 186 0 discriminator 2
- 757 0524 042BFEEC 		vldmia	lr!, {d18-d19}
- 187:main.c        ****       y[i] = ynew[i];
- 758              		.loc 1 187 0 discriminator 2
- 759 0528 040BF0EC 		vldmia	r0!, {d16-d17}
- 186:main.c        ****       x[i] = xnew[i];
- 760              		.loc 1 186 0 discriminator 2
- 761 052c 042BECEC 		vstmia	ip!, {d18-d19}
- 187:main.c        ****       y[i] = ynew[i];
- 762              		.loc 1 187 0 discriminator 2
- 763 0530 040BE1EC 		vstmia	r1!, {d16-d17}
- 764              		.loc 1 188 0 discriminator 2
- 765 0534 F7FFFF1A 		bne	.L16
-  74:main.c        ****   for (s=0; s<STEPS; s++) {
- 766              		.loc 1 74 0
- 767 0538 30209DE5 		ldr	r2, [sp, #48]
- 768 053c 012052E2 		subs	r2, r2, #1
- 769 0540 30208DE5 		str	r2, [sp, #48]
- 770 0544 68FFFF1A 		bne	.L13
- 189:main.c        ****     }
- 190:main.c        ****   }
- 191:main.c        **** //printf("time: %d s %d ns\n", (int)t1.tv_sec, (int)t1.tv_nsec);
- 192:main.c        ****   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t2);
- 771              		.loc 1 192 0
- 772 0548 40108DE2 		add	r1, sp, #64
- 773 054c 0200A0E3 		mov	r0, #2
- 774 0550 FEFFFFEB 		bl	clock_gettime
- 775              	.LVL33:
- 193:main.c        ****   
- 194:main.c        ****   // Print results to file so we can compare to ensure optimizations do not alter functionality
- 195:main.c        ****   fp = fopen(outputFilename, "w");
- 776              		.loc 1 195 0
- 777 0554 000000E3 		movw	r0, #:lower16:.LC0
- 778 0558 001000E3 		movw	r1, #:lower16:.LC1
- 779 055c 000040E3 		movt	r0, #:upper16:.LC0
- 780 0560 001040E3 		movt	r1, #:upper16:.LC1
- 781 0564 FEFFFFEB 		bl	fopen
- 782              	.LVL34:
- 196:main.c        ****   if (fp == NULL) {
- 783              		.loc 1 196 0
- 784 0568 005050E2 		subs	r5, r0, #0
- 785 056c 3900000A 		beq	.L28
- 786 0570 0580A0E1 		mov	r8, r5
- 787 0574 38609DE5 		ldr	r6, [sp, #56]
- 788 0578 34509DE5 		ldr	r5, [sp, #52]
- 789 057c FA4FA0E3 		mov	r4, #1000
- 790 0580 3C709DE5 		ldr	r7, [sp, #60]
- 791              	.LVL35:
- 792              	.L18:
- 197:main.c        ****     fprintf(stderr, "Can't open output file %s!\n", outputFilename);
- 198:main.c        ****     exit(1);
- 199:main.c        ****   }
- 200:main.c        ****   for (i=0; i<N; i++) {
- 201:main.c        **** 	fprintf(fp, "%f %f %f\n", x[i], y[i], z[i]);
- 793              		.loc 1 201 0 discriminator 2
- 794 0584 047087E2 		add	r7, r7, #4
- 795 0588 007AD7ED 		flds	s15, [r7, #0]
- 796 058c E70AB7EE 		fcvtds	d0, s15
- 797 0590 046086E2 		add	r6, r6, #4
- 798 0594 045085E2 		add	r5, r5, #4
- 799 0598 006AD6ED 		flds	s13, [r6, #0]
- 800 059c 007A95ED 		flds	s14, [r5, #0]
- 801 05a0 001000E3 		movw	r1, #:lower16:.LC3
- 802 05a4 0800A0E1 		mov	r0, r8
- 803 05a8 001040E3 		movt	r1, #:upper16:.LC3
- 804 05ac E61AF7EE 		fcvtds	d17, s13
- 805 05b0 102B53EC 		fmrrd	r2, r3, d0
- 806 05b4 C70AF7EE 		fcvtds	d16, s14
- 807 05b8 001BCDED 		fstd	d17, [sp, #0]
- 808 05bc 020BCDED 		fstd	d16, [sp, #8]
- 809 05c0 FEFFFFEB 		bl	fprintf
- 200:main.c        ****   for (i=0; i<N; i++) {
- 810              		.loc 1 200 0 discriminator 2
- 811 05c4 014054E2 		subs	r4, r4, #1
- 812 05c8 EDFFFF1A 		bne	.L18
- 202:main.c        ****   }
- 203:main.c        ****   fclose(fp);
- 813              		.loc 1 203 0
- 814 05cc 0800A0E1 		mov	r0, r8
- 815 05d0 0850A0E1 		mov	r5, r8
- 816 05d4 FEFFFFEB 		bl	fclose
- 817 05d8 44008DE2 		add	r0, sp, #68
- 818 05dc 40C09DE5 		ldr	ip, [sp, #64]
- 819 05e0 0B0090E8 		ldmia	r0, {r0, r1, r3}
- 820              	.LVL36:
- 821              	.LBB220:
- 822              	.LBB221:
-  17:main.c        ****   if ((end.tv_nsec-start.tv_nsec)<0) {
- 823              		.loc 1 17 0
- 824 05e4 032050E0 		subs	r2, r0, r3
-  19:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
- 825              		.loc 1 19 0
- 826 05e8 CA2CA043 		movmi	r2, #51712
-  18:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
- 827              		.loc 1 18 0
- 828 05ec 01C04C42 		submi	ip, ip, #1
-  19:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
- 829              		.loc 1 19 0
- 830 05f0 9A2B4343 		movtmi	r2, 15258
-  18:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
- 831              		.loc 1 18 0
- 832 05f4 0C106140 		rsbmi	r1, r1, ip
-  19:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
- 833              		.loc 1 19 0
- 834 05f8 02208040 		addmi	r2, r0, r2
- 835              	.LBE221:
- 836              	.LBE220:
- 204:main.c        ****   
- 205:main.c        ****   diff(&d, t1, t2);
- 206:main.c        ****   printf("Execution Time: %ld sec, %ld nsec\n", d.tv_sec, d.tv_nsec);
- 837              		.loc 1 206 0
- 838 05fc 000000E3 		movw	r0, #:lower16:.LC4
- 839              	.LBB223:
- 840              	.LBB222:
-  19:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
- 841              		.loc 1 19 0
- 842 0600 02206340 		rsbmi	r2, r3, r2
-  22:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec;
- 843              		.loc 1 22 0
- 844 0604 0C106150 		rsbpl	r1, r1, ip
- 845              	.LBE222:
- 846              	.LBE223:
- 847              		.loc 1 206 0
- 848 0608 000040E3 		movt	r0, #:upper16:.LC4
- 849 060c FEFFFFEB 		bl	printf
- 850              	.LVL37:
- 207:main.c        ****   return 0;
- 208:main.c        **** }
- 851              		.loc 1 208 0
- 852 0610 0000A0E3 		mov	r0, #0
- 853 0614 54D08DE2 		add	sp, sp, #84
- 854 0618 F08FBDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 855              	.L30:
- 856 061c 00F020E3 		.align	3
- 857              	.L29:
- 858 0620 95BFD633 		.word	869711765
- 859 0624 95BFD633 		.word	869711765
- 860 0628 95BFD633 		.word	869711765
- 861 062c 95BFD633 		.word	869711765
- 862 0630 6F12833A 		.word	981668463
- 863 0634 BD370635 		.word	889599933
- 864 0638 00000000 		.word	0
- 865 063c FCFFFFFF 		.word	y-4
- 866 0640 FCFFFFFF 		.word	z-4
- 867 0644 FCFFFFFF 		.word	x-4
- 868 0648 FCFFFFFF 		.word	vx-4
- 869 064c FCFFFFFF 		.word	xnew-4
- 870 0650 FCFFFFFF 		.word	ynew-4
- 871 0654 FCFFFFFF 		.word	znew-4
- 872              	.LVL38:
- 873              	.L28:
- 197:main.c        ****     fprintf(stderr, "Can't open output file %s!\n", outputFilename);
- 874              		.loc 1 197 0
- 875 0658 003000E3 		movw	r3, #:lower16:stderr
- 876 065c 001000E3 		movw	r1, #:lower16:.LC2
- 877 0660 003040E3 		movt	r3, #:upper16:stderr
- 878 0664 002000E3 		movw	r2, #:lower16:.LC0
- 879 0668 001040E3 		movt	r1, #:upper16:.LC2
- 880 066c 002040E3 		movt	r2, #:upper16:.LC0
- 881 0670 000093E5 		ldr	r0, [r3, #0]
- 882              	.LVL39:
- 883 0674 FEFFFFEB 		bl	fprintf
- 198:main.c        ****     exit(1);
- 884              		.loc 1 198 0
- 885 0678 0100A0E3 		mov	r0, #1
- 886 067c FEFFFFEB 		bl	exit
- 887              		.cfi_endproc
- 888              	.LFE1890:
- 890              		.comm	vx,4000,16
- 891              		.comm	vy,4000,16
- 892              		.comm	vz,4000,16
- 893              		.comm	xnew,4000,16
- 894              		.comm	ynew,4000,16
- 895              		.comm	znew,4000,16
- 896              		.comm	m,4000,16
- 897              		.comm	x,4000,16
- 898              		.comm	y,4000,16
- 899              		.comm	z,4000,16
- 900              		.section	.rodata.str1.4,"aMS",%progbits,1
- 901              		.align	2
- 902              	.LC0:
- 903 0000 72657375 		.ascii	"results.txt\000"
- 903      6C74732E 
- 903      74787400 
- 904              	.LC1:
- 905 000c 7700     		.ascii	"w\000"
- 906 000e 0000     		.space	2
- 907              	.LC2:
- 908 0010 43616E27 		.ascii	"Can't open output file %s!\012\000"
- 908      74206F70 
- 908      656E206F 
- 908      75747075 
- 908      74206669 
- 909              	.LC3:
- 910 002c 25662025 		.ascii	"%f %f %f\012\000"
- 910      66202566 
- 910      0A00
- 911 0036 0000     		.space	2
- 912              	.LC4:
- 913 0038 45786563 		.ascii	"Execution Time: %ld sec, %ld nsec\012\000"
- 913      7574696F 
- 913      6E205469 
- 913      6D653A20 
- 913      256C6420 
- 914 005b 00       		.text
- 915              	.Letext0:
+ 617              		.loc 2 4926 0 discriminator 2
+ 618 057c E005FBF3 		vrsqrte.f32	q8, q8
+ 619              	.LVL15:
+ 620              	.LBE34:
+ 621              	.LBE33:
+  68:main.c        **** 	  for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
+ 622              		.loc 1 68 0 discriminator 2
+ 623 0580 FA0F53E3 		cmp	r3, #1000
+ 624              	.LBB35:
+ 625              	.LBB29:
+ 626              		.loc 2 8316 0 discriminator 2
+ 627 0584 8F0A42F4 		vst1.32	{d16-d17}, [r2]
+ 628              	.LBE29:
+ 629              	.LBE35:
+  68:main.c        **** 	  for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
+ 630              		.loc 1 68 0 discriminator 2
+ 631 0588 F3FFFF1A 		bne	.L17
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 632              		.loc 1 39 0
+ 633 058c 5020C0F2 		vmov.f32	q9, #0.0  @ v4sf
+  68:main.c        **** 	  for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
+ 634              		.loc 1 68 0
+ 635 0590 003000E3 		movw	r3, #:lower16:m
+ 636              	.LVL16:
+ 637 0594 FF2E8DE2 		add	r2, sp, #4080
+ 638 0598 003040E3 		movt	r3, #:upper16:m
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 639              		.loc 1 39 0
+ 640 059c F2A162F2 		vmov	q13, q9  @ v4sf
+  68:main.c        **** 	  for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
+ 641              		.loc 1 68 0
+ 642 05a0 0E10A0E1 		mov	r1, lr
+ 643 05a4 082082E2 		add	r2, r2, #8
+ 644              	.LVL17:
+ 645              	.L18:
+  71:main.c        ****             vec_invr = vrsqrteq_f32(vec_invr);
+  72:main.c        ****             vst1q_f32(&invr[j], vec_invr);
+  73:main.c        ****             //p_in_sqrt += 4;
+  74:main.c        ****             //p_invr += 4;
+  75:main.c        **** 	  }
+  76:main.c        **** 	  for(j=0; j<N; j++) { /* Loop over all particles "j" */
+  77:main.c        **** 	    f=m[j]*invr[j]*invr[j]*invr[j];
+ 646              		.loc 1 77 0 discriminator 2
+ 647 05a8 8D0A61F4 		vld1.32	{q8}, [r1]!
+ 648 05ac 044BF3EC 		vldmia	r3!, {d20-d21}
+ 649 05b0 F44D40F3 		vmul.f32	q10, q8, q10
+  78:main.c        **** 	    ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+  79:main.c        **** 	    ay += f*dy[j];
+ 650              		.loc 1 79 0 discriminator 2
+ 651 05b4 D8009FE5 		ldr	r0, .L42+44
+  78:main.c        **** 	    ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 652              		.loc 1 78 0 discriminator 2
+ 653 05b8 8D6A67F4 		vld1.32	{q11}, [r7]!
+ 654              		.loc 1 79 0 discriminator 2
+ 655 05bc 000053E1 		cmp	r3, r0
+ 656 05c0 8D8A62F4 		vld1.32	{q12}, [r2]!
+  77:main.c        **** 	    f=m[j]*invr[j]*invr[j]*invr[j];
+ 657              		.loc 1 77 0 discriminator 2
+ 658 05c4 F04D44F3 		vmul.f32	q10, q10, q8
+ 659 05c8 F00D44F3 		vmul.f32	q8, q10, q8
+  78:main.c        **** 	    ax += f*dx[j]; /* accumulate the acceleration from gravitational attraction */
+ 660              		.loc 1 78 0 discriminator 2
+ 661 05cc F6AD40F2 		vmla.f32	q13, q8, q11
+ 662              		.loc 1 79 0 discriminator 2
+ 663 05d0 F82D40F2 		vmla.f32	q9, q8, q12
+ 664              	.LVL18:
+ 665 05d4 F3FFFF1A 		bne	.L18
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 666              		.loc 1 39 0
+ 667 05d8 10309DE5 		ldr	r3, [sp, #16]
+  80:main.c        **** 	    az += f*dx[j];
+  81:main.c        ****       }
+  82:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 668              		.loc 1 82 0
+ 669 05dc 266ADFED 		flds	s13, .L42+20
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 670              		.loc 1 39 0
+ 671 05e0 30109DE5 		ldr	r1, [sp, #48]
+  79:main.c        **** 	    ay += f*dy[j];
+ 672              		.loc 1 79 0
+ 673 05e4 ABAD4AF2 		vadd.f32	d26, d26, d27
+  83:main.c        ****       ynew[i] = y[i] + dt*vy[i] + 0.5f*dt*dt*ay;
+ 674              		.loc 1 83 0
+ 675 05e8 1C409DE5 		ldr	r4, [sp, #28]
+ 676 05ec 017AB4EC 		fldmias	r4!, {s14}
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 677              		.loc 1 39 0
+ 678 05f0 032081E0 		add	r2, r1, r3
+ 679              		.loc 1 83 0
+ 680 05f4 003A92ED 		flds	s6, [r2, #0]
+ 681 05f8 267A03EE 		fmacs	s14, s6, s13
+  82:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 682              		.loc 1 82 0
+ 683 05fc 24509DE5 		ldr	r5, [sp, #36]
+  79:main.c        **** 	    ay += f*dy[j];
+ 684              		.loc 1 79 0
+ 685 0600 AAAD4AF3 		vpadd.f32	d26, d26, d26
+  82:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 686              		.loc 1 82 0
+ 687 0604 004A95ED 		flds	s8, [r5, #0]
+ 688 0608 18E09DE5 		ldr	lr, [sp, #24]
+  79:main.c        **** 	    ay += f*dy[j];
+ 689              		.loc 1 79 0
+ 690 060c A32D42F2 		vadd.f32	d18, d18, d19
+  82:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 691              		.loc 1 82 0
+ 692 0610 015AFEEC 		fldmias	lr!, {s11}
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 693              		.loc 1 39 0
+ 694 0614 34C09DE5 		ldr	ip, [sp, #52]
+  79:main.c        **** 	    ay += f*dy[j];
+ 695              		.loc 1 79 0
+ 696 0618 A22D42F3 		vpadd.f32	d18, d18, d18
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 697              		.loc 1 39 0
+ 698 061c 10109DE5 		ldr	r1, [sp, #16]
+ 699 0620 03308CE0 		add	r3, ip, r3
+  84:main.c        ****       znew[i] = z[i] + dt*vz[i] + 0.5f*dt*dt*az;
+ 700              		.loc 1 84 0
+ 701 0624 20009DE5 		ldr	r0, [sp, #32]
+ 702 0628 005A93ED 		flds	s10, [r3, #0]
+ 703 062c 016AB0EC 		fldmias	r0!, {s12}
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 704              		.loc 1 39 0
+ 705 0630 40509DE5 		ldr	r5, [sp, #64]
+  79:main.c        **** 	    ay += f*dy[j];
+ 706              		.loc 1 79 0
+ 707 0634 BA812AF2 		vmov	d8, d26
+  83:main.c        ****       ynew[i] = y[i] + dt*vy[i] + 0.5f*dt*dt*ay;
+ 708              		.loc 1 83 0
+ 709 0638 1C408DE5 		str	r4, [sp, #28]
+  82:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 710              		.loc 1 82 0
+ 711 063c 0F2A9FED 		flds	s4, .L42+24
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 712              		.loc 1 39 0
+ 713 0640 05C081E0 		add	ip, r1, r5
+  79:main.c        **** 	    ay += f*dy[j];
+ 714              		.loc 1 79 0
+ 715 0644 105B18EE 		vmov.32	r5, d8[0]
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 716              		.loc 1 39 0
+ 717 0648 3C409DE5 		ldr	r4, [sp, #60]
+  79:main.c        **** 	    ay += f*dy[j];
+ 718              		.loc 1 79 0
+ 719 064c B2A122F2 		vmov	d10, d18
+ 720 0650 905A04EE 		fmsr	s9, r5
+  82:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 721              		.loc 1 82 0
+ 722 0654 18E08DE5 		str	lr, [sp, #24]
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 723              		.loc 1 39 0
+ 724 0658 38E09DE5 		ldr	lr, [sp, #56]
+ 725              		.loc 1 84 0
+ 726 065c 20008DE5 		str	r0, [sp, #32]
+ 727 0660 0C0000EA 		b	.L43
+ 728              	.L44:
+ 729 0664 00F020E3 		.align	3
+ 730              	.L42:
+ 731 0668 95BFD633 		.word	869711765
+ 732 066c 95BFD633 		.word	869711765
+ 733 0670 95BFD633 		.word	869711765
+ 734 0674 95BFD633 		.word	869711765
+ 735 0678 95BFD633 		.word	869711765
+ 736 067c 6F12833A 		.word	981668463
+ 737 0680 BE370635 		.word	889599934
+ 738 0684 FCFFFFFF 		.word	x-4
+ 739 0688 FCFFFFFF 		.word	y-4
+ 740 068c FCFFFFFF 		.word	z-4
+ 741 0690 FCFFFFFF 		.word	vx-4
+ 742 0694 A00F0000 		.word	m+4000
+ 743              	.L43:
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 744              		.loc 1 39 0
+ 745 0698 040081E0 		add	r0, r1, r4
+ 746 069c 0E1081E0 		add	r1, r1, lr
+  79:main.c        **** 	    ay += f*dy[j];
+ 747              		.loc 1 79 0
+ 748 06a0 10EB1AEE 		vmov.32	lr, d10[0]
+  85:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
+  86:main.c        ****       vy[i] += dt*ay;
+  87:main.c        ****       vz[i] += dt*az;
+ 749              		.loc 1 87 0
+ 750 06a4 10409DE5 		ldr	r4, [sp, #16]
+  79:main.c        **** 	    ay += f*dy[j];
+ 751              		.loc 1 79 0
+ 752 06a8 90EA02EE 		fmsr	s5, lr
+ 753              		.loc 1 87 0
+ 754 06ac 044084E2 		add	r4, r4, #4
+ 755 06b0 10408DE5 		str	r4, [sp, #16]
+  58:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 756              		.loc 1 58 0
+ 757 06b4 FA0E54E3 		cmp	r4, #4000
+  82:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 758              		.loc 1 82 0
+ 759 06b8 265A44EE 		fmacs	s11, s8, s13
+  84:main.c        ****       znew[i] = z[i] + dt*vz[i] + 0.5f*dt*dt*az;
+ 760              		.loc 1 84 0
+ 761 06bc 266A05EE 		fmacs	s12, s10, s13
+  82:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 762              		.loc 1 82 0
+ 763 06c0 823A64EE 		fmuls	s7, s9, s4
+  85:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
+ 764              		.loc 1 85 0
+ 765 06c4 A64A64EE 		fmuls	s9, s9, s13
+  83:main.c        ****       ynew[i] = y[i] + dt*vy[i] + 0.5f*dt*dt*ay;
+ 766              		.loc 1 83 0
+ 767 06c8 827A02EE 		fmacs	s14, s5, s4
+  86:main.c        ****       vy[i] += dt*ay;
+ 768              		.loc 1 86 0
+ 769 06cc A63A02EE 		fmacs	s6, s5, s13
+  83:main.c        ****       ynew[i] = y[i] + dt*vy[i] + 0.5f*dt*dt*ay;
+ 770              		.loc 1 83 0
+ 771 06d0 007A8CED 		fsts	s14, [ip, #0]
+  82:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 772              		.loc 1 82 0
+ 773 06d4 A35A75EE 		fadds	s11, s11, s7
+  86:main.c        ****       vy[i] += dt*ay;
+ 774              		.loc 1 86 0
+ 775 06d8 003A82ED 		fsts	s6, [r2, #0]
+  84:main.c        ****       znew[i] = z[i] + dt*vz[i] + 0.5f*dt*dt*az;
+ 776              		.loc 1 84 0
+ 777 06dc 236A36EE 		fadds	s12, s12, s7
+  82:main.c        ****       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
+ 778              		.loc 1 82 0
+ 779 06e0 005AC0ED 		fsts	s11, [r0, #0]
+  85:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
+ 780              		.loc 1 85 0
+ 781 06e4 24009DE5 		ldr	r0, [sp, #36]
+ 782 06e8 844A34EE 		fadds	s8, s9, s8
+  84:main.c        ****       znew[i] = z[i] + dt*vz[i] + 0.5f*dt*dt*az;
+ 783              		.loc 1 84 0
+ 784 06ec 006A81ED 		fsts	s12, [r1, #0]
+ 785              		.loc 1 87 0
+ 786 06f0 855A34EE 		fadds	s10, s9, s10
+  85:main.c        ****       vx[i] += dt*ax; /* update velocity of particle "i" */
+ 787              		.loc 1 85 0
+ 788 06f4 014AA0EC 		fstmias	r0!, {s8}
+ 789 06f8 24008DE5 		str	r0, [sp, #36]
+ 790              		.loc 1 87 0
+ 791 06fc 005A83ED 		fsts	s10, [r3, #0]
+  58:main.c        ****     for(i=0; i<N; i++) { /* Foreach particle "i" ... */
+ 792              		.loc 1 58 0
+ 793 0700 1FFFFF1A 		bne	.L25
+  39:main.c        **** int main (int argc, char * argv[]) {
+ 794              		.loc 1 39 0
+ 795 0704 003000E3 		movw	r3, #:lower16:z
+ 796 0708 00E000E3 		movw	lr, #:lower16:xnew
+ 797 070c 003040E3 		movt	r3, #:upper16:z
+ 798 0710 00C000E3 		movw	ip, #:lower16:x
+ 799 0714 000000E3 		movw	r0, #:lower16:ynew
+ 800 0718 001000E3 		movw	r1, #:lower16:y
+ 801 071c 002000E3 		movw	r2, #:lower16:znew
+ 802 0720 00E040E3 		movt	lr, #:upper16:xnew
+ 803 0724 00C040E3 		movt	ip, #:upper16:x
+ 804 0728 000040E3 		movt	r0, #:upper16:ynew
+ 805 072c 001040E3 		movt	r1, #:upper16:y
+ 806 0730 002040E3 		movt	r2, #:upper16:znew
+ 807 0734 FA4E83E2 		add	r4, r3, #4000
+ 808              	.L23:
+  88:main.c        ****     }
+  89:main.c        ****     for(i=0;i<N;i++) { /* copy updated positions back into original arrays */
+  90:main.c        ****       x[i] = xnew[i];
+  91:main.c        ****       y[i] = ynew[i];
+  92:main.c        ****       z[i] = znew[i];
+ 809              		.loc 1 92 0 discriminator 2
+ 810 0738 040BF2EC 		vldmia	r2!, {d16-d17}
+ 811 073c 040BE3EC 		vstmia	r3!, {d16-d17}
+ 812 0740 040053E1 		cmp	r3, r4
+  90:main.c        ****       x[i] = xnew[i];
+ 813              		.loc 1 90 0 discriminator 2
+ 814 0744 042BFEEC 		vldmia	lr!, {d18-d19}
+  91:main.c        ****       y[i] = ynew[i];
+ 815              		.loc 1 91 0 discriminator 2
+ 816 0748 040BF0EC 		vldmia	r0!, {d16-d17}
+  90:main.c        ****       x[i] = xnew[i];
+ 817              		.loc 1 90 0 discriminator 2
+ 818 074c 042BECEC 		vstmia	ip!, {d18-d19}
+  91:main.c        ****       y[i] = ynew[i];
+ 819              		.loc 1 91 0 discriminator 2
+ 820 0750 040BE1EC 		vstmia	r1!, {d16-d17}
+ 821              		.loc 1 92 0 discriminator 2
+ 822 0754 F7FFFF1A 		bne	.L23
+  57:main.c        ****   for (s=0; s<STEPS; s++) {
+ 823              		.loc 1 57 0
+ 824 0758 48209DE5 		ldr	r2, [sp, #72]
+ 825 075c 012052E2 		subs	r2, r2, #1
+ 826 0760 48208DE5 		str	r2, [sp, #72]
+ 827 0764 F6FEFF1A 		bne	.L13
+  93:main.c        ****     }
+  94:main.c        ****   }
+  95:main.c        ****   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t2);
+ 828              		.loc 1 95 0
+ 829 0768 FB1D8DE2 		add	r1, sp, #16064
+ 830 076c 0200A0E3 		mov	r0, #2
+ 831 0770 181081E2 		add	r1, r1, #24
+ 832 0774 FEFFFFEB 		bl	clock_gettime
+  96:main.c        ****   
+  97:main.c        ****   // Print results to file so we can compare to ensure optimizations do not alter functionality
+  98:main.c        ****   fp = fopen(outputFilename, "w");
+ 833              		.loc 1 98 0
+ 834 0778 000000E3 		movw	r0, #:lower16:.LC0
+ 835 077c 001000E3 		movw	r1, #:lower16:.LC1
+ 836 0780 000040E3 		movt	r0, #:upper16:.LC0
+ 837 0784 001040E3 		movt	r1, #:upper16:.LC1
+ 838 0788 FEFFFFEB 		bl	fopen
+ 839              	.LVL19:
+  99:main.c        ****   if (fp == NULL) {
+ 840              		.loc 1 99 0
+ 841 078c 005050E2 		subs	r5, r0, #0
+ 842 0790 2F00000A 		beq	.L41
+ 843 0794 0580A0E1 		mov	r8, r5
+ 844 0798 4C508DE2 		add	r5, sp, #76
+ 845 079c FA4FA0E3 		mov	r4, #1000
+ 846 07a0 E00095E8 		ldmia	r5, {r5, r6, r7}
+ 847              	.LVL20:
+ 848              	.L26:
+ 100:main.c        ****     fprintf(stderr, "Can't open output file %s!\n", outputFilename);
+ 101:main.c        ****     exit(1);
+ 102:main.c        ****   }
+ 103:main.c        ****   for (i=0; i<N; i++) {
+ 104:main.c        **** 	fprintf(fp, "%f %f %f\n", x[i], y[i], z[i]);
+ 849              		.loc 1 104 0 discriminator 2
+ 850 07a4 047087E2 		add	r7, r7, #4
+ 851 07a8 006AD7ED 		flds	s13, [r7, #0]
+ 852 07ac E61AF7EE 		fcvtds	d17, s13
+ 853 07b0 046086E2 		add	r6, r6, #4
+ 854 07b4 045085E2 		add	r5, r5, #4
+ 855 07b8 007A96ED 		flds	s14, [r6, #0]
+ 856 07bc 007AD5ED 		flds	s15, [r5, #0]
+ 857 07c0 001000E3 		movw	r1, #:lower16:.LC3
+ 858 07c4 0800A0E1 		mov	r0, r8
+ 859 07c8 001040E3 		movt	r1, #:upper16:.LC3
+ 860 07cc 001BCDED 		fstd	d17, [sp, #0]
+ 861 07d0 E71AF7EE 		fcvtds	d17, s15
+ 862 07d4 C70AF7EE 		fcvtds	d16, s14
+ 863 07d8 312B53EC 		fmrrd	r2, r3, d17
+ 864 07dc 020BCDED 		fstd	d16, [sp, #8]
+ 865 07e0 FEFFFFEB 		bl	fprintf
+ 103:main.c        ****   for (i=0; i<N; i++) {
+ 866              		.loc 1 103 0 discriminator 2
+ 867 07e4 014054E2 		subs	r4, r4, #1
+ 868 07e8 EDFFFF1A 		bne	.L26
+ 105:main.c        ****   }
+ 106:main.c        ****   fclose(fp);
+ 869              		.loc 1 106 0
+ 870 07ec 0800A0E1 		mov	r0, r8
+ 871 07f0 01498DE2 		add	r4, sp, #16384
+ 872 07f4 FEFFFFEB 		bl	fclose
+ 873 07f8 01098DE2 		add	r0, sp, #16384
+ 874 07fc 01298DE2 		add	r2, sp, #16384
+ 875 0800 28C114E5 		ldr	ip, [r4, #-296]
+ 876 0804 1C3110E5 		ldr	r3, [r0, #-284]
+ 877 0808 0850A0E1 		mov	r5, r8
+ 878 080c 240110E5 		ldr	r0, [r0, #-292]
+ 879 0810 201112E5 		ldr	r1, [r2, #-288]
+ 880              	.LVL21:
+ 881              	.LBB36:
+ 882              	.LBB37:
+  16:main.c        ****   if ((end.tv_nsec-start.tv_nsec)<0) {
+ 883              		.loc 1 16 0
+ 884 0814 032050E0 		subs	r2, r0, r3
+  18:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+ 885              		.loc 1 18 0
+ 886 0818 CA2CA043 		movmi	r2, #51712
+  17:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+ 887              		.loc 1 17 0
+ 888 081c 01C04C42 		submi	ip, ip, #1
+  18:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+ 889              		.loc 1 18 0
+ 890 0820 9A2B4343 		movtmi	r2, 15258
+  17:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec-1;
+ 891              		.loc 1 17 0
+ 892 0824 0C106140 		rsbmi	r1, r1, ip
+  18:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+ 893              		.loc 1 18 0
+ 894 0828 02208040 		addmi	r2, r0, r2
+ 895              	.LBE37:
+ 896              	.LBE36:
+ 107:main.c        ****   
+ 108:main.c        ****   diff(&d, t1, t2);
+ 109:main.c        ****   printf("Execution Time: %ld sec, %ld nsec\n", d.tv_sec, d.tv_nsec);
+ 897              		.loc 1 109 0
+ 898 082c 000000E3 		movw	r0, #:lower16:.LC4
+ 899              	.LBB39:
+ 900              	.LBB38:
+  18:main.c        ****     difference->tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+ 901              		.loc 1 18 0
+ 902 0830 02206340 		rsbmi	r2, r3, r2
+  20:main.c        ****     difference->tv_sec = end.tv_sec-start.tv_sec;
+ 903              		.loc 1 20 0
+ 904 0834 0C106150 		rsbpl	r1, r1, ip
+ 905              	.LBE38:
+ 906              	.LBE39:
+ 907              		.loc 1 109 0
+ 908 0838 000040E3 		movt	r0, #:upper16:.LC4
+ 909 083c FEFFFFEB 		bl	printf
+ 910              	.LVL22:
+ 110:main.c        ****   return 0;
+ 111:main.c        **** }
+ 911              		.loc 1 111 0
+ 912 0840 0000A0E3 		mov	r0, #0
+ 913 0844 BBDF8DE2 		add	sp, sp, #748
+ 914 0848 0FDB8DE2 		add	sp, sp, #15360
+ 915 084c 088BBDEC 		fldmfdd	sp!, {d8, d9, d10, d11}
+ 916 0850 F08FBDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 917              	.LVL23:
+ 918              	.L41:
+ 100:main.c        ****     fprintf(stderr, "Can't open output file %s!\n", outputFilename);
+ 919              		.loc 1 100 0
+ 920 0854 003000E3 		movw	r3, #:lower16:stderr
+ 921 0858 001000E3 		movw	r1, #:lower16:.LC2
+ 922 085c 003040E3 		movt	r3, #:upper16:stderr
+ 923 0860 002000E3 		movw	r2, #:lower16:.LC0
+ 924 0864 001040E3 		movt	r1, #:upper16:.LC2
+ 925 0868 002040E3 		movt	r2, #:upper16:.LC0
+ 926 086c 000093E5 		ldr	r0, [r3, #0]
+ 927              	.LVL24:
+ 928 0870 FEFFFFEB 		bl	fprintf
+ 101:main.c        ****     exit(1);
+ 929              		.loc 1 101 0
+ 930 0874 0100A0E3 		mov	r0, #1
+ 931 0878 FEFFFFEB 		bl	exit
+ 932              		.cfi_endproc
+ 933              	.LFE1890:
+ 935              		.comm	m,4000,16
+ 936              		.comm	x,4000,16
+ 937              		.comm	y,4000,16
+ 938              		.comm	z,4000,16
+ 939              		.comm	vx,4000,16
+ 940              		.comm	vy,4000,16
+ 941              		.comm	vz,4000,16
+ 942              		.comm	xnew,4000,16
+ 943              		.comm	ynew,4000,16
+ 944              		.comm	znew,4000,16
+ 945              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 946              		.align	2
+ 947              	.LC0:
+ 948 0000 72657375 		.ascii	"results.txt\000"
+ 948      6C74732E 
+ 948      74787400 
+ 949              	.LC1:
+ 950 000c 7700     		.ascii	"w\000"
+ 951 000e 0000     		.space	2
+ 952              	.LC2:
+ 953 0010 43616E27 		.ascii	"Can't open output file %s!\012\000"
+ 953      74206F70 
+ 953      656E206F 
+ 953      75747075 
+ 953      74206669 
+ 954              	.LC3:
+ 955 002c 25662025 		.ascii	"%f %f %f\012\000"
+ 955      66202566 
+ 955      0A00
+ 956 0036 0000     		.space	2
+ 957              	.LC4:
+ 958 0038 45786563 		.ascii	"Execution Time: %ld sec, %ld nsec\012\000"
+ 958      7574696F 
+ 958      6E205469 
+ 958      6D653A20 
+ 958      256C6420 
+ 959 005b 00       		.text
+ 960              	.Letext0:
