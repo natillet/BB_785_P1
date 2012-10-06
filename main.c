@@ -72,13 +72,16 @@ int main (int argc, char * argv[]) {
 //printf("time: %d s %d ns\n", (int)t1.tv_sec, (int)t1.tv_nsec);
 
   for (s=0; s<STEPS; s++) {
-    for(i=0; i<N; i+=4) { /* Foreach particle "i" ... */
+    for(i=0; i<N; i++) { /* Foreach particle "i" ... */
       ax=0.0f;
       ay=0.0f;
       az=0.0f;
-      vec_dxi = vld1q_f32(&x[i]);
-      vec_dyi = vld1q_f32(&y[i]);
-      vec_dzi = vld1q_f32(&z[i]);
+	  vec_dxi = vdupq_n_f32(x[i]);
+	  vec_dyi = vdupq_n_f32(y[i]);
+	  vec_dzi = vdupq_n_f32(z[i]);
+//      vec_dxi = vld1q_f32(&x[i]);
+//      vec_dyi = vld1q_f32(&y[i]);
+//      vec_dzi = vld1q_f32(&z[i]);
 /*float32x4_t vdupq_n_f32 (float32_t)
   Form of expected instruction(s): vdup.32 q0, r0*/
       for(j=0; j<N; j+=4) { /* Loop over all particles "j" */
@@ -140,44 +143,44 @@ int main (int argc, char * argv[]) {
 /*float32x4_t vmlaq_f32 (float32x4_t, float32x4_t, float32x4_t)
   Form of expected instruction(s): vmla.f32 q0, q0, q0*/
       }
-//      xnew[i] = x[i] + dt*vx[i] + half_dtsq*ax; /* update position of particle "i" */
-      vec_xnew = vld1q_f32(&vx[i]);
-      vec_xnew = vmlaq_n_f32(vec_dxi, vec_xnew, dt);
-      vec_dt_ax = vdupq_n_f32(half_dtsq*ax);
-      vec_xnew = vaddq_f32(vec_xnew, vec_dt_ax);
-      vst1q_f32(&xnew[i], vec_xnew);
-
-//      ynew[i] = y[i] + dt*vy[i] + 0.5f*dtsq*ay;
-      vec_ynew = vld1q_f32(&vy[i]);
-      vec_ynew = vmlaq_n_f32(vec_dyi, vec_ynew, dt);
-      vec_dt_ay = vdupq_n_f32(half_dtsq*ay);
-      vec_ynew = vaddq_f32(vec_ynew, vec_dt_ay);
-      vst1q_f32(&ynew[i], vec_ynew);
-
-//      znew[i] = z[i] + dt*vz[i] + 0.5f*dtsq*az;
-      vec_znew = vld1q_f32(&vz[i]);
-      vec_znew = vmlaq_n_f32(vec_dzi, vec_znew, dt);
-      vec_dt_az = vdupq_n_f32(half_dtsq*az);
-      vec_znew = vaddq_f32(vec_znew, vec_dt_az);
-      vst1q_f32(&znew[i], vec_znew);
-
-//      vx[i] += dt*ax; /* update velocity of particle "i" */
-      vec_vx = vld1q_f32(&vx[i]);
-      vec_dt_ax = vdupq_n_f32(dt*ax);
-      vec_vx = vaddq_f32(vec_vx, vec_dt_ax);
-      vst1q_f32(&vx[i], vec_vx);
-
-//      vy[i] += dt*ay;
-      vec_vy = vld1q_f32(&vy[i]);
-      vec_dt_ay = vdupq_n_f32(dt*ay);
-      vec_vy = vaddq_f32(vec_vy, vec_dt_ay);
-      vst1q_f32(&vy[i], vec_vy);
-
-//      vz[i] += dt*az;
-      vec_vz = vld1q_f32(&vz[i]);
-      vec_dt_az = vdupq_n_f32(dt*az);
-      vec_vz = vaddq_f32(vec_vz, vec_dt_az);
-      vst1q_f32(&vz[i], vec_vz);
+      xnew[i] = x[i] + dt*vx[i] + half_dtsq*ax; /* update position of particle "i" */
+//      vec_xnew = vld1q_f32(&vx[i]);
+//      vec_xnew = vmlaq_n_f32(vec_dxi, vec_xnew, dt);
+//      vec_dt_ax = vdupq_n_f32(half_dtsq*ax);
+//      vec_xnew = vaddq_f32(vec_xnew, vec_dt_ax);
+//      vst1q_f32(&xnew[i], vec_xnew);
+//
+      ynew[i] = y[i] + dt*vy[i] + half_dtsq*ay;
+//      vec_ynew = vld1q_f32(&vy[i]);
+//      vec_ynew = vmlaq_n_f32(vec_dyi, vec_ynew, dt);
+//      vec_dt_ay = vdupq_n_f32(half_dtsq*ay);
+//      vec_ynew = vaddq_f32(vec_ynew, vec_dt_ay);
+//      vst1q_f32(&ynew[i], vec_ynew);
+//
+      znew[i] = z[i] + dt*vz[i] + half_dtsq*az;
+//      vec_znew = vld1q_f32(&vz[i]);
+//      vec_znew = vmlaq_n_f32(vec_dzi, vec_znew, dt);
+//      vec_dt_az = vdupq_n_f32(half_dtsq*az);
+//      vec_znew = vaddq_f32(vec_znew, vec_dt_az);
+//      vst1q_f32(&znew[i], vec_znew);
+//
+      vx[i] += dt*ax; /* update velocity of particle "i" */
+//      vec_vx = vld1q_f32(&vx[i]);
+//      vec_dt_ax = vdupq_n_f32(dt*ax);
+//      vec_vx = vaddq_f32(vec_vx, vec_dt_ax);
+//      vst1q_f32(&vx[i], vec_vx);
+//
+      vy[i] += dt*ay;
+//      vec_vy = vld1q_f32(&vy[i]);
+//      vec_dt_ay = vdupq_n_f32(dt*ay);
+//      vec_vy = vaddq_f32(vec_vy, vec_dt_ay);
+//      vst1q_f32(&vy[i], vec_vy);
+//
+      vz[i] += dt*az;
+//      vec_vz = vld1q_f32(&vz[i]);
+//      vec_dt_az = vdupq_n_f32(dt*az);
+//      vec_vz = vaddq_f32(vec_vz, vec_dt_az);
+//      vst1q_f32(&vz[i], vec_vz);
     }
     for(i=0;i<N;i++) { /* copy updated positions back into original arrays */
       x[i] = xnew[i];
