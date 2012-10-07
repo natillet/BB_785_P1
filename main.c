@@ -7,10 +7,11 @@
 #define N 1000
 #define STEPS 16
 
-#define ASM
-#undef INTRINSICS
-
 extern void enable_runfast();
+#ifdef ASM
+extern int NBodySim_neon(float *x, float *y, float *z, float xi, float yi, float zi, float *ax, float *ay, float *az, float *m, float eps);
+float ax, ay, az;
+#endif
 
 float m[N], x[N], y[N], z[N], vx[N], vy[N], vz[N], xnew[N], ynew[N], znew[N];
 
@@ -39,7 +40,7 @@ void init(void) {
   }
 }
 
-#ifdef ASM
+#ifdef ASM_FAKE
 void jloop(float *xj, float *yj, float *zj, float xi, float yi, float zi, float *pax, float *pay, float *paz) {
   int j;
   float invr, invr3, f, ax, ay, az, dx, dy, dz;
@@ -66,7 +67,12 @@ void jloop(float *xj, float *yj, float *zj, float xi, float yi, float zi, float 
 
 int main (int argc, char * argv[]) {
   int s,i,j;
+#ifdef ASM
+  float invr[N], f, dx[N], dy[N], dz[N], dt=0.001;
+#endif
+#ifdef INTRINSICS
   float invr[N], f, ax, ay, az, dx[N], dy[N], dz[N], dt=0.001;
+#endif
   float eps=0.0000001;
   struct timespec t1, t2, d;
   FILE *fp;
@@ -88,7 +94,8 @@ int main (int argc, char * argv[]) {
       ax=0.0f;
       ay=0.0f;
       az=0.0f;
-      jloop(&x[0], &y[0], &z[0], x[i], y[i], z[i], &ax, &ay, &az);
+//      jloop(&x[0], &y[0], &z[0], x[i], y[i], z[i], &ax, &ay, &az);
+      NBodySim_neon(&x[0], &y[0], &z[0], x[i], y[i], z[i], &ax, &ay, &az, &m[0], eps);
       xnew[i] = x[i] + dt*vx[i] + 0.5f*dt*dt*ax; /* update position of particle "i" */
       ynew[i] = y[i] + dt*vy[i] + 0.5f*dt*dt*ay;
       znew[i] = z[i] + dt*vz[i] + 0.5f*dt*dt*az;
