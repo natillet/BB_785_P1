@@ -56,8 +56,8 @@ NBodySim_neon:
 		@  r10: eps
         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-@		push {r4-r10}
-		stmdb sp!, {r4-r10}
+		push {r4-r10}
+@		stmdb sp!, {r4-r10}
 		ldr				r4, [sp , #(4*7)]
 		ldr				r5, [sp , #(4*8)]
 		ldr				r6, [sp , #(4*9)]
@@ -68,7 +68,8 @@ NBodySim_neon:
 		vdup.f32		q13, r3				@ lanes of xi
 		vdup.f32		q14, r4				@ lanes of yi
 		vdup.f32		q15, r5				@ lanes of zi
-		add             r3, r0, #4000		@ hardcoded loop size: N=1000
+@		add             r3, r0, #4000		@ hardcoded loop size: N=1000
+		add             r3, r0, #16			@ hardcoded loop size: N=4
 		vld1.f32		d6[0], [r6]			@ get ax (put it in q3)
 		vld1.f32		d6[1], [r7]			@ get ay (put it in q3)
 		vld1.f32		d7[0], [r8]			@ get az (put it in q3)
@@ -116,8 +117,8 @@ NBodySim_neon:
 		vst1.f32		d6[1], [r7]			@ store ay
 		vst1.f32		d7[0], [r8]			@ store az
         @ return
-@        pop {r4-r10}
-		ldmia sp!, {r4-r10}
+        pop {r4-r10}
+@		ldmia sp!, {r4-r10}
         mov               r0, #0
         bx                lr
 
